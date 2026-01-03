@@ -1,0 +1,22 @@
+/* frontend/src/index.css */
+
+/* Importe as fontes AQUI, ANTES das diretivas do Tailwind para que elas estejam disponíveis. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* Importe seus estilos personalizados AQUI, ANTES das diretivas do Tailwind.
+   Isso permite que seus estilos customizados sejam aplicados primeiro
+   e, se necessário, sobrescritos ou complementados pelo Tailwind. */
+@import './styles/home.css';
+@import './styles/header_footer.css';
+
+/* Diretivas do Tailwind CSS */
+@tailwind base;    /* O Preflight (reset) do Tailwind será aplicado AQUI */
+@tailwind components;
+@tailwind utilities;
+
+/* Adicione quaisquer estilos globais que você possa ter aqui, como resets básicos */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif; /* Usando a fonte Inter */
+  line-height: 1.5;
+}
