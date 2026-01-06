@@ -1,10 +1,12 @@
+/* frontend/src/styles/header_footer.css */
+
 * {
-   
     margin: 0;
     padding: 0;
-    
+    box-sizing: border-box; /* Adiciona box-sizing para um melhor controle de layout */
 }
 
+/* --- Header --- */
 header {
     background-color: #e9a913;
     color: #74A9DB; 
@@ -16,17 +18,18 @@ header {
     top: 0; 
     left: 0; 
     z-index: 1000; 
-    
+    padding: 20px 0; /* Dá altura ao header */
 }
+
 .header-container {
     font-family: "Inter";
-    display: inline-flex;
-    width: 100vw;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    margin: 20px 0;
+    display: flex; /* Mudado de inline-flex para flex */
+    max-width: 1200px; /* Largura máxima para centralizar o conteúdo */
+    width: 100%; /* Ocupa a largura disponível até o max-width */
+    margin: 0 auto; /* Centraliza o container na página */
+    justify-content: space-between; /* LOGO na esquerda, MENU no meio, CARRINHO na direita */
+    align-items: center; /* Alinha todos os itens verticalmente */
+    padding: 0 20px; /* Espaçamento interno nas laterais */
 }
 
 .logo-header img {
@@ -34,9 +37,14 @@ header {
     height: auto;   
     display: block;
 }
-.menu-header ul li {
-    display: inline-block;
-    margin-right: 20px;
+
+/* --- Menu de Navegação Principal --- */
+.menu-header ul {
+    list-style: none; /* Remove marcadores de lista */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Coloca os itens do menu lado a lado */
+    gap: 20px; /* Espaço entre os itens do menu */
 }
 .menu-header ul li a {
     color:  #ebeeb4;
@@ -50,6 +58,7 @@ header {
     color: #74A9DB; 
 }
 
+/* --- Estilo de Botão (mantido, pois você o tinha) --- */
 .fazerpedidos {
     text-decoration: none;
     border-radius: 8px;
@@ -62,8 +71,54 @@ header {
     padding-right: 32px;
     font-weight: 600;
     background-color: #74A9DB;
+    color: white; /* Adicionado para clareza */
 }
-/*---------------------------------------------------FOOTER-------------------------------------------------------------*/
+
+/* --- Widget do Carrinho no Canto Direito Extremo --- */
+.cart-widget-right {
+    display: flex;
+    align-items: center;
+    position: relative; 
+    margin-left: 30px; 
+}
+
+.cart-icon-link {
+    text-decoration: none;
+    color: #ebeeb4; /* Cor do ícone do carrinho */
+    font-size: 30px; 
+    padding: 5px; 
+    transition: color 0.3s ease;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-icon-link:hover {
+    color: #74A9DB; 
+}
+
+.cart-count-badge {
+    /* --- ALTERAÇÕES AQUI --- */
+    background-color: #e4f527c9; /* Cor de fundo do badge (seu azul) */
+    color: white; /* Cor do texto (branco para contraste) */
+    font-size: 0.65em; /* Tamanho da fonte do número (um pouco maior para leitura) */
+    font-weight: bold;
+    border-radius: 4px; /* Bordas levemente arredondadas (não mais um círculo perfeito) */
+    padding: 2px 6px; 
+    position: absolute;
+    top: -5px; /* Ajusta a posição vertical do badge */
+    right: -10px; /* Ajusta a posição horizontal do badge */
+    line-height: 1; 
+    min-width: 18px; 
+    height: 18px; /* Ajusta a altura para combinar com min-width se for 1 dígito */
+    text-align: center;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    box-shadow: none; /* REMOVIDO: Sombra para um visual mais clean */
+}
+
+/* ---------------------------------------------------FOOTER-------------------------------------------------------------*/
 .footer-container {
     background-color: #e9a913;
     display: flex;
@@ -74,15 +129,14 @@ header {
     border-image: linear-gradient(to right, #ffffff, #e9a913) 1;
     gap: 10px;
     padding-top: 10px;
+    margin-top: 50px; 
 }
 .logo-footer {
-    
     padding-top: 20px;
     padding-right: 40px;
 }
 
 .logo-footer img{
-    
     max-width: 100px;  
     height: auto;   
     display: block;
@@ -90,6 +144,11 @@ header {
 }
 .menufooter {
     margin-top: 70px;
+}
+.menufooter ul { 
+    list-style: none; 
+    margin: 0;
+    padding: 0;
 }
 .menufooter ul li {
     display: inline;
@@ -111,63 +170,60 @@ header {
     width: 50px;  
     height: 50px; 
 }
-    .creditos {
+.creditos {
     text-align: center;
     font-size: 14px;
     font-family: "Inter", sans-serif;
     padding-bottom: 30px;
+    width: 100%; 
 }
 /* -------------------------------------RESPONSIVO------------------------------------- */
 @media screen and (max-width:780px) {
-    .header-container{
-        margin: 0 20vw;
-        gap: 30px;
+    header {
+        padding: 10px 0; 
+    }
+    .header-container {
+        flex-direction: column; 
+        gap: 15px; 
+        padding: 0 15px; 
     }
     .menu-header ul {
-        font-size: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px 0px;
+        flex-direction: column; 
+        gap: 10px;
         text-align: center;
     }
+    .logo-header {
+        margin-bottom: 10px; 
+    }
+    .cart-widget-right {
+        margin-top: 10px; 
+        margin-left: 0; 
+    }
+
+    /* Footer Responsivo */
     .footer-container {
-        display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: center;
-        font-family: "Inter", sans-serif;
-        border-top: 12px solid;
-        border-image: linear-gradient(to right, #ffffff, #74A9DB) 1;
-        gap: 0;
-        padding-top: 10px;
         align-items: center;
-        width: 80%vw;
-    }
-    .menufooter ul {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        font-size: 18px;
-    }
-    .menufooter ul li a {
-        margin-right: 0px;
-    }
-    .social-icons {
-        align-items: center;
+        gap: 20px; 
     }
     .logo-footer {
-        padding-top: 20px;
         padding-right: 0;
     }
-    .creditos {
-        text-align: center;
-        font-size: 16px;
-        font-family: "Inter";
-        margin: 10px 20px;
+    .menufooter {
+        margin-top: 20px; 
     }
-    .Back_Button {
-        left: 20px;
+    .menufooter ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .menufooter ul li a {
+        margin-right: 0;
+    }
+    .social-icons {
+        margin-top: 20px;
+    }
+    .creditos {
+        font-size: 14px;
+        margin: 10px 0;
     }
 }

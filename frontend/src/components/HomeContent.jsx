@@ -18,7 +18,8 @@ function HomeContent() {
           <div className="historiaportugal">
             <br />
             {/* Convertendo <a> para Link para navegação interna */}
-            <Link to="/Cardapio/chile/chile.html">
+            {/* O link para /Cardapio/chile/chile.html sugere uma página interna. Considere criar uma rota React para ela. */}
+            <Link to="/historia-chuvisco"> {/* Sugestão de rota mais limpa para a história */}
               {/* Caminho da imagem: public/images/portugalicon.png */}
               <img src="/images/portugalicon.png" alt="Ícone de Portugal/Chile" />
             </Link>
@@ -33,7 +34,9 @@ function HomeContent() {
         <div className="destaquescontainer">
           <div className="opcao_1">
             {/* Convertendo <a> para Link para navegação interna */}
-            <Link to="/pagina de produto/Arg_Prod/Arge_1.html">
+            {/* Links como /pagina de produto/... podem ser problemáticos com React Router se não forem rotas definidas. */}
+            {/* Considere uma rota como /produtos/arg-prod/arge-1 ou /produto/chuvisco-cristalizado */}
+            <Link to="/produto/chuvisco-cristalizado"> {/* Exemplo de rota mais limpa */}
               {/* Caminho da imagem: public/images/cristalizado.jpeg */}
               <img src="/images/cristalizado.jpeg" alt="Chuviscos cristalizados" className="destaques" />
             </Link>
@@ -42,7 +45,7 @@ function HomeContent() {
           </div>
           <div className="opcao_2">
             {/* Convertendo <a> para Link para navegação interna */}
-            <Link to="/pagina de produto/Col_Prod/Colo_1.html">
+            <Link to="/produto/chuvisco-em-calda"> {/* Exemplo de rota mais limpa */}
               {/* Caminho da imagem: public/images/caldacom.jpeg */}
               <img src="/images/caldacom.jpeg" alt="Chuviscos em calda" className="destaques" />
             </Link>
@@ -52,8 +55,8 @@ function HomeContent() {
         </div>
         <div className="conferircontainer">
           <button className="conferircardapio">
-            {/* Convertendo <a> para Link para navegação interna. O style foi mantido como objeto JS para React */}
-            <Link to="/Cardapio/cardapio.html"
+            {/* ALTERAÇÃO AQUI: O 'to' do Link foi mudado para '/produtos' */}
+            <Link to="/produtos"
               style={{ textDecoration: 'none', color: '#fff', backgroundColor: '#e9a913' }}>
               CONFERIR PRODUTOS
             </Link>
