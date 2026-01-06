@@ -1,32 +1,40 @@
 // frontend/src/components/Footer.jsx
 
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importando Link para navegação interna
+import '../styles/header_footer.css'; // Importa o CSS específico para o Header e Footer
 
 function Footer() {
   return (
     <footer>
       <div className="footer-container">
         <div className="logo-footer">
-          <a href="/">
-            <img src="/images/brasaoLogo.png" alt="imgfooter" /> {/* MUDANÇA AQUI */}
-          </a>
+          {/* Convertendo <a> para Link para navegação interna */}
+          <Link to="/">
+            {/* Caminho da imagem: public/images/brasaoLogo.png */}
+            <img src="/images/brasaoLogo.png" alt="imgfooter" />
+          </Link>
         </div>
         <div className="menufooter">
           <ul>
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/Cardapio/cardapio.html">produtos</a></li>
-            <li><a href="/Sobre nos/sobrenos.html">Sobre nós</a></li>
-            <li><a href="/pedidos/pedidos.html">Fazer pedido</a></li>
-            <li><a href="/Contato/contato.html">Contato</a></li>
-            <li><a href="/sac/sac.html">SAC</a></li>
+            <li><Link to="/">Início</Link></li> {/* Usando a rota / */}
+            <li><Link to="/produtos">Produtos</Link></li> {/* Usando a rota /produtos */}
+            <li><Link to="/sobre-nos">Sobre nós</Link></li> {/* Usando a rota /sobre-nos */}
+            <li><Link to="/pedidos">Fazer pedido</Link></li> {/* Usando a rota /pedidos */}
+            <li><Link to="/contato">Contato</Link></li> {/* Usando a rota /contato */}
+            <li><Link to="/sac">SAC</Link></li> {/* Usando a rota /sac */}
           </ul>
         </div>
         <div className="social-icons">
+          {/* O href="#" não é ideal para React Router; se esses links forem externos, mantenha <a>.
+              Se forem internos, defina rotas para eles. Por enquanto, mantive o href="#" */}
           <a href="#">
-            <img src="/images/instagramicon.png" alt="Instagram" /> {/* MUDANÇA AQUI */}
+            {/* Caminho da imagem: public/images/instagramicon.png */}
+            <img src="/images/instagramicon.png" alt="Instagram" />
           </a>
           <a href="#">
-            <img src="/images/whatsappicon.png" alt="Watsapp" /> {/* MUDANÇA AQUI */}
+            {/* Caminho da imagem: public/images/whatsappicon.png */}
+            <img src="/images/whatsappicon.png" alt="Watsapp" />
           </a>
         </div>
       </div>
