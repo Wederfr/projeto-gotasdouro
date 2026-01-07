@@ -20,7 +20,7 @@ function Footer() {
             <li><Link to="/">Início</Link></li> {/* Usando a rota / */}
             <li><Link to="/produtos">Produtos</Link></li> {/* Usando a rota /produtos */}
             <li><Link to="/sobre-nos">Sobre nós</Link></li> {/* Usando a rota /sobre-nos */}
-            <li><Link to="/pedidos">Fazer pedido</Link></li> {/* Usando a rota /pedidos */}
+            <li><Link to="/pedidos">Pedidos</Link></li> {/* Usando a rota /pedidos */}
             <li><Link to="/contato">Contato</Link></li> {/* Usando a rota /contato */}
             <li><Link to="/sac">SAC</Link></li> {/* Usando a rota /sac */}
           </ul>

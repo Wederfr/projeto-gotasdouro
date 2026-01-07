@@ -6,6 +6,12 @@ h3 {
 body{
       padding-top: 205px;
       background-color: #ebeeb4;
+      /* O background-color: #ebeeb4; foi removido daqui para não afetar todas as páginas */
+}
+
+/* Nova regra para aplicar o background-color apenas à página inicial */
+.home-page-container {
+    background-color: #ebeeb4;
 }
 
 .banner1-contenedor {

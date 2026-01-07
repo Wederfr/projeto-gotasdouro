@@ -1,4 +1,4 @@
-// frontend/src/components/HomeContent.jsx
+// frontend/src/pages/HomeContent.jsx (ou components/HomeContent.jsx)
 
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importando Link para navegação interna
@@ -6,7 +6,8 @@ import '../styles/home.css'; // Importa o CSS específico para a HomeContent
 
 function HomeContent() {
   return (
-    <>
+    // <--- ADIÇÃO: Adicionamos esta div para envolver todo o conteúdo
+    <div className="home-page-container">
       <section>
         <div className="banner1-contenedor">
           {/* Caminho da imagem: public/images/banner1.png */}
@@ -47,7 +48,7 @@ function HomeContent() {
             {/* Convertendo <a> para Link para navegação interna */}
             <Link to="/produto/chuvisco-em-calda"> {/* Exemplo de rota mais limpa */}
               {/* Caminho da imagem: public/images/caldacom.jpeg */}
-              <img src="/images/caldacom.jpeg" alt="Chuviscos em calda" className="destaques" />
+              <img src="/images/caldacom.jpeg" alt="Chuviscos em calda" />
             </Link>
             <h3 className="subtitulodestaque">Chuviscos em calda</h3>
             <p className="descripciondestaque">Chuvisco tradicional em calda, preparado com matéria prima selecionada .</p>
@@ -63,7 +64,7 @@ function HomeContent() {
           </button>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 
