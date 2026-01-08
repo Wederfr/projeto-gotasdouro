@@ -8,9 +8,13 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 // Importação dos componentes de página (telas completas), agora da pasta 'pages'
-import HomeContent from './pages/HomeContent'; // Assumindo que HomeContent também é uma página
-import ProductsPage from './pages/ProductsPage'; // Caminho atualizado para 'pages'
-import PedidosPage from './pages/PedidosPage';     // <--- NOVA IMPORTAÇÃO: Sua página de Pedidos
+import HomeContent from './pages/HomeContent';
+import ProductsPage from './pages/ProductsPage';
+import PedidosPage from './pages/PedidosPage';
+
+// Importação das novas páginas que estamos construindo
+import AboutUsPage from './pages/AboutUsPage'; // Importa a página Sobre Nós
+// import ContactPage from './pages/ContactPage'; // <-- COMENTADO TEMPORARIAMENTE: A página ContactPage ainda não foi criada
 
 // Importa o CartProvider
 import { CartProvider } from './CartContext';
@@ -27,14 +31,13 @@ function App() {
             <Routes>
               <Route path="/" element={<HomeContent />} />
               <Route path="/produtos" element={<ProductsPage />} />
-              
-              {/* <--- ROTA ATUALIZADA: Agora renderiza o componente PedidosPage */}
               <Route path="/pedidos" element={<PedidosPage />} />
 
-              {/* Se você tiver outras páginas como SobreNos e Contato, elas também deveriam vir da pasta 'pages' */}
-              {/* Exemplo: <Route path="/sobre-nos" element={<SobreNosPage />} /> */}
-              {/* Exemplo: <Route path="/contato" element={<ContatoPage />} /> */}
+              {/* ROTAS PARA AS NOVAS PÁGINAS */}
+              <Route path="/sobre-nos" element={<AboutUsPage />} />
+              {/* <Route path="/contato" element={<ContactPage />} /> */} {/* <-- COMENTADO TEMPORARIAMENTE: Rota para ContactPage */}
 
+              {/* Rota genérica para 404 - Páginas não encontradas */}
               <Route path="*" element={
                 <div style={{ padding: '20px', textAlign: 'center' }}>
                   <h1>404 - Página Não Encontrada</h1>
