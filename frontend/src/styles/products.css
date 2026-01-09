@@ -1,5 +1,14 @@
 /* frontend/src/styles/products.css */
 
+/* NOVA REGRA: Aplica a imagem de fundo ao BODY apenas quando a classe 'products-background' estiver presente */
+body.products-background {
+    background-image: url('/images/fundo saco.jpg'); /* Caminho da sua imagem */
+    background-size: cover; /* Faz a imagem cobrir toda a área da viewport */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-attachment: fixed; /* Mantém a imagem fixa enquanto a página rola */
+    background-position: center center; /* Centraliza a imagem no meio */
+}
+
 .products-page-container {
     max-width: 1200px;
     margin: 40px auto;
@@ -7,6 +16,13 @@
     font-family: Arial, sans-serif;
     color: #333;
     text-align: center;
+
+    /* Adicione um fundo semi-transparente para o container para melhorar a legibilidade do texto */
+    /* Isso fará com que o container "flutue" sobre a imagem de fundo do body */
+    background-color: rgba(255, 255, 255, 0.9); /* Branco com 90% de opacidade */
+
+    border-radius: 8px; /* Mantém os cantos arredondados do container */
+    overflow: hidden; /* Garante que o conteúdo não vaze dos cantos arredondados */
 }
 
 .products-page-container h1 {
@@ -29,7 +45,7 @@
 }
 
 .product-card {
-    background-color: #fff;
+    background-color: #fff; /* O fundo branco do card ajuda na legibilidade sobre a imagem */
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;

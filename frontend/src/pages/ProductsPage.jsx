@@ -1,12 +1,23 @@
 // frontend/src/components/ProductsPage.jsx
 
-import React from 'react';
+import React, { useEffect } from 'react'; // Importe useEffect
 import '../styles/products.css';
 import productsData from '../productsData'; // Importa os dados dos produtos
 import { useCart } from '../CartContext'; // <--- IMPORTAMOS O HOOK useCart
 
 function ProductsPage() {
   const { addItem } = useCart(); // <--- USAMOS O HOOK PARA PEGAR A FUNÇÃO addItem
+
+  useEffect(() => {
+    // Adiciona a classe 'products-background' ao body quando o componente monta
+    document.body.classList.add('products-background');
+
+    // Remove a classe 'products-background' do body quando o componente desmonta
+    return () => {
+      document.body.classList.remove('products-background');
+    };
+  }, []); // O array vazio assegura que o efeito rode apenas uma vez (ao montar e desmontar)
+
 
   // Função para lidar com o clique do botão "Adicionar ao Carrinho"
   const handleAddToCart = (product) => {

@@ -98,41 +98,56 @@ header {
 }
 
 .cart-count-badge {
-    /* --- ALTERAÇÕES AQUI --- */
-    background-color: #e4f527c9; /* Cor de fundo do badge (seu azul) */
-    color: white; /* Cor do texto (branco para contraste) */
-    font-size: 0.65em; /* Tamanho da fonte do número (um pouco maior para leitura) */
+    background-color: #e4f527c9; 
+    color: white; 
+    font-size: 0.65em; 
     font-weight: bold;
-    border-radius: 4px; /* Bordas levemente arredondadas (não mais um círculo perfeito) */
+    border-radius: 4px; 
     padding: 2px 6px; 
     position: absolute;
-    top: -5px; /* Ajusta a posição vertical do badge */
-    right: -10px; /* Ajusta a posição horizontal do badge */
+    top: -5px; 
+    right: -10px; 
     line-height: 1; 
     min-width: 18px; 
-    height: 18px; /* Ajusta a altura para combinar com min-width se for 1 dígito */
+    height: 18px; 
     text-align: center;
     display: flex; 
     justify-content: center;
     align-items: center;
-    box-shadow: none; /* REMOVIDO: Sombra para um visual mais clean */
+    box-shadow: none; 
 }
 
 /* ---------------------------------------------------FOOTER-------------------------------------------------------------*/
+
+footer {
+    background-color: #e9a913; 
+    width: 100%; 
+    /* NOVA MUDANÇA: Controla o padding vertical geral do footer */
+    padding: 20px 0; /* Ajuste este valor conforme desejar para a altura total do footer */
+    
+    /* MOVIDO do .footer-container para aqui */
+    border-top: 12px solid; 
+    border-image: linear-gradient(to right, #ffffff, #e9a913) 1; 
+}
+
 .footer-container {
-    background-color: #e9a913;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     font-family: "Inter", sans-serif;
-    border-top: 12px solid;
-    border-image: linear-gradient(to right, #ffffff, #e9a913) 1;
-    gap: 10px;
-    padding-top: 10px;
-    margin-top: 50px; 
+    gap: 10px; /* Espaço entre os itens flexíveis */
+    
+    /* REMOVENDO espaçamentos verticais internos para que o padding do <footer> pai controle */
+    padding-top: 0; 
+    margin-top: 0;  
+    padding-bottom: 0;
+    
+    /* REMOVENDO bordas duplicadas */
+    border-top: none; 
+    border-image: none;
 }
 .logo-footer {
-    padding-top: 20px;
+    padding-top: 0; /* Remove padding-top antigo */
     padding-right: 40px;
 }
 
@@ -140,15 +155,17 @@ header {
     max-width: 100px;  
     height: auto;   
     display: block;
-    margin-bottom: 30px;
+    margin-bottom: 0; /* Remove margin-bottom antigo */
 }
 .menufooter {
-    margin-top: 70px;
+    margin-top: 50px; /* Remove margin-top antigo */
 }
 .menufooter ul { 
     list-style: none; 
     margin: 0;
     padding: 0;
+    display: flex; /* Garante que os itens do menu fiquem lado a lado */
+    gap: 20px; /* Mantém o espaçamento entre os itens do menu */
 }
 .menufooter ul li {
     display: inline;
@@ -156,12 +173,11 @@ header {
 .menufooter ul li a {
     color: #636363;
     text-decoration: none;
-    margin-right: 40px;
+    /* margin-right: 40px; // Removido, o 'gap' no ul.menufooter já cuida do espaçamento */
 }
 .social-icons {
-    margin-top: 50px;
+    margin-top:40px; /* Remove margin-top antigo */
     display: flex;
-    
 }
 .social-icons a {
     margin-left: 10px;
@@ -174,8 +190,11 @@ header {
     text-align: center;
     font-size: 14px;
     font-family: "Inter", sans-serif;
-    padding-bottom: 30px;
     width: 100%; 
+    
+    /* Adiciona um pequeno padding-top para separar da seção acima */
+    padding-top: 10px; 
+    padding-bottom: 0; /* O padding do <footer> pai já cuida do espaço inferior */
 }
 /* -------------------------------------RESPONSIVO------------------------------------- */
 @media screen and (max-width:780px) {
@@ -201,6 +220,9 @@ header {
     }
 
     /* Footer Responsivo */
+    footer {
+        padding: 15px 0; /* Reduz o padding vertical do footer no mobile */
+    }
     .footer-container {
         flex-direction: column;
         align-items: center;
@@ -210,7 +232,7 @@ header {
         padding-right: 0;
     }
     .menufooter {
-        margin-top: 20px; 
+        margin-top: 0; /* Garante que não tenha margem extra no mobile */
     }
     .menufooter ul {
         flex-direction: column;
@@ -220,10 +242,11 @@ header {
         margin-right: 0;
     }
     .social-icons {
-        margin-top: 20px;
+        margin-top: 0; /* Garante que não tenha margem extra no mobile */
     }
     .creditos {
         font-size: 14px;
-        margin: 10px 0;
+        margin: 0; /* Remove margem antiga */
+        padding-top: 10px; /* Mantém um pequeno padding superior */
     }
 }
