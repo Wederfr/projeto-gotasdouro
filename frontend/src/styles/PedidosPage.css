@@ -1,10 +1,21 @@
 /* frontend/src/styles/PedidosPage.css */
 
+/* NOVA REGRA: Aplica a imagem de fundo ao BODY apenas quando a classe 'pedidos-background' estiver presente */
+body.pedidos-background {
+    background-image: url('/images/fundo saco.jpg'); /* Caminho da sua imagem */
+    background-size: cover; /* Faz a imagem cobrir toda a área da viewport */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-attachment: fixed; /* Mantém a imagem fixa enquanto a página rola */
+    background-position: center center; /* Centraliza a imagem no meio */
+}
+
 .pedidos-page-container {
     max-width: 1000px;
     margin: 120px auto 50px auto; /* Margem superior para evitar o header fixo */
     padding: 20px;
-    background-color: #fff;
+    /* ALTERADO: Adicione um fundo semi-transparente para o container para melhorar a legibilidade do texto */
+    /* Isso fará com que o container "flutue" sobre a imagem de fundo do body */
+    background-color: rgba(245, 244, 207, 0.9); /* Branco com 90% de opacidade */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -37,7 +48,7 @@
 }
 
 .back-to-products-button:hover {
-    background-color: #d1950d; /* Um tom mais escuro do amarelo */
+    background-color: #d1950d; /* Um tone mais escuro do amarelo */
 }
 
 .cart-content {
@@ -56,9 +67,9 @@
     align-items: center;
     margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid #eee;
+    border: 1px solid #eeeeee;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color:#ffff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
@@ -94,7 +105,7 @@
 
 .quantity-controls button {
     background-color: #74A9DB; 
-    color: #fff;
+    color: #e9ef92;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
@@ -141,7 +152,7 @@
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #ffff; 
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     align-self: flex-start; 
 }
@@ -208,4 +219,381 @@
     .quantity-controls {
         justify-content: center; 
     }
+}
+
+/* --- ESTILOS DO MODAL DE ENTREGA (JÁ EXISTENTES) --- */
+
+.modal-overlay {
+  position: fixed; /* Fixa o modal na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Garante que o modal esteja acima de outros elementos */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px; /* Largura máxima para o conteúdo do modal */
+  position: relative;
+  animation: fadeIn 0.3s ease-out; /* Animação simples de entrada */
+}
+
+.modal-content h2 {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2em;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-close-button:hover {
+  color: #555;
+}
+
+.registration-form .form-group {
+  margin-bottom: 20px;
+}
+
+.registration-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.registration-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.registration-form input:focus {
+  border-color: #e9a913; /* Borda amarela no foco */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(233, 169, 19, 0.2); /* Sombra suave no foco */
+}
+
+.registration-form small {
+  color: #888;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: block;
+}
+
+.modal-submit-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #e9a913; /* Cor do botão de compra */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px; /* Espaçamento acima do botão */
+}
+
+.modal-submit-button:hover {
+  background-color: #d19a12; /* Um tom mais escuro no hover */
+}
+
+/* Animação para o modal */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividade básica para o modal */
+@media (max-width: 600px) {
+  .modal-content {
+    margin: 0 15px; /* Margem nas laterais para telas pequenas */
+    padding: 20px;
+  }
+  .modal-content h2 {
+    font-size: 1.8em;
+  }
+  .modal-submit-button {
+    padding: 12px;
+    font-size: 1em;
+  }
+}
+
+/* --- NOVOS ESTILOS PARA O MODAL DE PAGAMENTO (ADICIONADOS AQUI) --- */
+
+.modal-content.payment-modal-content {
+  /* Se você quiser ajustar o tamanho/estilo do modal de pagamento diferente do de entrega */
+  max-width: 600px; /* Um pouco maior para acomodar formulário de cartão */
+}
+
+.payment-options-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaçamento entre os botões de seleção */
+  margin-top: 25px;
+}
+
+.payment-option-button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espaçamento entre texto e ícone, se houver */
+  transition: all 0.3s ease;
+  border: 1px solid #ddd;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.payment-option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilos específicos para cada método de pagamento (opcional, mas legal para identidade visual) */
+.pix-button {
+  background-color: #2da44e; /* Verde Pix */
+  color: white;
+  border-color: #2da44e;
+}
+
+.pix-button:hover {
+  background-color: #248b41;
+  border-color: #248b41;
+}
+
+.mercadopago-button {
+  background-color: #009ee3; /* Azul Mercado Pago */
+  color: white;
+  border-color: #009ee3;
+}
+
+.mercadopago-button:hover {
+  background-color: #0087c5;
+  border-color: #0087c5;
+}
+
+.creditcard-button {
+  background-color: #e9a913; /* Seu amarelo principal */
+  color: white;
+  border-color: #e9a913;
+}
+
+.creditcard-button:hover {
+  background-color: #d19a12;
+  border-color: #d19a12;
+}
+
+.payment-icon {
+    height: 28px; /* Tamanho dos ícones, ajuste conforme necessário */
+    width: auto;
+    object-fit: contain;
+}
+
+/* Estilos para os detalhes de cada método de pagamento (quando selecionado) */
+.payment-method-details {
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+    text-align: center;
+}
+
+.payment-method-details h3 {
+    font-size: 1.6em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.payment-method-details p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.payment-method-details .total-value {
+    font-weight: bold;
+    color: #e9a913;
+    font-size: 1.2em;
+}
+
+/* Pix specific styles */
+.pix-qr-code-placeholder {
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
+    border: 1px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 0.9em;
+    color: #777;
+    border-radius: 5px;
+}
+
+.qr-code-image {
+    max-width: 180px;
+    max-height: 180px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.pix-key-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.pix-key {
+    background-color: #eee;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 1em;
+    color: #333;
+}
+
+.copy-pix-key-button {
+    background-color: #777;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.copy-pix-key-button:hover {
+    background-color: #555;
+}
+
+/* Mercado Pago specific styles */
+.mercadopago-redirect-button {
+    background-color: #009ee3; /* Azul Mercado Pago */
+    color: white;
+}
+
+.mercadopago-redirect-button:hover {
+    background-color: #0087c5;
+}
+
+/* Credit Card specific styles */
+.credit-card-form {
+    text-align: left; /* Alinhar o texto do formulário à esquerda */
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.credit-card-form .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.credit-card-form .form-row .form-group {
+    flex: 1; /* Para que os campos de validade e CVV fiquem lado a lado */
+    margin-bottom: 0; /* Remover margin-bottom padrão */
+}
+
+.credit-card-form label {
+    margin-bottom: 5px;
+}
+
+.credit-card-form input,
+.credit-card-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.credit-card-form input:focus,
+.credit-card-form select:focus {
+    border-color: #e9a913;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(233, 169, 19, 0.2);
+}
+
+
+/* Common buttons for payment actions */
+.process-payment-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #e9a913; /* Cor principal de ação */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.process-payment-button:hover {
+    background-color: #d19a12;
+}
+
+.back-to-options-button {
+    margin-top: 15px;
+    background: none;
+    border: none;
+    color: #666;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: color 0.2s ease;
+}
+
+.back-to-options-button:hover {
+    color: #333;
+}
+
+/* Responsividade para o modal de pagamento */
+@media (max-width: 600px) {
+  .modal-content.payment-modal-content {
+    max-width: 90%;
+  }
+  .credit-card-form .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 }

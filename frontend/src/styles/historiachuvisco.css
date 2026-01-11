@@ -1,0 +1,36 @@
+/* frontend/src/styles/historiachuvisco.css */
+
+.historia-chuvisco-display {
+  display: flex; /* Usa flexbox para centralizar a imagem */
+  justify-content: center; /* Centraliza a imagem horizontalmente */
+  align-items: center;   /* Centraliza a imagem verticalmente */
+  min-height: calc(100vh - var(--header-height, 0px) - var(--footer-height, 0px)); /* Ocupa a altura restante da viewport */
+  background-image: url('/images/fundo saco.jpg');
+  background-size: cover; /* Faz a imagem cobrir toda a área da viewport */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-attachment: fixed; /* Mantém a imagem fixa enquanto a página rola */
+    background-position: center center; /* Centraliza a imagem no meio */
+  padding: 20px; /* Adiciona um respiro nas bordas da página */
+  overflow: auto; /* MUITO IMPORTANTE: Permite rolagem se a imagem for maior que a tela */
+}
+
+.historia-chuvisco-image {
+  /* Removemos 'max-width: 100%' para que a imagem use seu tamanho original */
+  width: 800px;  /* <-- Defina a largura desejada, por exemplo, 800px ou 70% */
+  height: auto; 
+  display: block; /* Remove o espaço extra abaixo da imagem */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Sombra um pouco mais pronunciada para destacar */
+  border-radius: 8px; /* Cantos levemente arredondados */
+  /* Não é necessário 'margin: 0 auto;' aqui, pois o flexbox do pai já faz o trabalho de centralização */
+}
+
+/* Opcional: Ajustes para telas menores, se a imagem original for muito grande */
+@media (max-width: 768px) {
+  .historia-chuvisco-display {
+    padding: 10px; /* Reduz o padding em telas menores */
+  }
+  .historia-chuvisco-image {
+    max-width: 95%; /* Para telas muito pequenas, pode ser necessário limitar a largura para que a imagem não "escape" da tela e para que a rolagem horizontal seja evitada ou minimizada, ainda respeitando a proporção. Isso pode ir contra "tamanho original", mas melhora a usabilidade em mobile. */
+    border-radius: 4px;
+  }
+}

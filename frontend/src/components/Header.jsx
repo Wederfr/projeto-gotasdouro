@@ -24,7 +24,6 @@ function Header() {
             <li><Link to="/">Início</Link></li>
             <li><Link to="/produtos">Produtos</Link></li>
             <li><Link to="/sobre-nos">Sobre nós</Link></li>
-            <li><Link to="/contato">Contato</Link></li>
             <li><Link to="/pedidos">Pedidos</Link></li> {/* "Pedidos" como um item de texto normal no menu */}
           </ul>
         </nav>

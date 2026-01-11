@@ -28,7 +28,7 @@ function ProductsPage() {
   return (
     <main className="products-page-container">
       <h1>Nossos Produtos</h1>
-      <p>Aqui você encontrará a nossa seleção completa de deliciosos chuviscos e outros produtos.</p>
+      
 
       <section className="products-grid">
         {productsData.map(product => (

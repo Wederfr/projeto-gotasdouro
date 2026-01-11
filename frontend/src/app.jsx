@@ -15,6 +15,7 @@ import PedidosPage from './pages/PedidosPage';
 // Importação das novas páginas que estamos construindo
 import AboutUsPage from './pages/AboutUsPage'; // Importa a página Sobre Nós
 // import ContactPage from './pages/ContactPage'; // <-- COMENTADO TEMPORARIAMENTE: A página ContactPage ainda não foi criada
+import HistoriaChuvisco from './pages/HistoriaChuvisco'; // <-- NOVA IMPORTAÇÃO AQUI
 
 // Importa o CartProvider
 import { CartProvider } from './CartContext';
@@ -35,6 +36,7 @@ function App() {
 
               {/* ROTAS PARA AS NOVAS PÁGINAS */}
               <Route path="/sobre-nos" element={<AboutUsPage />} />
+              <Route path="/historia-chuvisco" element={<HistoriaChuvisco />} /> {/* <-- NOVA ROTA AQUI */}
               {/* <Route path="/contato" element={<ContactPage />} /> */} {/* <-- COMENTADO TEMPORARIAMENTE: Rota para ContactPage */}
 
               {/* Rota genérica para 404 - Páginas não encontradas */}
