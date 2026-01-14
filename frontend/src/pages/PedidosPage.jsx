@@ -28,7 +28,8 @@ function PedidosPage() {
 
   // Estados para o modal de PAGAMENTO
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null); // 'pix', 'mercadopago', 'creditcard'
+  // Modificado: Agora selectedPaymentMethod inicia com 'pix' (ou o método padrão que desejar)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('pix'); 
 
   // Estados para o formulário de Cartão de Crédito
   const [cardNumber, setCardNumber] = useState('');
@@ -81,7 +82,7 @@ function PedidosPage() {
   // Função para fechar o modal de PAGAMENTO e limpar seus estados
   const closePaymentModal = () => {
     setShowPaymentModal(false);
-    setSelectedPaymentMethod(null); // Reseta a seleção de método
+    setSelectedPaymentMethod('pix'); // Resetar para o padrão ao fechar
     // Limpa campos do cartão (se houver)
     setCardNumber('');
     setCardExpiration('');
@@ -101,11 +102,7 @@ function PedidosPage() {
 
     setShowRegistrationModal(false); // Fecha o modal de ENTREGA
     setShowPaymentModal(true);      // Abre o modal de PAGAMENTO
-  };
-
-  // Função para lidar com a seleção inicial do método de pagamento
-  const handleSelectPaymentMethod = (method) => {
-    setSelectedPaymentMethod(method);
+    setSelectedPaymentMethod('pix'); // Garante que Pix seja a opção inicial no modal de pagamento
   };
 
   // Funções para processar o pagamento
@@ -255,127 +252,126 @@ function PedidosPage() {
       {/* --- NOVA ESTRUTURA DO MODAL DE PAGAMENTO --- */}
       {showPaymentModal && (
         <div className="modal-overlay">
-          <div className="modal-content payment-modal-content"> {/* Adicionado uma classe para diferenciar */}
+          <div className="modal-content payment-modal-content">
             <button className="modal-close-button" onClick={closePaymentModal}>&times;</button>
             <h2>Escolha a Forma de Pagamento</h2>
 
-            {selectedPaymentMethod === null && ( // Mostra as opções se nenhum método foi selecionado
-              <div className="payment-options-selection">
-                <button className="payment-option-button pix-button" onClick={() => handleSelectPaymentMethod('pix')}>
-                    <img src="/images/pix-logo.png" alt="Pix" className="payment-icon"/> {/* Exemplo de imagem */}
-                    Pagar com Pix
+            {/* BOTOES DE SELEÇÃO DE MÉTODO - AGORA COMO ABAS/FILTROS */}
+            <div className="payment-method-tabs">
+                <button
+                    className={`tab-button ${selectedPaymentMethod === 'pix' ? 'active' : ''}`}
+                    onClick={() => setSelectedPaymentMethod('pix')}
+                >
+                    <img src="/images/pix-logo.svg" alt="Pix" className="tab-icon"/> Pix
                 </button>
-                <button className="payment-option-button mercadopago-button" onClick={() => handleSelectPaymentMethod('mercadopago')}>
-                    <img src="/images/mercadopago-logo.png" alt="Mercado Pago" className="payment-icon"/> {/* Exemplo de imagem */}
-                    Pagar com Mercado Pago
+                <button
+                    className={`tab-button ${selectedPaymentMethod === 'mercadopago' ? 'active' : ''}`}
+                    onClick={() => setSelectedPaymentMethod('mercadopago')}
+                >
+                    <img src="/images/mercadopago-logo.png" alt="Mercado Pago" className="tab-icon"/> Mercado Pago
                 </button>
-                <button className="payment-option-button creditcard-button" onClick={() => handleSelectPaymentMethod('creditcard')}>
-                    <img src="/images/credit-card-icon.png" alt="Cartão de Crédito" className="payment-icon"/> {/* Exemplo de imagem */}
-                    Pagar com Cartão de Crédito
+                <button
+                    className={`tab-button ${selectedPaymentMethod === 'creditcard' ? 'active' : ''}`}
+                    onClick={() => setSelectedPaymentMethod('creditcard')}
+                >
+                    <img src="/images/credit-card-icon.svg" alt="Cartão" className="tab-icon"/> Cartão de Crédito
                 </button>
-              </div>
-            )}
+            </div>
 
-            {selectedPaymentMethod === 'pix' && (
-              <div className="payment-method-details pix-details">
-                <h3>Pagamento via Pix</h3>
-                <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                <div className="pix-qr-code-placeholder">
-                  {/* Este seria o local onde o QR Code seria gerado pela API */}
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="QR Code Pix" className="qr-code-image" />
-                  <p>Escaneie o QR Code acima para pagar.</p>
-                  <p>Ou copie e cole a chave Pix:</p>
-                  <div className="pix-key-display">
-                    <span className="pix-key">123.456.789-00 (CPF Exemplo)</span>
-                    <button className="copy-pix-key-button" onClick={() => navigator.clipboard.writeText('123.456.789-00')}>Copiar Chave</button>
-                  </div>
+            {/* CONTEÚDO DOS MÉTODOS DE PAGAMENTO */}
+            <div className="payment-details-container">
+                {selectedPaymentMethod === 'pix' && (
+                <div className="payment-method-details pix-details">
+                    <h3>Pagamento via Pix</h3>
+                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                    <div className="pix-qr-code-placeholder">
+                    {/* Este seria o local onde o QR Code seria gerado pela API */}
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="QR Code Pix" className="qr-code-image" />
+                    <p>Escaneie o QR Code acima para pagar.</p>
+                    <p>Ou copie e cole a chave Pix:</p>
+                    <div className="pix-key-display">
+                        <span className="pix-key">123.456.789-00 (CPF Exemplo)</span>
+                        <button className="copy-pix-key-button" onClick={() => navigator.clipboard.writeText('123.456.789-00')}>Copiar Chave</button>
+                    </div>
+                    </div>
+                    <button className="process-payment-button" onClick={processPixPayment}>
+                    Confirmar Pagamento Pix
+                    </button>
                 </div>
-                <button className="process-payment-button" onClick={processPixPayment}>
-                  Confirmar Pagamento Pix
-                </button>
-                <button className="back-to-options-button" onClick={() => setSelectedPaymentMethod(null)}>
-                  Voltar
-                </button>
-              </div>
-            )}
+                )}
 
-            {selectedPaymentMethod === 'mercadopago' && (
-              <div className="payment-method-details mercadopago-details">
-                <h3>Pagamento via Mercado Pago</h3>
-                <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                <p>Ao clicar no botão abaixo, você será redirecionado para o ambiente seguro do Mercado Pago para finalizar sua compra.</p>
-                <button className="process-payment-button mercadopago-redirect-button" onClick={processMercadoPagoPayment}>
-                  Ir para o Mercado Pago
-                </button>
-                <button className="back-to-options-button" onClick={() => setSelectedPaymentMethod(null)}>
-                  Voltar
-                </button>
-              </div>
-            )}
+                {selectedPaymentMethod === 'mercadopago' && (
+                <div className="payment-method-details mercadopago-details">
+                    <h3>Pagamento via Mercado Pago</h3>
+                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                    <p>Ao clicar no botão abaixo, você será redirecionado para o ambiente seguro do Mercado Pago para finalizar sua compra.</p>
+                    <button className="process-payment-button mercadopago-redirect-button" onClick={processMercadoPagoPayment}>
+                    Ir para o Mercado Pago
+                    </button>
+                </div>
+                )}
 
-            {selectedPaymentMethod === 'creditcard' && (
-              <div className="payment-method-details creditcard-details">
-                <h3>Pagamento com Cartão de Crédito</h3>
-                <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                <form onSubmit={processCreditCardPayment} className="credit-card-form">
-                  <div className="form-group">
-                    <label htmlFor="card-number">Número do Cartão:</label>
-                    <input
-                      type="text"
-                      id="card-number"
-                      value={cardNumber}
-                      onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 '))} // Formata em grupos de 4
-                      maxLength="19" // 16 dígitos + 3 espaços
-                      placeholder="XXXX XXXX XXXX XXXX"
-                      required
-                    />
-                  </div>
-                  <div className="form-row">
+                {selectedPaymentMethod === 'creditcard' && (
+                <div className="payment-method-details creditcard-details">
+                    <h3>Pagamento com Cartão de Crédito</h3>
+                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                    <form onSubmit={processCreditCardPayment} className="credit-card-form">
                     <div className="form-group">
-                      <label htmlFor="card-expiration">Validade (MM/AA):</label>
-                      <input
+                        <label htmlFor="card-number">Número do Cartão:</label>
+                        <input
                         type="text"
-                        id="card-expiration"
-                        value={cardExpiration}
-                        onChange={(e) => setCardExpiration(e.target.value.replace(/\D/g, '').replace(/(\d{2})(?=\d)/g, '$1/')).slice(0, 5)} // Formata MM/AA
-                        maxLength="5"
-                        placeholder="MM/AA"
+                        id="card-number"
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 '))} // Formata em grupos de 4
+                        maxLength="19" // 16 dígitos + 3 espaços
+                        placeholder="XXXX XXXX XXXX XXXX"
                         required
-                      />
+                        />
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group">
+                        <label htmlFor="card-expiration">Validade (MM/AA):</label>
+                        <input
+                            type="text"
+                            id="card-expiration"
+                            value={cardExpiration}
+                            onChange={(e) => setCardExpiration(e.target.value.replace(/\D/g, '').replace(/(\d{2})(?=\d)/g, '$1/')).slice(0, 5)} // Formata MM/AA
+                            maxLength="5"
+                            placeholder="MM/AA"
+                            required
+                        />
+                        </div>
+                        <div className="form-group">
+                        <label htmlFor="card-cvv">CVV:</label>
+                        <input
+                            type="text"
+                            id="card-cvv"
+                            value={cardCVV}
+                            onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, '')).slice(0, 4)} // Apenas números, máx 4
+                            maxLength="4"
+                            placeholder="XXX"
+                            required
+                        />
+                        </div>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="card-cvv">CVV:</label>
-                      <input
-                        type="text"
-                        id="card-cvv"
-                        value={cardCVV}
-                        onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, '')).slice(0, 4)} // Apenas números, máx 4
-                        maxLength="4"
-                        placeholder="XXX"
+                        <label htmlFor="installments">Parcelamento:</label>
+                        <select
+                        id="installments"
+                        value={installments}
+                        onChange={(e) => setInstallments(e.target.value)}
                         required
-                      />
+                        >
+                        {getInstallmentOptions()}
+                        </select>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="installments">Parcelamento:</label>
-                    <select
-                      id="installments"
-                      value={installments}
-                      onChange={(e) => setInstallments(e.target.value)}
-                      required
-                    >
-                      {getInstallmentOptions()}
-                    </select>
-                  </div>
-                  <button type="submit" className="process-payment-button">
-                    Pagar com Cartão
-                  </button>
-                </form>
-                <button className="back-to-options-button" onClick={() => setSelectedPaymentMethod(null)}>
-                  Voltar
-                </button>
-              </div>
-            )}
+                    <button type="submit" className="process-payment-button">
+                        Pagar com Cartão
+                    </button>
+                    </form>
+                </div>
+                )}
+            </div> {/* Fim payment-details-container */}
           </div>
         </div>
       )}

@@ -587,6 +587,75 @@ body.pedidos-background {
     color: #333;
 }
 
+.payment-method-tabs {
+    display: flex;
+    justify-content: space-around; /* Distribui os botões igualmente */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee; /* Linha de separação visual */
+    padding-bottom: 10px;
+}
+
+.tab-button {
+    flex: 1; /* Para que os botões ocupem o mesmo espaço */
+    background-color: #f0f0f0;
+    color: #666;
+    border: none;
+    padding: 12px 10px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px 5px 0 0; /* Bordas arredondadas no topo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre ícone e texto */
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.tab-button.active {
+    background-color: #e9a913; /* Cor de destaque da aba ativa */
+    color: white;
+    border-bottom: 2px solid #e9a913; /* Borda inferior para destacar */
+    /* Garante que a borda inferior do container de detalhes não sobreponha */
+    position: relative;
+    z-index: 1;
+}
+
+.tab-button.active:hover {
+    background-color: #d19a12;
+    color: white;
+}
+
+.tab-icon {
+    height: 24px;
+    width: auto;
+    object-fit: contain;
+    /* Para ícones brancos em fundo escuro, você pode usar filter */
+    /* Por exemplo: filter: brightness(0) invert(1); se o ícone for preto e precisar ficar branco */
+}
+
+.payment-details-container {
+    padding: 20px 0;
+    /* Adicionar borda ou sombra para separar do topo */
+    border-top: 1px solid #eee; /* Linha sutil acima dos detalhes */
+    margin-top: -1px; /* Para que a borda não crie espaço extra com as abas */
+}
+
+/* Ajustes nos estilos já existentes para se encaixarem melhor */
+.payment-method-details {
+    margin-top: 0; /* Não precisa de margin-top, pois já está dentro de payment-details-container */
+    border: none; /* Remove a borda para não duplicar com o container */
+    background-color: transparent; /* Remove o fundo para não duplicar */
+    padding: 0; /* Remove padding para ser controlado pelo container */
+}
+
+
 /* Responsividade para o modal de pagamento */
 @media (max-width: 600px) {
   .modal-content.payment-modal-content {
@@ -597,3 +666,4 @@ body.pedidos-background {
     gap: 0;
   }
 }
+
