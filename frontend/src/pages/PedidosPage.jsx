@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useCart } from '../CartContext';
 import { Link } from 'react-router-dom';
 import '../styles/PedidosPage.css';
+import { IMaskInput } from 'react-imask'; // NOVO IMPORT: IMaskInput do react-imask
 
 // Ícones ou imagens (exemplo: você precisará ter esses arquivos na pasta public/images)
 // import pixLogo from '/images/pix-logo.png'; // Exemplo de importação de imagem se for usar assets
@@ -95,9 +96,13 @@ function PedidosPage() {
   const handleRegistrationSubmit = (event) => {
     event.preventDefault();
 
-    if (!nome || !endereco || !telefone) {
-      alert('Por favor, preencha todos os campos do formulário de entrega!');
-      return;
+    // Removendo a validação 'pattern' do input
+    // A máscara já garante o formato, e a verificação de 'telefone' não vazio já é suficiente.
+    // Usamos o 'unmaskedValue' do IMask para uma validação mais precisa
+    const unmaskedTelefone = telefone.replace(/\D/g, ''); // Remove todos os não-dígitos para verificar o tamanho
+    if (!nome || !endereco || unmaskedTelefone.length !== 11) { // Verifica se tem 11 dígitos (DD + 9 dígitos)
+        alert('Por favor, preencha todos os campos do formulário de entrega, incluindo um telefone válido (DD) XXXXX-XXXX!');
+        return;
     }
 
     setShowRegistrationModal(false); // Fecha o modal de ENTREGA
@@ -227,16 +232,24 @@ function PedidosPage() {
               </div>
               <div className="form-group">
                 <label htmlFor="modal-telefone">Telefone de Contato:</label>
-                <input
+                {/* INÍCIO DA MODIFICAÇÃO: IMaskInput para o campo de telefone */}
+                <IMaskInput
+                  mask="(00) 00000-0000" // A MÁSCARA QUE DESEJAMOS (0 para dígitos)
+                  value={telefone}
+                  onAccept={
+                    // maskValue (valor com máscara) e unmaskedValue (apenas dígitos)
+                    (value, mask) => setTelefone(value) 
+                  }
+                  definitions={{
+                    '0': /[0-9]/, // Define '0' como um dígito numérico
+                  }}
                   type="tel"
                   id="modal-telefone"
                   name="telefone"
-                  value={telefone}
-                  onChange={(e) => setTelefone(e.target.value)}
-                  placeholder="(DD) XXXXX-XXXX"
-                  pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}"
+                  placeholder="(DD) XXXXX-XXXX" // Mantido como guia visual extra
                   required
                 />
+                {/* FIM DA MODIFICAÇÃO: IMaskInput para o campo de telefone */}
                 <small>Formato: (DD) XXXXX-XXXX</small>
               </div>
               <button type="submit" className="modal-submit-button">

@@ -5,7 +5,7 @@ import '../styles/historiachuvisco.css'; // Mantenha o CSS para estilizar a imag
 
 function HistoriaChuvisco() {
   // CONFIRA AQUI: Certifique-se de que a extensão está correta (.jpg, .png, etc.)
-  const imagePath = '/images/historia-chuvisco.jpg'; // Usando .jpg como você mencionou
+  const imagePath = '/images/historia-chuvisco.jpeg'; // Usando .jpg como você mencionou
 
   return (
     // Retorna diretamente um container simples para a imagem

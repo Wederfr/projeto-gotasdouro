@@ -1,50 +1,55 @@
 /* frontend/src/styles/header_footer.css */
 
+/* --- Solução para o overflow-x da página --- */
+html, body {
+    overflow-x: hidden; /* Esconde qualquer conteúdo que transborde horizontalmente */
+}
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Adiciona box-sizing para um melhor controle de layout */
+    box-sizing: border-box;
 }
 
-/* --- Header --- */
+/* --- Base Header --- */
 header {
     background-color: #e9a913;
     color: #74A9DB; 
     border-bottom: 12px solid;
     border-image: linear-gradient(to right, #ffffff, #e9a913) 1;
-    display: flex;
     width: 100%; 
     position: fixed; 
     top: 0; 
     left: 0; 
     z-index: 1000; 
-    padding: 20px 0; /* Dá altura ao header */
+    padding: 20px 0; /* Padding vertical padrão para o header */
+    font-family: "Inter", sans-serif;
 }
 
-.header-container {
-    font-family: "Inter";
-    display: flex; /* Mudado de inline-flex para flex */
-    max-width: 1200px; /* Largura máxima para centralizar o conteúdo */
-    width: 100%; /* Ocupa a largura disponível até o max-width */
-    margin: 0 auto; /* Centraliza o container na página */
-    justify-content: space-between; /* LOGO na esquerda, MENU no meio, CARRINHO na direita */
-    align-items: center; /* Alinha todos os itens verticalmente */
-    padding: 0 20px; /* Espaçamento interno nas laterais */
+/* --- Desktop Header Container --- */
+.header-container-desktop {
+    display: flex; /* Visível por padrão no desktop */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
 }
 
-.logo-header img {
+.logo-header img { /* Logo para Desktop */
     max-width: 120px;  
     height: auto;   
     display: block;
 }
 
-/* --- Menu de Navegação Principal --- */
+/* --- Menu de Navegação Principal (Desktop) --- */
 .menu-header ul {
-    list-style: none; /* Remove marcadores de lista */
+    list-style: none;
     margin: 0;
     padding: 0;
-    display: flex; /* Coloca os itens do menu lado a lado */
-    gap: 20px; /* Espaço entre os itens do menu */
+    display: flex;
+    gap: 20px;
 }
 .menu-header ul li a {
     color:  #ebeeb4;
@@ -53,38 +58,20 @@ header {
     white-space: nowrap;   
     transition: color 0.3s ease;
 }
-
 .menu-header ul li a:hover {
     color: #74A9DB; 
 }
 
-/* --- Estilo de Botão (mantido, pois você o tinha) --- */
-.fazerpedidos {
-    text-decoration: none;
-    border-radius: 8px;
-    border: 1px solid;
-    border-color: #74A9DB;
-    font-family: "Inter", sans-serif;
-    font-size: medium;
-    padding: 8px 8px;
-    padding-left: 32px;
-    padding-right: 32px;
-    font-weight: 600;
-    background-color: #74A9DB;
-    color: white; /* Adicionado para clareza */
-}
-
-/* --- Widget do Carrinho no Canto Direito Extremo --- */
-.cart-widget-right {
+/* --- Widget do Carrinho (Desktop) --- */
+.cart-widget-right-desktop {
     display: flex;
     align-items: center;
     position: relative; 
     margin-left: 30px; 
 }
-
-.cart-icon-link {
+.cart-widget-right-desktop .cart-icon-link {
     text-decoration: none;
-    color: #ebeeb4; /* Cor do ícone do carrinho */
+    color: #ebeeb4;
     font-size: 30px; 
     padding: 5px; 
     transition: color 0.3s ease;
@@ -92,12 +79,10 @@ header {
     align-items: center;
     justify-content: center;
 }
-
-.cart-icon-link:hover {
+.cart-widget-right-desktop .cart-icon-link:hover {
     color: #74A9DB; 
 }
-
-.cart-count-badge {
+.cart-widget-right-desktop .cart-count-badge {
     background-color: #e4f527c9; 
     color: white; 
     font-size: 0.65em; 
@@ -117,55 +102,209 @@ header {
     box-shadow: none; 
 }
 
+/* --- Mobile Header Container (Escondido por padrão) --- */
+.header-container-mobile {
+    display: none; /* Escondido por padrão */
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px; /* Padding lateral */
+    justify-content: space-between; /* Espaço entre logo, carrinho e hambúrguer */
+    align-items: center;
+}
+
+/* --- Logo para Mobile Header --- */
+.logo-header-mobile img {
+    max-width: 90px;
+    height: auto;
+    display: block;
+}
+
+/* --- Cart Widget (Mobile Header) --- */
+.cart-widget-mobile { 
+    display: none; 
+    align-items: center; 
+    position: relative; 
+}
+.cart-widget-mobile .cart-icon-link {
+    text-decoration: none;
+    color: #ebeeb4;
+    font-size: 24px; 
+    padding: 5px; 
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+.cart-widget-mobile .cart-count-badge {
+    background-color: #e4f527c9; 
+    color: white; 
+    font-size: 0.6em; 
+    font-weight: bold;
+    border-radius: 4px; 
+    padding: 2px 6px; 
+    position: absolute;
+    top: -3px; 
+    right: -8px; 
+    line-height: 1; 
+    min-width: 16px; 
+    height: 16px; 
+    text-align: center;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    box-shadow: none; 
+}
+
+/* --- Estilos do Ícone de Hambúrguer do Header --- */
+.hamburger-menu {
+    display: none; /* Escondido por padrão no desktop */
+    cursor: pointer;
+    z-index: 1001; /* Garante que o ícone esteja acima do menu overlay */
+    padding: 5px; /* Área clicável */
+}
+
+.hamburger-menu .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #ebeeb4;
+    margin: 5px 0;
+    transition: 0.4s;
+    border-radius: 2px;
+}
+.hamburger-menu.open .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 5px);
+}
+.hamburger-menu.open .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.open .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -5px);
+}
+
+/* --- Estilos do Overlay do Menu Mobile do Header (COM ALTURA E LARGURA MENOR) --- */
+.menu-header-mobile-overlay {
+    display: flex; 
+    flex-direction: column;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    height: auto; 
+    max-height: 100vh; 
+    width: 220px; 
+    max-width: 220px;
+    background-color: #e9a913;
+    z-index: 998;
+    padding-top: 0; 
+    padding-bottom: 0; 
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5); 
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%); 
+    overflow-y: auto;
+}
+
+.menu-header-mobile-overlay.open {
+    transform: translateX(0); 
+}
+
+.menu-header-mobile-overlay ul {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.menu-header-mobile-overlay ul li {
+    width: 100%;
+    text-align: center;
+}
+.menu-header-mobile-overlay ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    padding: 15px 0;
+    display: block;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.menu-header-mobile-overlay ul li:last-child a {
+    border-bottom: none;
+}
+.menu-header-mobile-overlay ul li a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #74A9DB;
+}
+
+/* --- Estilo de Botão (fazerpedidos - generalizado) --- */
+.fazerpedidos {
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid;
+    border-color: #74A9DB;
+    font-size: medium;
+    padding: 8px 8px;
+    padding-left: 32px;
+    padding-right: 32px;
+    font-weight: 600;
+    background-color: #74A9DB;
+    color: white;
+}
+.fazerpedidos-mobile { 
+    background-color: #74A9DB;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    display: inline-block; 
+    margin-top: 15px; 
+    font-size: 18px; 
+}
+
+
 /* ---------------------------------------------------FOOTER-------------------------------------------------------------*/
 
 footer {
     background-color: #e9a913; 
     width: 100%; 
-    /* NOVA MUDANÇA: Controla o padding vertical geral do footer */
-    padding: 20px 0; /* Ajuste este valor conforme desejar para a altura total do footer */
-    
-    /* MOVIDO do .footer-container para aqui */
+    padding: 20px 0; 
     border-top: 12px solid; 
     border-image: linear-gradient(to right, #ffffff, #e9a913) 1; 
+    font-family: "Inter", sans-serif; 
 }
 
-.footer-container {
+/* Desktop Footer Container */
+.footer-container-desktop { 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    font-family: "Inter", sans-serif;
-    gap: 10px; /* Espaço entre os itens flexíveis */
-    
-    /* REMOVENDO espaçamentos verticais internos para que o padding do <footer> pai controle */
+    gap: 10px; 
     padding-top: 0; 
     margin-top: 0;  
     padding-bottom: 0;
-    
-    /* REMOVENDO bordas duplicadas */
     border-top: none; 
     border-image: none;
 }
+/* Estilos para elementos internos do footer desktop (mantidos) */
 .logo-footer {
-    padding-top: 0; /* Remove padding-top antigo */
+    padding-top: 0; 
     padding-right: 40px;
 }
-
 .logo-footer img{
     max-width: 100px;  
     height: auto;   
     display: block;
-    margin-bottom: 0; /* Remove margin-bottom antigo */
+    margin-bottom: 0; 
 }
 .menufooter {
-    margin-top: 50px; /* Remove margin-top antigo */
+    margin-top: 50px; 
 }
 .menufooter ul { 
     list-style: none; 
     margin: 0;
     padding: 0;
-    display: flex; /* Garante que os itens do menu fiquem lado a lado */
-    gap: 20px; /* Mantém o espaçamento entre os itens do menu */
+    display: flex; 
+    gap: 20px; 
 }
 .menufooter ul li {
     display: inline;
@@ -173,14 +312,12 @@ footer {
 .menufooter ul li a {
     color: #ebeeb4;
     text-decoration: none;
-    /* margin-right: 40px; // Removido, o 'gap' no ul.menufooter já cuida do espaçamento */
 }
-
 .menufooter ul li a:hover {
     color: #74A9DB; 
 }
 .social-icons {
-    margin-top:40px; /* Remove margin-top antigo */
+    margin-top:40px; 
     display: flex;
     margin-left: 15px;
 }
@@ -191,67 +328,242 @@ footer {
     width: 50px;  
     height: 50px; 
 }
+
+/* Mobile Footer Container (escondido por padrão, visível no mobile) */
+.footer-container-mobile {
+    display: none; /* Escondido por padrão, mostrado no media query */
+    width: 100%;
+}
+
+/* Logo para Mobile Footer */
+.logo-footer-mobile img {
+    max-width: 80px; /* Ajusta o tamanho para mobile */
+    height: auto;
+    display: block;
+}
+
+/* --- ESTILOS DO ÍCONE DE HAMBÚRGUER DO FOOTER (BASE, fora da media query) --- */
+.footer-menu-toggle { 
+    display: none; /* Escondido por padrão, mas será 'display: block' no mobile */
+    cursor: pointer;
+    position: relative; /* Adicionado para que z-index funcione */
+    z-index: 1001; /* <-- ALTERADO AQUI: Maior que o menu overlay (998) */
+    padding: 5px;
+}
+.footer-menu-toggle .bar { 
+    width: 20px; 
+    height: 2px;
+    background-color: #ebeeb4;
+    margin: 4px 0;
+    transition: 0.4s;
+    border-radius: 1px;
+}
+.footer-menu-toggle.open .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-4px, 4px);
+}
+.footer-menu-toggle.open .bar:nth-child(2) {
+    opacity: 0;
+}
+.footer-menu-toggle.open .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-4px, -4px);
+}
+/* --- FIM DOS ESTILOS DO ÍCONE DE HAMBÚRGUER DO FOOTER (BASE) --- */
+
+
+/* Estilos para os Ícones Sociais do Footer Mobile */
+.social-icons-mobile {
+    display: none; /* Escondido por padrão, mostrado no media query */
+    gap: 8px;
+    align-items: center;
+}
+.social-icons-mobile img {
+    width: 30px; /* Ícones sociais menores para mobile */
+    height: 30px;
+}
+
+/* Menu de links do Footer Mobile (overlay deslizante da esquerda, ancorado no bottom) */
+.menufooter-mobile-links {
+    display: flex; 
+    flex-direction: column;
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    height: auto; 
+    max-height: 200px; 
+    width: 220px; 
+    background-color: #e9a913;
+    z-index: 998; /* <-- ALTERADO AQUI: Diminuído para ser menor que o hambúrguer */
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5); 
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%); 
+    overflow-y: auto; 
+}
+
+.menufooter-mobile-links.open {
+    transform: translateX(0); 
+}
+.menufooter-mobile-links ul {
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.menufooter-mobile-links ul li {
+    width: 100%;
+    text-align: center;
+}
+.menufooter-mobile-links ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px; 
+    padding: 8px 15px; 
+    display: block;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.menufooter-mobile-links ul li:last-child a {
+    border-bottom: none;
+}
+.menufooter-mobile-links ul li a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #74A9DB;
+}
+
+
 .creditos {
     text-align: center;
     font-size: 14px;
-    font-family: "Inter", sans-serif;
     width: 100%; 
-    
-    /* Adiciona um pequeno padding-top para separar da seção acima */
     padding-top: 10px; 
-    padding-bottom: 0; /* O padding do <footer> pai já cuida do espaço inferior */
+    padding-bottom: 0; 
 }
-/* -------------------------------------RESPONSIVO------------------------------------- */
+
+
+/* -------------------------------------RESPONSIVO (CELULAR/TABLET)------------------------------------- */
 @media screen and (max-width:780px) {
-    header {
-        padding: 10px 0; 
-    }
-    .header-container {
-        flex-direction: column; 
-        gap: 15px; 
-        padding: 0 15px; 
-    }
-    .menu-header ul {
-        flex-direction: column; 
-        gap: 10px;
-        text-align: center;
-    }
-    .logo-header {
-        margin-bottom: 10px; 
-    }
-    .cart-widget-right {
-        margin-top: 10px; 
-        margin-left: 0; 
+    /* --- HEADER RESPONSIVO --- */
+    :root {
+        --header-mobile-height-calc: 65px; 
     }
 
-    /* Footer Responsivo */
+    header {
+        padding: 8px 0; 
+    }
+    .header-container-desktop {
+        display: none; 
+    }
+    .header-container-mobile {
+        display: flex; 
+        height: 100%; 
+    }
+    .hamburger-menu {
+        display: block; 
+        order: 1; 
+    }
+    .logo-header-mobile {
+        order: 2; 
+        flex-grow: 1; 
+        text-align: center; 
+    }
+    .logo-header-mobile img {
+        max-width: 80px; 
+        margin: 0 auto; 
+    }
+    .cart-widget-mobile { 
+        display: flex; 
+        order: 3; 
+    }
+    .cart-widget-mobile .cart-icon-link {
+        font-size: 20px; 
+    }
+    .cart-widget-mobile .cart-count-badge {
+        font-size: 0.55em;
+        top: -2px;
+        right: -7px;
+        min-width: 14px;
+        height: 14px;
+    }
+    .fazerpedidos { 
+        display: none; 
+    }
+    /* Menu do header com altura e largura limitadas, e posicionamento ajustado */
+    .menu-header-mobile-overlay {
+        display: flex; 
+        top: 0; 
+        bottom: auto; 
+        height: auto; 
+        max-height: 200px; 
+        width: 220px; 
+        padding-top: 10px; 
+        padding-bottom: 10px;
+    }
+    .menu-header-mobile-overlay ul li a {
+        font-size: 16px; 
+        padding: 8px 15px; 
+    }
+
+    /* --- FOOTER RESPONSIVO --- */
     footer {
-        padding: 15px 0; /* Reduz o padding vertical do footer no mobile */
+        padding: 10px 0; 
     }
-    .footer-container {
-        flex-direction: column;
+    .footer-container-desktop {
+        display: none; 
+    }
+    .footer-container-mobile {
+        display: grid; 
+        grid-template-columns: auto 1fr auto; 
         align-items: center;
-        gap: 20px; 
+        padding: 0 15px; 
     }
-    .logo-footer {
-        padding-right: 0;
+
+    /* --- VISIBILIDADE DO ÍCONE DE HAMBÚRGUER DO FOOTER NO MOBILE --- */
+    .footer-menu-toggle { 
+        display: block; /* Torna o botão do hambúrguer do footer visível no mobile */
+        grid-column: 1 / 2; 
     }
-    .menufooter {
-        margin-top: 0; /* Garante que não tenha margem extra no mobile */
+
+    .logo-footer-mobile {
+        grid-column: 2 / 3; 
+        text-align: center; 
     }
-    .menufooter ul {
-        flex-direction: column;
-        gap: 10px;
+    .logo-footer-mobile img {
+        max-width: 70px; 
+        margin: 0 auto; 
     }
-    .menufooter ul li a {
-        margin-right: 0;
+    .social-icons-mobile {
+        display: flex; 
+        grid-column: 3 / 4; 
+        justify-self: end; 
     }
-    .social-icons {
-        margin-top: 0; /* Garante que não tenha margem extra no mobile */
+    
+    .menufooter-mobile-links {
+        display: flex; 
     }
+
     .creditos {
-        font-size: 14px;
-        margin: 0; /* Remove margem antiga */
-        padding-top: 10px; /* Mantém um pequeno padding superior */
+        font-size: 12px; 
+        padding-top: 10px; 
+        margin: 0; 
+    }
+}
+
+/* Força o overlay e os elementos mobile a serem escondidos em telas maiores que o breakpoint */
+@media screen and (min-width: 781px) {
+    .menu-header-mobile-overlay,
+    .hamburger-menu,
+    .header-container-mobile,
+    .cart-widget-mobile,
+    /* Esconde elementos do footer mobile no desktop */
+    .footer-container-mobile,
+    .footer-menu-toggle, 
+    .logo-footer-mobile,
+    .social-icons-mobile,
+    .menufooter-mobile-links {
+        display: none !important; 
     }
 }

@@ -1,17 +1,29 @@
 /*----------------------------------------------------------BODY----------------------------------------------------------*/
-h3 {
-    text-decoration: none;
+
+/* Regras globais para layout de altura total */
+html, body, #root {
+    height: 100%; /* Garante que HTML, body e a div raiz do React ocupem 100% da altura da viewport */
+    margin: 0;
+    padding: 0;
 }
 
-body{
-      padding-top: 205px;
-      background-color: #ebeeb4;
-      /* O background-color: #ebeeb4; foi removido daqui para não afetar todas as páginas */
+body {
+    padding-top: 205px; /* Padrão para desktop */
+    display: flex; /* Usamos flexbox para o body */
+    flex-direction: column; /* Para empilhar o conteúdo verticalmente */
+    /* background-color: #ebeeb4; -- Removido para não afetar todas as páginas */
 }
 
 /* Nova regra para aplicar o background-color apenas à página inicial */
 .home-page-container {
     background-color: #ebeeb4;
+    flex: 1; /* FAZ COM QUE ESTE CONTÊINER OCUPE TODO O ESPAÇO RESTANTE VERTICALMENTE */
+    display: flex; /* Se o conteúdo dentro dele também precisar de flexbox */
+    flex-direction: column; /* Para empilhar as sections */
+}
+
+h3 {
+    text-decoration: none;
 }
 
 .banner1-contenedor {
@@ -20,11 +32,9 @@ body{
 }
 .banner1-contenedor img {
     width: 100%;
-    position: center;
     height: auto;
     display: block;
 }
-
 
 .btn-pedidos {
     text-decoration: none;
@@ -35,18 +45,6 @@ body{
     font-weight: bold;
     display: inline-block;
     transition: background-color 0.3s ease;
-}
-
-.banner1-contenedor {
-    max-width: 100%;
-    overflow: hidden;
-}
-
-.banner1-contenedor img {
-    width: 100%;
-    position: center;
-    height: auto;
-    display: block;
 }
 
 .titulohome {
@@ -79,8 +77,7 @@ body{
     transition: 1s;
 }
 
-.historiaportugal{
-
+.historiaportugal {
     font-family: "Inter";
     font-size: 20px;
     font-weight: bolder;
@@ -89,7 +86,7 @@ body{
     padding: 30px;
 }
 
-.historiaportugal img{
+.historiaportugal img {
     width: 100px;  
     height: 100px; 
 }
@@ -150,11 +147,14 @@ body{
     text-align: center;
 }
 /* ---------------------Mobile Body------------------ */
-@media screen and (max-width :768px){
+@media screen and (max-width :780px){ 
+    body {
+        padding-top: 130px; /* Ajustado para a altura exata do seu header mobile */
+    }
+
     .banner1-contenedor {
-        position: grid;
         height: 190px;
-        overflow:visible ;
+        overflow: visible; 
     }
     .banner1-contenedor img {
         height: 190px;
