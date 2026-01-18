@@ -18,7 +18,11 @@ body.pedidos-background {
     background-color: rgba(245, 244, 207, 0.9); /* Branco com 90% de opacidade */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
 }
+
+
+
 
 .pedidos-page-container h1 {
     text-align: center;
@@ -33,6 +37,7 @@ body.pedidos-background {
     padding: 50px;
     font-size: 1.2em;
     color: #555;
+    
 }
 
 .back-to-products-button {
@@ -221,7 +226,7 @@ body.pedidos-background {
     }
 }
 
-/* --- ESTILOS DO MODAL DE ENTREGA (JÁ EXISTENTES) --- */
+/* --- ESTILOS DO MODAL DE ENTREGA --- */
 
 .modal-overlay {
   position: fixed; /* Fixa o modal na tela */
@@ -234,6 +239,10 @@ body.pedidos-background {
   justify-content: center;
   align-items: center;
   z-index: 1000; /* Garante que o modal esteja acima de outros elementos */
+
+  /* ✅ ALTERAÇÃO: evita colar nas bordas (principalmente no mobile) */
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .modal-content {
@@ -245,6 +254,11 @@ body.pedidos-background {
   max-width: 500px; /* Largura máxima para o conteúdo do modal */
   position: relative;
   animation: fadeIn 0.3s ease-out; /* Animação simples de entrada */
+
+  /* ✅ ALTERAÇÃO: limita altura e cria scroll interno (para caber os novos campos) */
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .modal-content h2 {
@@ -334,6 +348,7 @@ body.pedidos-background {
   .modal-content {
     margin: 0 15px; /* Margem nas laterais para telas pequenas */
     padding: 20px;
+    max-height: 88vh; /* ✅ ALTERAÇÃO: um pouco mais alto no mobile */
   }
   .modal-content h2 {
     font-size: 1.8em;
@@ -344,12 +359,18 @@ body.pedidos-background {
   }
 }
 
-/* --- NOVOS ESTILOS PARA O MODAL DE PAGAMENTO (ADICIONADOS AQUI) --- */
+/* --- ESTILOS PARA O MODAL DE PAGAMENTO --- */
 
 .modal-content.payment-modal-content {
-  /* Se você quiser ajustar o tamanho/estilo do modal de pagamento diferente do de entrega */
   max-width: 600px; /* Um pouco maior para acomodar formulário de cartão */
+
+  /* ✅ ALTERAÇÃO: limita altura e cria scroll interno */
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
+
+/* (restante do seu CSS de pagamento permanece igual) */
 
 .payment-options-selection {
   display: flex;
@@ -380,7 +401,7 @@ body.pedidos-background {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Estilos específicos para cada método de pagamento (opcional, mas legal para identidade visual) */
+/* Estilos específicos para cada método de pagamento */
 .pix-button {
   background-color: #2da44e; /* Verde Pix */
   color: white;
@@ -527,8 +548,8 @@ body.pedidos-background {
 }
 
 .credit-card-form .form-row .form-group {
-    flex: 1; /* Para que os campos de validade e CVV fiquem lado a lado */
-    margin-bottom: 0; /* Remover margin-bottom padrão */
+    flex: 1;
+    margin-bottom: 0;
 }
 
 .credit-card-form label {
@@ -552,12 +573,11 @@ body.pedidos-background {
     box-shadow: 0 0 0 3px rgba(233, 169, 19, 0.2);
 }
 
-
 /* Common buttons for payment actions */
 .process-payment-button {
     width: 100%;
     padding: 15px;
-    background-color: #e9a913; /* Cor principal de ação */
+    background-color: #e9a913;
     color: white;
     border: none;
     border-radius: 5px;
@@ -589,15 +609,15 @@ body.pedidos-background {
 
 .payment-method-tabs {
     display: flex;
-    justify-content: space-around; /* Distribui os botões igualmente */
+    justify-content: space-around;
     margin-top: 20px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #eee; /* Linha de separação visual */
+    border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
 
 .tab-button {
-    flex: 1; /* Para que os botões ocupem o mesmo espaço */
+    flex: 1;
     background-color: #f0f0f0;
     color: #666;
     border: none;
@@ -606,11 +626,11 @@ body.pedidos-background {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    border-radius: 5px 5px 0 0; /* Bordas arredondadas no topo */
+    border-radius: 5px 5px 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espaço entre ícone e texto */
+    gap: 8px;
 }
 
 .tab-button:hover {
@@ -619,10 +639,9 @@ body.pedidos-background {
 }
 
 .tab-button.active {
-    background-color: #e9a913; /* Cor de destaque da aba ativa */
+    background-color: #e9a913;
     color: white;
-    border-bottom: 2px solid #e9a913; /* Borda inferior para destacar */
-    /* Garante que a borda inferior do container de detalhes não sobreponha */
+    border-bottom: 2px solid #e9a913;
     position: relative;
     z-index: 1;
 }
@@ -636,30 +655,27 @@ body.pedidos-background {
     height: 24px;
     width: auto;
     object-fit: contain;
-    /* Para ícones brancos em fundo escuro, você pode usar filter */
-    /* Por exemplo: filter: brightness(0) invert(1); se o ícone for preto e precisar ficar branco */
 }
 
 .payment-details-container {
     padding: 20px 0;
-    /* Adicionar borda ou sombra para separar do topo */
-    border-top: 1px solid #eee; /* Linha sutil acima dos detalhes */
-    margin-top: -1px; /* Para que a borda não crie espaço extra com as abas */
+    border-top: 1px solid #eee;
+    margin-top: -1px;
 }
 
 /* Ajustes nos estilos já existentes para se encaixarem melhor */
 .payment-method-details {
-    margin-top: 0; /* Não precisa de margin-top, pois já está dentro de payment-details-container */
-    border: none; /* Remove a borda para não duplicar com o container */
-    background-color: transparent; /* Remove o fundo para não duplicar */
-    padding: 0; /* Remove padding para ser controlado pelo container */
+    margin-top: 0;
+    border: none;
+    background-color: transparent;
+    padding: 0;
 }
-
 
 /* Responsividade para o modal de pagamento */
 @media (max-width: 600px) {
   .modal-content.payment-modal-content {
     max-width: 90%;
+    max-height: 88vh; /* ✅ mantém também no mobile */
   }
   .credit-card-form .form-row {
     flex-direction: column;

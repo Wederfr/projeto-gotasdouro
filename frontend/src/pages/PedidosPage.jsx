@@ -4,12 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useCart } from '../CartContext';
 import { Link } from 'react-router-dom';
 import '../styles/PedidosPage.css';
-import { IMaskInput } from 'react-imask'; // NOVO IMPORT: IMaskInput do react-imask
-
-// Ícones ou imagens (exemplo: você precisará ter esses arquivos na pasta public/images)
-// import pixLogo from '/images/pix-logo.png'; // Exemplo de importação de imagem se for usar assets
-// import mercadopagoLogo from '/images/mercadopago-logo.png'; // Exemplo
-// import creditCardIcon from '/images/credit-card-icon.png'; // Exemplo
+import { IMaskInput } from 'react-imask';
 
 function PedidosPage() {
   const {
@@ -18,19 +13,25 @@ function PedidosPage() {
     updateItemQuantity,
     totalPrice,
     totalItems,
-    clearCart // Adicionando clearCart para quando o pedido for finalizado
+    clearCart
   } = useCart();
 
   // Estados para o formulário de cadastro dentro do modal de ENTREGA
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [nome, setNome] = useState('');
-  const [endereco, setEndereco] = useState('');
+  const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
+
+  // ✅ NOVO: endereço estruturado (compatível com o backend)
+  const [rua, setRua] = useState('');
+  const [numero, setNumero] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [cidade, setCidade] = useState('');
+  const [complemento, setComplemento] = useState('');
 
   // Estados para o modal de PAGAMENTO
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  // Modificado: Agora selectedPaymentMethod inicia com 'pix' (ou o método padrão que desejar)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('pix'); 
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('pix');
 
   // Estados para o formulário de Cartão de Crédito
   const [cardNumber, setCardNumber] = useState('');
@@ -38,7 +39,6 @@ function PedidosPage() {
   const [cardCVV, setCardCVV] = useState('');
   const [installments, setInstallments] = useState('1'); // Padrão 1x
 
-  // --- useEffect para gerenciar a classe do body ---
   useEffect(() => {
     document.body.classList.add('pedidos-background');
     return () => {
@@ -46,103 +46,187 @@ function PedidosPage() {
     };
   }, []);
 
-  // Funções auxiliares para aumentar/diminuir quantidade
+  const API_BASE_URL = import.meta?.env?.VITE_API_URL || 'http://localhost:3001';
+
+  const createOrderOnBackend = async (payment) => {
+    if (!cart || cart.length === 0) {
+      throw new Error('Carrinho vazio.');
+    }
+
+    const items = cart.map((item) => {
+      const unitPrice = Number(item.price || 0);
+      const quantity = Number(item.quantity || 0);
+      return {
+        productId: String(item.id),
+        name: item.name,
+        unitPrice,
+        quantity,
+        subtotal: unitPrice * quantity
+      };
+    });
+
+    const payload = {
+      customer: {
+        name: nome,
+        email: email,
+        phone: telefone
+      },
+      deliveryAddress: {
+        street: rua,
+        number: numero || 'S/N',
+        neighborhood: bairro,
+        city: cidade,
+        complement: complemento || ''
+      },
+      items,
+      totals: {
+        totalItems: totalItems,
+        totalPrice: Number(totalPrice || 0)
+      },
+      payment
+    };
+
+    const resp = await fetch(`${API_BASE_URL}/api/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await resp.json();
+    if (!resp.ok || !data?.ok) {
+      throw new Error(data?.error || 'Falha ao criar pedido.');
+    }
+
+    return data;
+  };
+
   const increaseQuantity = (productId) => {
     const item = cart.find(i => i.id === productId);
-    if (item) {
-      updateItemQuantity(productId, item.quantity + 1);
-    }
+    if (item) updateItemQuantity(productId, item.quantity + 1);
   };
 
   const decreaseQuantity = (productId) => {
     const item = cart.find(i => i.id === productId);
-    if (item && item.quantity > 1) {
-      updateItemQuantity(productId, item.quantity - 1);
-    } else if (item && item.quantity === 1) {
-      removeItem(productId);
-    }
+    if (item && item.quantity > 1) updateItemQuantity(productId, item.quantity - 1);
+    else if (item && item.quantity === 1) removeItem(productId);
   };
 
-  // Função para abrir o modal de ENTREGA
   const handleCheckoutClick = () => {
     if (cart.length === 0) {
       alert('Seu carrinho está vazio! Adicione produtos antes de finalizar a compra.');
       return;
     }
-    setShowRegistrationModal(true); // Abre o modal de ENTREGA
+    setShowRegistrationModal(true);
   };
 
-  // Função para fechar o modal de ENTREGA e limpar seus campos
   const closeRegistrationModal = () => {
     setShowRegistrationModal(false);
     setNome('');
-    setEndereco('');
+    setEmail('');
     setTelefone('');
+
+    setRua('');
+    setNumero('');
+    setBairro('');
+    setCidade('');
+    setComplemento('');
   };
 
-  // Função para fechar o modal de PAGAMENTO e limpar seus estados
   const closePaymentModal = () => {
     setShowPaymentModal(false);
-    setSelectedPaymentMethod('pix'); // Resetar para o padrão ao fechar
-    // Limpa campos do cartão (se houver)
+    setSelectedPaymentMethod('pix');
     setCardNumber('');
     setCardExpiration('');
     setCardCVV('');
     setInstallments('1');
-    closeRegistrationModal(); // Garante que os campos de entrega sejam limpos.
+    closeRegistrationModal();
   };
 
-  // Função para lidar com o envio do formulário de cadastro (modal de ENTREGA)
   const handleRegistrationSubmit = (event) => {
     event.preventDefault();
 
-    // Removendo a validação 'pattern' do input
-    // A máscara já garante o formato, e a verificação de 'telefone' não vazio já é suficiente.
-    // Usamos o 'unmaskedValue' do IMask para uma validação mais precisa
-    const unmaskedTelefone = telefone.replace(/\D/g, ''); // Remove todos os não-dígitos para verificar o tamanho
-    if (!nome || !endereco || unmaskedTelefone.length !== 11) { // Verifica se tem 11 dígitos (DD + 9 dígitos)
-        alert('Por favor, preencha todos os campos do formulário de entrega, incluindo um telefone válido (DD) XXXXX-XXXX!');
-        return;
+    const unmaskedTelefone = telefone.replace(/\D/g, '');
+    if (!nome || !email || unmaskedTelefone.length !== 11) {
+      alert('Por favor, preencha nome, e-mail e telefone válido (DD) XXXXX-XXXX!');
+      return;
     }
 
-    setShowRegistrationModal(false); // Fecha o modal de ENTREGA
-    setShowPaymentModal(true);      // Abre o modal de PAGAMENTO
-    setSelectedPaymentMethod('pix'); // Garante que Pix seja a opção inicial no modal de pagamento
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk) {
+      alert('Por favor, informe um e-mail válido.');
+      return;
+    }
+
+    // ✅ valida endereço mínimo exigido pelo backend
+    if (!rua || !bairro || !cidade) {
+      alert('Por favor, preencha Rua, Bairro e Cidade.');
+      return;
+    }
+
+    setShowRegistrationModal(false);
+    setShowPaymentModal(true);
+    setSelectedPaymentMethod('pix');
   };
 
-  // Funções para processar o pagamento
-  const processPixPayment = () => {
-    alert(`PIX Selecionado!\nGerando QR Code para o valor de R$ ${totalPrice.toFixed(2)}.`);
-    // AQUI: Integraria a API para gerar o QR Code real
-    // Por enquanto, apenas um alerta simulado e "finalização"
-    alert(`Pedido finalizado via PIX!`);
-    clearCart(); // Limpa o carrinho
-    closePaymentModal(); // Fecha o modal de pagamento
+  const processPixPayment = async () => {
+    try {
+      alert(`PIX Selecionado!\nGerando QR Code para o valor de R$ ${totalPrice.toFixed(2)}.`);
+
+      const result = await createOrderOnBackend({
+        method: 'pix',
+        status: 'pending'
+      });
+
+      alert(`Pedido finalizado via PIX!\nPedido: ${result.orderId}`);
+      clearCart();
+      closePaymentModal();
+    } catch (e) {
+      alert(`Erro ao finalizar pedido: ${e.message}`);
+    }
   };
 
-  const processMercadoPagoPayment = () => {
-    alert(`Redirecionando para o Mercado Pago para o valor de R$ ${totalPrice.toFixed(2)}.`);
-    // AQUI: Redirecionaria para o checkout do Mercado Pago
-    // window.location.href = `https://www.mercadopago.com.br/checkout?amount=${totalPrice.toFixed(2)}...`;
-    alert(`Pedido finalizado via Mercado Pago!`);
-    clearCart(); // Limpa o carrinho
-    closePaymentModal(); // Fecha o modal de pagamento
+  const processMercadoPagoPayment = async () => {
+    try {
+      alert(`Redirecionando para o Mercado Pago para o valor de R$ ${totalPrice.toFixed(2)}.`);
+
+      const result = await createOrderOnBackend({
+        method: 'mercadopago',
+        status: 'pending'
+      });
+
+      alert(`Pedido finalizado via Mercado Pago!\nPedido: ${result.orderId}`);
+      clearCart();
+      closePaymentModal();
+    } catch (e) {
+      alert(`Erro ao finalizar pedido: ${e.message}`);
+    }
   };
 
-  const processCreditCardPayment = (event) => {
+  const processCreditCardPayment = async (event) => {
     event.preventDefault();
+
     if (!cardNumber || !cardExpiration || !cardCVV) {
       alert('Por favor, preencha todos os dados do cartão.');
       return;
     }
-    alert(`Pagamento com Cartão de Crédito de R$ ${totalPrice.toFixed(2)} em ${installments}x Processado.`);
-    // AQUI: Integraria com a API de pagamento com cartão
-    alert(`Pedido finalizado via Cartão de Crédito!`);
-    clearCart(); // Limpa o carrinho
-    closePaymentModal(); // Fecha o modal de pagamento
+
+    try {
+      alert(`Pagamento com Cartão de Crédito de R$ ${totalPrice.toFixed(2)} em ${installments}x Processado.`);
+
+      const result = await createOrderOnBackend({
+        method: 'creditcard',
+        status: 'approved',
+        installments: Number(installments)
+      });
+
+      alert(`Pedido finalizado via Cartão!\nPedido: ${result.orderId}`);
+      clearCart();
+      closePaymentModal();
+    } catch (e) {
+      alert(`Erro ao finalizar pedido: ${e.message}`);
+    }
   };
 
-  // Lógica para parcelamento do cartão
   const getInstallmentOptions = () => {
     const options = [];
     for (let i = 1; i <= 5; i++) {
@@ -191,22 +275,20 @@ function PedidosPage() {
             <h2>Resumo do Pedido</h2>
             <p>Total de itens: {totalItems}</p>
             <p className="cart-total">Total: R$ {totalPrice.toFixed(2)}</p>
-            <button
-              className="checkout-button"
-              onClick={handleCheckoutClick}
-            >
+            <button className="checkout-button" onClick={handleCheckoutClick}>
               Finalizar Pedido
             </button>
           </div>
         </div>
       )}
 
-      {/* --- ESTRUTURA DO MODAL DE ENTREGA --- */}
+      {/* --- MODAL DE ENTREGA --- */}
       {showRegistrationModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <button className="modal-close-button" onClick={closeRegistrationModal}>&times;</button>
             <h2>Informações para Entrega</h2>
+
             <form onSubmit={handleRegistrationSubmit} className="registration-form">
               <div className="form-group">
                 <label htmlFor="modal-nome">Nome Completo:</label>
@@ -219,39 +301,92 @@ function PedidosPage() {
                   required
                 />
               </div>
+
               <div className="form-group">
-                <label htmlFor="modal-endereco">Endereço Completo:</label>
+                <label htmlFor="modal-email">E-mail:</label>
                 <input
-                  type="text"
-                  id="modal-endereco"
-                  name="endereco"
-                  value={endereco}
-                  onChange={(e) => setEndereco(e.target.value)}
+                  type="email"
+                  id="modal-email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seuemail@exemplo.com"
                   required
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="modal-telefone">Telefone de Contato:</label>
-                {/* INÍCIO DA MODIFICAÇÃO: IMaskInput para o campo de telefone */}
                 <IMaskInput
-                  mask="(00) 00000-0000" // A MÁSCARA QUE DESEJAMOS (0 para dígitos)
+                  mask="(00) 00000-0000"
                   value={telefone}
-                  onAccept={
-                    // maskValue (valor com máscara) e unmaskedValue (apenas dígitos)
-                    (value, mask) => setTelefone(value) 
-                  }
-                  definitions={{
-                    '0': /[0-9]/, // Define '0' como um dígito numérico
-                  }}
+                  onAccept={(value) => setTelefone(value)}
+                  definitions={{ '0': /[0-9]/ }}
                   type="tel"
                   id="modal-telefone"
                   name="telefone"
-                  placeholder="(DD) XXXXX-XXXX" // Mantido como guia visual extra
+                  placeholder="(DD) XXXXX-XXXX"
                   required
                 />
-                {/* FIM DA MODIFICAÇÃO: IMaskInput para o campo de telefone */}
                 <small>Formato: (DD) XXXXX-XXXX</small>
               </div>
+
+              {/* ✅ endereço estruturado */}
+              <div className="form-group">
+                <label htmlFor="modal-rua">Rua:</label>
+                <input
+                  type="text"
+                  id="modal-rua"
+                  value={rua}
+                  onChange={(e) => setRua(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="modal-numero">Número:</label>
+                <input
+                  type="text"
+                  id="modal-numero"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                  placeholder="123"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="modal-bairro">Bairro:</label>
+                <input
+                  type="text"
+                  id="modal-bairro"
+                  value={bairro}
+                  onChange={(e) => setBairro(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="modal-cidade">Cidade:</label>
+                <input
+                  type="text"
+                  id="modal-cidade"
+                  value={cidade}
+                  onChange={(e) => setCidade(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="modal-complemento">Complemento:</label>
+                <input
+                  type="text"
+                  id="modal-complemento"
+                  value={complemento}
+                  onChange={(e) => setComplemento(e.target.value)}
+                  placeholder="apto, bloco, referência..."
+                />
+              </div>
+
               <button type="submit" className="modal-submit-button">
                 Pagamento
               </button>
@@ -259,137 +394,145 @@ function PedidosPage() {
           </div>
         </div>
       )}
-      {/* --- FIM DA ESTRUTURA DO MODAL DE ENTREGA --- */}
+      {/* --- FIM MODAL DE ENTREGA --- */}
 
-
-      {/* --- NOVA ESTRUTURA DO MODAL DE PAGAMENTO --- */}
+      {/* --- MODAL DE PAGAMENTO --- */}
       {showPaymentModal && (
         <div className="modal-overlay">
           <div className="modal-content payment-modal-content">
             <button className="modal-close-button" onClick={closePaymentModal}>&times;</button>
             <h2>Escolha a Forma de Pagamento</h2>
 
-            {/* BOTOES DE SELEÇÃO DE MÉTODO - AGORA COMO ABAS/FILTROS */}
             <div className="payment-method-tabs">
-                <button
-                    className={`tab-button ${selectedPaymentMethod === 'pix' ? 'active' : ''}`}
-                    onClick={() => setSelectedPaymentMethod('pix')}
-                >
-                    <img src="/images/pix-logo.svg" alt="Pix" className="tab-icon"/> Pix
-                </button>
-                <button
-                    className={`tab-button ${selectedPaymentMethod === 'mercadopago' ? 'active' : ''}`}
-                    onClick={() => setSelectedPaymentMethod('mercadopago')}
-                >
-                    <img src="/images/mercadopago-logo.png" alt="Mercado Pago" className="tab-icon"/> Mercado Pago
-                </button>
-                <button
-                    className={`tab-button ${selectedPaymentMethod === 'creditcard' ? 'active' : ''}`}
-                    onClick={() => setSelectedPaymentMethod('creditcard')}
-                >
-                    <img src="/images/credit-card-icon.svg" alt="Cartão" className="tab-icon"/> Cartão de Crédito
-                </button>
+              <button
+                type="button"
+                className={`tab-button ${selectedPaymentMethod === 'pix' ? 'active' : ''}`}
+                onClick={() => setSelectedPaymentMethod('pix')}
+              >
+                <img src="/images/pix-logo.svg" alt="Pix" className="tab-icon" /> Pix
+              </button>
+              <button
+                type="button"
+                className={`tab-button ${selectedPaymentMethod === 'mercadopago' ? 'active' : ''}`}
+                onClick={() => setSelectedPaymentMethod('mercadopago')}
+              >
+                <img src="/images/mercadopago-logo.png" alt="Mercado Pago" className="tab-icon" /> Mercado Pago
+              </button>
+              <button
+                type="button"
+                className={`tab-button ${selectedPaymentMethod === 'creditcard' ? 'active' : ''}`}
+                onClick={() => setSelectedPaymentMethod('creditcard')}
+              >
+                <img src="/images/credit-card-icon.svg" alt="Cartão" className="tab-icon" /> Cartão de Crédito
+              </button>
             </div>
 
-            {/* CONTEÚDO DOS MÉTODOS DE PAGAMENTO */}
             <div className="payment-details-container">
-                {selectedPaymentMethod === 'pix' && (
+              {selectedPaymentMethod === 'pix' && (
                 <div className="payment-method-details pix-details">
-                    <h3>Pagamento via Pix</h3>
-                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                    <div className="pix-qr-code-placeholder">
-                    {/* Este seria o local onde o QR Code seria gerado pela API */}
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="QR Code Pix" className="qr-code-image" />
+                  <h3>Pagamento via Pix</h3>
+                  <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                  <div className="pix-qr-code-placeholder">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
+                      alt="QR Code Pix"
+                      className="qr-code-image"
+                    />
                     <p>Escaneie o QR Code acima para pagar.</p>
                     <p>Ou copie e cole a chave Pix:</p>
                     <div className="pix-key-display">
-                        <span className="pix-key">123.456.789-00 (CPF Exemplo)</span>
-                        <button className="copy-pix-key-button" onClick={() => navigator.clipboard.writeText('123.456.789-00')}>Copiar Chave</button>
+                      <span className="pix-key">123.456.789-00 (CPF Exemplo)</span>
+                      <button
+                        type="button"
+                        className="copy-pix-key-button"
+                        onClick={() => navigator.clipboard.writeText('123.456.789-00')}
+                      >
+                        Copiar Chave
+                      </button>
                     </div>
-                    </div>
-                    <button className="process-payment-button" onClick={processPixPayment}>
+                  </div>
+                  <button className="process-payment-button" onClick={processPixPayment}>
                     Confirmar Pagamento Pix
-                    </button>
+                  </button>
                 </div>
-                )}
+              )}
 
-                {selectedPaymentMethod === 'mercadopago' && (
+              {selectedPaymentMethod === 'mercadopago' && (
                 <div className="payment-method-details mercadopago-details">
-                    <h3>Pagamento via Mercado Pago</h3>
-                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                    <p>Ao clicar no botão abaixo, você será redirecionado para o ambiente seguro do Mercado Pago para finalizar sua compra.</p>
-                    <button className="process-payment-button mercadopago-redirect-button" onClick={processMercadoPagoPayment}>
+                  <h3>Pagamento via Mercado Pago</h3>
+                  <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                  <p>Ao clicar no botão abaixo, você será redirecionado para o ambiente seguro do Mercado Pago para finalizar sua compra.</p>
+                  <button className="process-payment-button mercadopago-redirect-button" onClick={processMercadoPagoPayment}>
                     Ir para o Mercado Pago
-                    </button>
+                  </button>
                 </div>
-                )}
+              )}
 
-                {selectedPaymentMethod === 'creditcard' && (
+              {selectedPaymentMethod === 'creditcard' && (
                 <div className="payment-method-details creditcard-details">
-                    <h3>Pagamento com Cartão de Crédito</h3>
-                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                    <form onSubmit={processCreditCardPayment} className="credit-card-form">
+                  <h3>Pagamento com Cartão de Crédito</h3>
+                  <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                  <form onSubmit={processCreditCardPayment} className="credit-card-form">
                     <div className="form-group">
-                        <label htmlFor="card-number">Número do Cartão:</label>
-                        <input
+                      <label htmlFor="card-number">Número do Cartão:</label>
+                      <input
                         type="text"
                         id="card-number"
                         value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 '))} // Formata em grupos de 4
-                        maxLength="19" // 16 dígitos + 3 espaços
+                        onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 '))}
+                        maxLength="19"
                         placeholder="XXXX XXXX XXXX XXXX"
                         required
-                        />
+                      />
                     </div>
                     <div className="form-row">
-                        <div className="form-group">
+                      <div className="form-group">
                         <label htmlFor="card-expiration">Validade (MM/AA):</label>
                         <input
-                            type="text"
-                            id="card-expiration"
-                            value={cardExpiration}
-                            onChange={(e) => setCardExpiration(e.target.value.replace(/\D/g, '').replace(/(\d{2})(?=\d)/g, '$1/')).slice(0, 5)} // Formata MM/AA
-                            maxLength="5"
-                            placeholder="MM/AA"
-                            required
+                          type="text"
+                          id="card-expiration"
+                          value={cardExpiration}
+                          onChange={(e) => setCardExpiration(e.target.value.replace(/\D/g, '').replace(/(\d{2})(?=\d)/g, '$1/')).slice(0, 5)}
+                          maxLength="5"
+                          placeholder="MM/AA"
+                          required
                         />
-                        </div>
-                        <div className="form-group">
+                      </div>
+                      <div className="form-group">
                         <label htmlFor="card-cvv">CVV:</label>
                         <input
-                            type="text"
-                            id="card-cvv"
-                            value={cardCVV}
-                            onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, '')).slice(0, 4)} // Apenas números, máx 4
-                            maxLength="4"
-                            placeholder="XXX"
-                            required
+                          type="text"
+                          id="card-cvv"
+                          value={cardCVV}
+                          onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, '')).slice(0, 4)}
+                          maxLength="4"
+                          placeholder="XXX"
+                          required
                         />
-                        </div>
+                      </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="installments">Parcelamento:</label>
-                        <select
+                      <label htmlFor="installments">Parcelamento:</label>
+                      <select
                         id="installments"
                         value={installments}
                         onChange={(e) => setInstallments(e.target.value)}
                         required
-                        >
+                      >
                         {getInstallmentOptions()}
-                        </select>
+                      </select>
                     </div>
                     <button type="submit" className="process-payment-button">
-                        Pagar com Cartão
+                      Pagar com Cartão
                     </button>
-                    </form>
+                  </form>
                 </div>
-                )}
-            </div> {/* Fim payment-details-container */}
+              )}
+            </div>
           </div>
         </div>
       )}
-      {/* --- FIM DA NOVA ESTRUTURA DO MODAL DE PAGAMENTO --- */}
-
+      {/* --- FIM MODAL DE PAGAMENTO --- */}
     </div>
   );
 }
