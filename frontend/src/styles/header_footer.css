@@ -11,6 +11,11 @@ html, body {
     box-sizing: border-box;
 }
 
+main {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
 /* --- Base Header --- */
 header {
     background-color: #e9a913;
@@ -271,6 +276,7 @@ footer {
     border-top: 12px solid; 
     border-image: linear-gradient(to right, #ffffff, #e9a913) 1; 
     font-family: "Inter", sans-serif; 
+    margin-bottom: 0;
 }
 
 /* Desktop Footer Container */
@@ -329,27 +335,27 @@ footer {
     height: 50px; 
 }
 
-/* ✅ Sticky footer: evita "gap" mostrando o background do body quando a página é curta */
-html, body {
-  height: 100%;
-}
-
+/* ✅ Sticky footer simples (sem conflito com header fixo) */
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* React root precisa ocupar o espaço disponível */
 #root {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Empurra o footer para o fim da tela quando faltar conteúdo */
-footer {
-  margin-top: auto;
+.App {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.App > main {
+  flex: 1;
 }
 
 /* Mobile Footer Container (escondido por padrão, visível no mobile) */
@@ -465,7 +471,6 @@ footer {
     padding-top: 10px; 
     padding-bottom: 0; 
 }
-
 
 /* -------------------------------------RESPONSIVO (CELULAR/TABLET)------------------------------------- */
 @media screen and (max-width:780px) {

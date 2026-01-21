@@ -47,9 +47,9 @@ function App() {
                 </div>
               } />
             </Routes>
-          </main>
 
-          <Footer />
+            <Footer /> {/* ✅ MOVI O FOOTER PARA DENTRO DO <main> */}
+          </main>
         </div>
       </Router>
     </CartProvider>

@@ -4,15 +4,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
 /* A linha de importação foi alterada para Dancing Script */
 
+body {
+  background-color: #ebeeb4; /* exemplo */
+}
+
 .about-us-container {
-    padding: 50px; /* Seu padding original */
+    padding: 50px;
+    width: 100%;
     max-width: 900px;
     margin: 0 auto;
     border-radius: 8px;
     margin-bottom: 20px;
-    position: relative; /* ESSENCIAL: para posicionar o pseudo-elemento ::before */
-    overflow: hidden; /* Garante que a marca d'água não vaze se for muito grande */
-    z-index: 0; /* Garante que o container tenha um contexto de empilhamento */
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
 }
 
 /* Pseudo-elemento para a Marca D'água apenas nesta página */
@@ -26,7 +31,7 @@
     background-image: url('/images/brasaoLogo.png'); /* Caminho da sua logo */
     background-repeat: no-repeat;
     background-position: center center; /* Centraliza DENTRO do about-us-container */
-    background-size: 120% auto; /* Ajuste o tamanho da logo aqui (experimente 40%, 50%, 70%) */
+    background-size: contain; /* Ajuste o tamanho da logo aqui (experimente 40%, 50%, 70%) */
     opacity: 0.1; /* AJUSTE AQUI PARA A TRANSPARÊNCIA DESEJADA (0.0 a 1.0). 0.1 é bem sutil. */
     z-index: -1; /* Coloca a marca d'água ATRÁS do conteúdo */
     pointer-events: none; /* Impede que a marca d'água interfira com cliques */

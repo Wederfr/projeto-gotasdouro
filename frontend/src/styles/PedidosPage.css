@@ -18,11 +18,10 @@ body.pedidos-background {
     background-color: rgba(245, 244, 207, 0.9); /* Branco com 90% de opacidade */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-bottom: 50px;
+    
     
 }
-
-
-
 
 .pedidos-page-container h1 {
     text-align: center;
@@ -37,7 +36,6 @@ body.pedidos-background {
     padding: 50px;
     font-size: 1.2em;
     color: #555;
-    
 }
 
 .back-to-products-button {
@@ -681,5 +679,12 @@ body.pedidos-background {
     flex-direction: column;
     gap: 0;
   }
+  
+.pedidos-page-container {
+    
+    padding-bottom: 30px;    /* mobile menor (ajuste se quiser: 20–32px) */
+  }
 }
 
+/* ✅ SOLUÇÃO: Container com altura baseada no conteúdo */
+/* O footer vai ficar logo abaixo naturalmente */
