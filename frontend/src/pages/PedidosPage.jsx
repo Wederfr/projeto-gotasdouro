@@ -5,6 +5,7 @@ import { useCart } from '../CartContext';
 import { Link } from 'react-router-dom';
 import '../styles/PedidosPage.css';
 import { IMaskInput } from 'react-imask';
+import API_BASE_URL from '../config/api'; // ✅ ADICIONE AQUI
 
 function PedidosPage() {
   const {
@@ -46,8 +47,7 @@ function PedidosPage() {
     };
   }, []);
 
-  const API_BASE_URL = import.meta?.env?.VITE_API_URL || 'http://localhost:3001';
-
+  
   const createOrderOnBackend = async (payment) => {
     if (!cart || cart.length === 0) {
       throw new Error('Carrinho vazio.');

@@ -20,6 +20,8 @@ import HistoriaChuvisco from './pages/HistoriaChuvisco'; // <-- NOVA IMPORTAÇÃ
 // Importa o CartProvider
 import { CartProvider } from './CartContext';
 
+
+
 function App() {
   return (
     // O CartProvider envolve toda a aplicação
