@@ -1,4 +1,4 @@
-import { sendEmail } from "../server.js"; // Ajuste o caminho conforme sua estrutura
+import { sendEmail } from "../../server.js"; // Era "../server.js" - agora correto
 
 export async function sendOrderEmails(order) {
   try {
