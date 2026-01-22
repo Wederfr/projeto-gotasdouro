@@ -1,8 +1,36 @@
+// src/services/orderEmails.js
 import { createTransport } from "./email.js";
 
 function formatBRL(value) {
   const n = Number(value || 0);
   return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function formatPaymentInfo(payment) {
+  if (!payment) return "Não informado";
+  
+  const method = payment.method || "unknown";
+  const status = payment.status || "pending";
+  
+  // Formatação específica para cada método
+  switch (method) {
+    case "dinheiro":
+      const amountPaid = payment.amountPaid ? formatBRL(payment.amountPaid) : "Não informado";
+      const change = payment.change ? formatBRL(payment.change) : "Sem troco";
+      return `Dinheiro (${status}) - Valor pago: ${amountPaid} - Troco: ${change}`;
+    
+    case "cartao_credito":
+      return `Cartão de Crédito (${status})`;
+    
+    case "cartao_debito":
+      return `Cartão de Débito (${status})`;
+    
+    case "pix":
+      return `PIX (${status})`;
+    
+    default:
+      return `${method} (${status})`;
+  }
 }
 
 export async function sendOrderEmails(orderDoc) {
@@ -27,6 +55,9 @@ export async function sendOrderEmails(orderDoc) {
     `${orderDoc.deliveryAddress.neighborhood} - ${orderDoc.deliveryAddress.city}` +
     (orderDoc.deliveryAddress.complement ? ` (${orderDoc.deliveryAddress.complement})` : "");
 
+  const paymentInfo = formatPaymentInfo(orderDoc.payment);
+
+  // E-mail para o CLIENTE
   const subjectClient = "Confirmação do seu pedido";
 
   const textClient =
@@ -42,22 +73,36 @@ Itens:
 ${itemsText}
 
 Total: ${formatBRL(orderDoc.totals?.totalPrice)}
+Forma de pagamento: ${paymentInfo}
 
-Obrigado!`;
+Obrigado pela sua compra!`;
 
+  // E-mail para o DONO
   const textOwner =
 `NOVO PEDIDO ✅
 
 Pedido: ${orderId}
-Cliente: ${orderDoc.customer.name} - ${orderDoc.customer.email} - ${orderDoc.customer.phone}
+Cliente: ${orderDoc.customer.name}
+E-mail: ${orderDoc.customer.email}
+Telefone: ${orderDoc.customer.phone}
 Endereço: ${addressText}
 
 Itens:
 ${itemsText}
 
 Total: ${formatBRL(orderDoc.totals?.totalPrice)}
-Pagamento: ${orderDoc.payment?.method} (${orderDoc.payment?.status || "pending"})
-Status: ${orderDoc.status || "new"}`;
+Forma de pagamento: ${paymentInfo}
+Status do pedido: ${orderDoc.status || "new"}
+
+--- DETALHES DO PAGAMENTO ---
+Método: ${orderDoc.payment?.method || "Não informado"}
+Status: ${orderDoc.payment?.status || "pending"}
+${orderDoc.payment?.method === "dinheiro" ? 
+  `Valor pago: ${orderDoc.payment?.amountPaid ? formatBRL(orderDoc.payment.amountPaid) : "Não informado"}
+Troco: ${orderDoc.payment?.change ? formatBRL(orderDoc.payment.change) : "Sem troco"}` : 
+  ""}
+${orderDoc.payment?.method === "cartao_credito" ? "Tipo: Cartão de Crédito" : ""}
+${orderDoc.payment?.method === "cartao_debito" ? "Tipo: Cartão de Débito" : ""}`;
 
   // 1) Envia para o cliente
   console.log("📧 Enviando e-mail para cliente:", orderDoc.customer?.email);

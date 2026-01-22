@@ -1,3 +1,4 @@
+// src/models/Order.js
 import mongoose from "mongoose";
 
 const orderItemSchema = new mongoose.Schema(
@@ -35,11 +36,26 @@ const orderSchema = new mongoose.Schema(
     },
 
     payment: {
-      method: { type: String, required: true }, // pix | mercadopago | creditcard
-      status: { type: String, default: "pending" }, // pending | paid | failed
+      method: { 
+        type: String, 
+        required: true, 
+        enum: ["dinheiro", "cartao_credito", "cartao_debito", "pix"] 
+      },
+      status: { 
+        type: String, 
+        default: "pending", 
+        enum: ["pending", "paid", "failed"] 
+      },
+      amountPaid: { type: Number }, // para dinheiro - valor que o cliente pagou
+      change: { type: Number }, // para dinheiro - troco necessário
+      installments: { type: Number, default: 1 }, // para cartão (opcional)
     },
 
-    status: { type: String, default: "new" }, // new | preparing | out_for_delivery | delivered | canceled
+    status: { 
+      type: String, 
+      default: "new", 
+      enum: ["new", "preparing", "out_for_delivery", "delivered", "canceled"] 
+    },
   },
   { timestamps: true }
 );

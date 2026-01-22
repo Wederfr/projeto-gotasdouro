@@ -32,13 +32,13 @@ function PedidosPage() {
 
   // Estados para o modal de PAGAMENTO
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('pix');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('dinheiro');
 
-  // Estados para o formulário de Cartão de Crédito
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiration, setCardExpiration] = useState(''); // MM/AA
-  const [cardCVV, setCardCVV] = useState('');
-  const [installments, setInstallments] = useState('1'); // Padrão 1x
+  // ✅ NOVO: estado para valor em dinheiro pago
+  const [dinheiroPago, setDinheiroPago] = useState('');
+
+  // ✅ NOVO: estado para tipo de cartão (débito/crédito)
+  const [tipoCartao, setTipoCartao] = useState('credito');
 
   useEffect(() => {
     document.body.classList.add('pedidos-background');
@@ -134,11 +134,9 @@ function PedidosPage() {
 
   const closePaymentModal = () => {
     setShowPaymentModal(false);
-    setSelectedPaymentMethod('pix');
-    setCardNumber('');
-    setCardExpiration('');
-    setCardCVV('');
-    setInstallments('1');
+    setSelectedPaymentMethod('dinheiro');
+    setDinheiroPago('');
+    setTipoCartao('credito');
     closeRegistrationModal();
   };
 
@@ -165,7 +163,53 @@ function PedidosPage() {
 
     setShowRegistrationModal(false);
     setShowPaymentModal(true);
-    setSelectedPaymentMethod('pix');
+    setSelectedPaymentMethod('dinheiro');
+  };
+
+  const processDinheiroPayment = async () => {
+    const valorPago = parseFloat(dinheiroPago.replace(',', '.'));
+    if (isNaN(valorPago) || valorPago < totalPrice) {
+      alert(`Valor insuficiente! O total é R$ ${totalPrice.toFixed(2)}.`);
+      return;
+    }
+
+    const troco = valorPago - totalPrice;
+    const mensagemTroco = troco > 0 ? `Troco: R$ ${troco.toFixed(2)}` : 'Pagamento exato.';
+
+    alert(`Pagamento em dinheiro confirmado!\n${mensagemTroco}`);
+
+    try {
+      const result = await createOrderOnBackend({
+        method: 'dinheiro',
+        status: 'paid',
+        amountPaid: valorPago,
+        change: troco
+      });
+
+      alert(`Pedido finalizado!\nPedido: ${result.orderId}`);
+      clearCart();
+      closePaymentModal();
+    } catch (e) {
+      alert(`Erro ao finalizar pedido: ${e.message}`);
+    }
+  };
+
+  const processCartaoPayment = async () => {
+    const tipo = tipoCartao === 'credito' ? 'Crédito' : 'Débito';
+    alert(`Pagamento com cartão ${tipo} confirmado!\nValor: R$ ${totalPrice.toFixed(2)}.`);
+
+    try {
+      const result = await createOrderOnBackend({
+        method: `cartao_${tipoCartao}`,
+        status: 'paid'
+      });
+
+      alert(`Pedido finalizado!\nPedido: ${result.orderId}`);
+      clearCart();
+      closePaymentModal();
+    } catch (e) {
+      alert(`Erro ao finalizar pedido: ${e.message}`);
+    }
   };
 
   const processPixPayment = async () => {
@@ -183,60 +227,6 @@ function PedidosPage() {
     } catch (e) {
       alert(`Erro ao finalizar pedido: ${e.message}`);
     }
-  };
-
-  const processMercadoPagoPayment = async () => {
-    try {
-      alert(`Redirecionando para o Mercado Pago para o valor de R$ ${totalPrice.toFixed(2)}.`);
-
-      const result = await createOrderOnBackend({
-        method: 'mercadopago',
-        status: 'pending'
-      });
-
-      alert(`Pedido finalizado via Mercado Pago!\nPedido: ${result.orderId}`);
-      clearCart();
-      closePaymentModal();
-    } catch (e) {
-      alert(`Erro ao finalizar pedido: ${e.message}`);
-    }
-  };
-
-  const processCreditCardPayment = async (event) => {
-    event.preventDefault();
-
-    if (!cardNumber || !cardExpiration || !cardCVV) {
-      alert('Por favor, preencha todos os dados do cartão.');
-      return;
-    }
-
-    try {
-      alert(`Pagamento com Cartão de Crédito de R$ ${totalPrice.toFixed(2)} em ${installments}x Processado.`);
-
-      const result = await createOrderOnBackend({
-        method: 'creditcard',
-        status: 'approved',
-        installments: Number(installments)
-      });
-
-      alert(`Pedido finalizado via Cartão!\nPedido: ${result.orderId}`);
-      clearCart();
-      closePaymentModal();
-    } catch (e) {
-      alert(`Erro ao finalizar pedido: ${e.message}`);
-    }
-  };
-
-  const getInstallmentOptions = () => {
-    const options = [];
-    for (let i = 1; i <= 5; i++) {
-      options.push(
-        <option key={i} value={i}>
-          {i}x de R$ {(totalPrice / i).toFixed(2)} (Total: R$ {totalPrice.toFixed(2)})
-        </option>
-      );
-    }
-    return options;
   };
 
   return (
@@ -402,45 +392,129 @@ function PedidosPage() {
           <div className="modal-overlay">
             <div className="modal-content payment-modal-content">
               <button className="modal-close-button" onClick={closePaymentModal}>&times;</button>
-              <h2>Escolha a Forma de Pagamento</h2>
+              <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Escolha a Forma de Pagamento</h2>
 
               <div className="payment-method-tabs">
+                <button
+                  type="button"
+                  className={`tab-button ${selectedPaymentMethod === 'dinheiro' ? 'active' : ''}`}
+                  onClick={() => setSelectedPaymentMethod('dinheiro')}
+                >
+                  💵 Dinheiro
+                </button>
+                <button
+                  type="button"
+                  className={`tab-button ${selectedPaymentMethod === 'cartao' ? 'active' : ''}`}
+                  onClick={() => setSelectedPaymentMethod('cartao')}
+                >
+                  💳 Cartão
+                </button>
                 <button
                   type="button"
                   className={`tab-button ${selectedPaymentMethod === 'pix' ? 'active' : ''}`}
                   onClick={() => setSelectedPaymentMethod('pix')}
                 >
-                  <img src="/images/pix-logo.svg" alt="Pix" className="tab-icon" /> Pix
-                </button>
-                <button
-                  type="button"
-                  className={`tab-button ${selectedPaymentMethod === 'mercadopago' ? 'active' : ''}`}
-                  onClick={() => setSelectedPaymentMethod('mercadopago')}
-                >
-                  <img src="/images/mercadopago-logo.png" alt="Mercado Pago" className="tab-icon" /> Mercado Pago
-                </button>
-                <button
-                  type="button"
-                  className={`tab-button ${selectedPaymentMethod === 'creditcard' ? 'active' : ''}`}
-                  onClick={() => setSelectedPaymentMethod('creditcard')}
-                >
-                  <img src="/images/credit-card-icon.svg" alt="Cartão" className="tab-icon" /> Cartão de Crédito
+                  📱 Pix
                 </button>
               </div>
 
               <div className="payment-details-container">
+                {selectedPaymentMethod === 'dinheiro' && (
+                  <div className="payment-method-details dinheiro-details">
+                    <h3 style={{ textAlign: 'center', marginBottom: '15px' }}>Pagamento em Dinheiro</h3>
+                    <p style={{ textAlign: 'center', marginBottom: '15px' }}>
+                      Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span>
+                    </p>
+                    <div className="form-group" style={{ textAlign: 'center' }}>
+                      <label htmlFor="dinheiro-pago" style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                        Valor que vai pagar:
+                      </label>
+                      <input
+                        type="number"
+                        id="dinheiro-pago"
+                        value={dinheiroPago}
+                        onChange={(e) => setDinheiroPago(e.target.value)}
+                        placeholder="Ex: 50.00"
+                        step="0.01"
+                        min={totalPrice.toFixed(2)}
+                        style={{
+                          width: '200px',
+                          padding: '12px',
+                          border: '1px solid #ddd',
+                          borderRadius: '5px',
+                          fontSize: '16px',
+                          textAlign: 'center',
+                          margin: '0 auto',
+                          display: 'block'
+                        }}
+                        required
+                      />
+                    </div>
+                    {dinheiroPago && parseFloat(dinheiroPago.replace(',', '.')) >= totalPrice && (
+                      <p className="troco-info" style={{ textAlign: 'center', marginTop: '10px', fontWeight: 'bold', color: '#e9a913' }}>
+                        Troco: R$ {(parseFloat(dinheiroPago.replace(',', '.')) - totalPrice).toFixed(2)}
+                      </p>
+                    )}
+                    <button className="process-payment-button" onClick={processDinheiroPayment}>
+                      Confirmar Pagamento em Dinheiro
+                    </button>
+                  </div>
+                )}
+
+                {selectedPaymentMethod === 'cartao' && (
+                  <div className="payment-method-details cartao-details">
+                    <h3 style={{ textAlign: 'center', marginBottom: '15px' }}>Pagamento com Cartão</h3>
+                    <p style={{ textAlign: 'center', marginBottom: '15px' }}>
+                      Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span>
+                    </p>
+                    <div className="form-group" style={{ textAlign: 'center', marginBottom: '20px' }}>
+                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                        Tipo de cartão:
+                      </label>
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <input
+                            type="radio"
+                            name="tipo-cartao"
+                            value="credito"
+                            checked={tipoCartao === 'credito'}
+                            onChange={(e) => setTipoCartao(e.target.value)}
+                          />
+                          Crédito
+                        </label>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <input
+                            type="radio"
+                            name="tipo-cartao"
+                            value="debito"
+                            checked={tipoCartao === 'debito'}
+                            onChange={(e) => setTipoCartao(e.target.value)}
+                          />
+                          Débito
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <button className="process-payment-button" onClick={processCartaoPayment}>
+                      Confirmar Pagamento com Cartão
+                    </button>
+                  </div>
+                )}
+
                 {selectedPaymentMethod === 'pix' && (
                   <div className="payment-method-details pix-details">
-                    <h3>Pagamento via Pix</h3>
-                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
+                    <h3 style={{ textAlign: 'center', marginBottom: '15px' }}>Pagamento via Pix</h3>
+                    <p style={{ textAlign: 'center', marginBottom: '15px' }}>
+                      Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span>
+                    </p>
                     <div className="pix-qr-code-placeholder">
                       <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
                         alt="QR Code Pix"
                         className="qr-code-image"
                       />
-                      <p>Escaneie o QR Code acima para pagar.</p>
-                      <p>Ou copie e cole a chave Pix:</p>
+                      <p style={{ textAlign: 'center' }}>Escaneie o QR Code acima para pagar.</p>
+                      <p style={{ textAlign: 'center' }}>Ou copie e cole a chave Pix:</p>
                       <div className="pix-key-display">
                         <span className="pix-key">123.456.789-00 (CPF Exemplo)</span>
                         <button
@@ -455,78 +529,6 @@ function PedidosPage() {
                     <button className="process-payment-button" onClick={processPixPayment}>
                       Confirmar Pagamento Pix
                     </button>
-                  </div>
-                )}
-
-                {selectedPaymentMethod === 'mercadopago' && (
-                  <div className="payment-method-details mercadopago-details">
-                    <h3>Pagamento via Mercado Pago</h3>
-                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                    <p>Ao clicar no botão abaixo, você será redirecionado para o ambiente seguro do Mercado Pago para finalizar sua compra.</p>
-                    <button className="process-payment-button mercadopago-redirect-button" onClick={processMercadoPagoPayment}>
-                      Ir para o Mercado Pago
-                    </button>
-                  </div>
-                )}
-
-                {selectedPaymentMethod === 'creditcard' && (
-                  <div className="payment-method-details creditcard-details">
-                    <h3>Pagamento com Cartão de Crédito</h3>
-                    <p>Valor total: <span className="total-value">R$ {totalPrice.toFixed(2)}</span></p>
-                    <form onSubmit={processCreditCardPayment} className="credit-card-form">
-                      <div className="form-group">
-                        <label htmlFor="card-number">Número do Cartão:</label>
-                        <input
-                          type="text"
-                          id="card-number"
-                          value={cardNumber}
-                          onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 '))}
-                          maxLength="19"
-                          placeholder="XXXX XXXX XXXX XXXX"
-                          required
-                        />
-                      </div>
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label htmlFor="card-expiration">Validade (MM/AA):</label>
-                          <input
-                            type="text"
-                            id="card-expiration"
-                            value={cardExpiration}
-                            onChange={(e) => setCardExpiration(e.target.value.replace(/\D/g, '').replace(/(\d{2})(?=\d)/g, '$1/')).slice(0, 5)}
-                            maxLength="5"
-                            placeholder="MM/AA"
-                            required
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="card-cvv">CVV:</label>
-                          <input
-                            type="text"
-                            id="card-cvv"
-                            value={cardCVV}
-                            onChange={(e) => setCardCVV(e.target.value.replace(/\D/g, '')).slice(0, 4)}
-                            maxLength="4"
-                            placeholder="XXX"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="installments">Parcelamento:</label>
-                        <select
-                          id="installments"
-                          value={installments}
-                          onChange={(e) => setInstallments(e.target.value)}
-                          required
-                        >
-                          {getInstallmentOptions()}
-                        </select>
-                      </div>
-                      <button type="submit" className="process-payment-button">
-                        Pagar com Cartão
-                      </button>
-                    </form>
                   </div>
                 )}
               </div>
