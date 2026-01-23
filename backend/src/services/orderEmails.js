@@ -7,16 +7,18 @@ export async function sendOrderEmails(orderDoc) {
 
     console.log(`📧 Processando e-mails para pedido: ${order._id}`);
     
-    // MAPEAMENTO DOS CAMPOS DO FRONTEND PARA O BACKEND
+    // MAPEAMENTO CORRETO DOS CAMPOS DO FRONTEND
     const orderData = {
       orderNumber: order.orderNumber || `PED-${order._id.toString().slice(-6).toUpperCase()}`,
-      customerName: order.customerName || 'Cliente',
-      customerEmail: order.customerEmail || '',
-      customerPhone: order.customerPhone || 'Não informado',
-      totalAmount: order.totalAmount || (order.items ? order.items.reduce((total, item) => total + (item.subtotal || 0), 0) : 0),
+      customerName: order.customer?.name || order.customerName || 'Cliente',
+      customerEmail: order.customer?.email || order.customerEmail || '',
+      customerPhone: order.customer?.phone || order.customerPhone || 'Não informado',
+      totalAmount: order.totals?.totalPrice || order.totalAmount || (order.items ? order.items.reduce((total, item) => total + (item.subtotal || 0), 0) : 0),
       items: order.items || [],
-      shippingAddress: order.shippingAddress || 'Não informado',
-      paymentMethod: order.paymentMethod || 'Não informado',
+      shippingAddress: order.deliveryAddress ? 
+        `${order.deliveryAddress.street}, ${order.deliveryAddress.number || 'S/N'} - ${order.deliveryAddress.neighborhood}, ${order.deliveryAddress.city}${order.deliveryAddress.complement ? ` - ${order.deliveryAddress.complement}` : ''}` :
+        order.shippingAddress || 'Não informado',
+      paymentMethod: order.payment?.method || order.paymentMethod || 'Não informado',
       notes: order.notes || 'Nenhuma',
       createdAt: order.createdAt || new Date()
     };
@@ -28,37 +30,18 @@ export async function sendOrderEmails(orderDoc) {
     console.log("customerEmail:", orderData.customerEmail);
     console.log("totalAmount:", orderData.totalAmount);
     console.log("items count:", orderData.items.length);
+    console.log("shippingAddress:", orderData.shippingAddress);
     console.log("=== FIM DEBUG ===");
 
-    // Verificar se tem e-mail do cliente
-    if (!orderData.customerEmail || orderData.customerEmail.trim() === '') {
-      console.error("❌ E-mail do cliente está vazio! Não posso enviar e-mail para cliente.");
-      // Só envia para o dono
-      await sendEmail(
-        "wederfr@hotmail.com",
-        `NOVO PEDIDO - ${orderData.orderNumber}`,
-        `
-          <h1>Novo pedido recebido!</h1>
-          <p><strong>Cliente:</strong> ${orderData.customerName}</p>
-          <p><strong>E-mail:</strong> ${orderData.customerEmail}</p>
-          <p><strong>Telefone:</strong> ${orderData.customerPhone}</p>
-          <p><strong>Total:</strong> R$ ${orderData.totalAmount.toFixed(2)}</p>
-          <p><strong>Endereço:</strong> ${orderData.shippingAddress}</p>
-          <p><strong>Itens:</strong></p>
-          <ul>
-            ${orderData.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.unitPrice || 0).toFixed(2)}</li>`).join('')}
-          </ul>
-        `
-      );
-      return true;
-    }
+    // TEMPORÁRIO: Aceitar e-mails vazios para teste
+    const emailCliente = orderData.customerEmail || "wederfr@hotmail.com"; // TEMPORÁRIO
 
     // Formatação de itens para o e-mail
     const itensHtml = orderData.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.unitPrice || 0).toFixed(2)}</li>`).join('');
 
-    // 1. E-MAIL PARA O CLIENTE
+    // 1. E-MAIL PARA O CLIENTE (TEMPORÁRIO)
     await sendEmail(
-      orderData.customerEmail,
+      emailCliente,
       `Pedido Confirmado - ${orderData.orderNumber}`,
       `
         <h1>Olá, ${orderData.customerName}!</h1>
@@ -77,10 +60,11 @@ export async function sendOrderEmails(orderDoc) {
       `
         <h1>Novo pedido recebido!</h1>
         <p><strong>Cliente:</strong> ${orderData.customerName}</p>
-        <p><strong>E-mail:</strong> ${orderData.customerEmail}</p>
+        <p><strong>E-mail:</strong> ${orderData.customerEmail || 'NÃO INFORMADO'}</p>
         <p><strong>Telefone:</strong> ${orderData.customerPhone}</p>
         <p><strong>Total:</strong> R$ ${orderData.totalAmount.toFixed(2)}</p>
         <p><strong>Endereço:</strong> ${orderData.shippingAddress}</p>
+        <p><strong>Forma de pagamento:</strong> ${orderData.paymentMethod}</p>
         <p><strong>Itens:</strong></p>
         <ul>${itensHtml}</ul>
       `
