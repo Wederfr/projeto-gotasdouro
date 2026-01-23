@@ -5,43 +5,48 @@ export async function sendOrderEmails(orderDoc) {
     // Converter o documento do Mongoose para um objeto comum
     const order = orderDoc.toObject ? orderDoc.toObject() : orderDoc;
 
-    console.log(`📧 Processando e-mails para pedido: ${order.orderNumber || order._id}`);
+    console.log(`📧 Processando e-mails para pedido: ${order._id}`);
     
-    // DEBUG: Mostrar todos os dados que chegam
-    console.log("=== DADOS DO PEDIDO RECEBIDOS ===");
-    console.log("ID:", order._id);
-    console.log("orderNumber:", order.orderNumber);
-    console.log("customerName:", order.customerName);
-    console.log("customerEmail:", order.customerEmail);
-    console.log("customerPhone:", order.customerPhone);
-    console.log("totalAmount:", order.totalAmount);
-    console.log("items:", order.items);
-    console.log("shippingAddress:", order.shippingAddress);
-    console.log("paymentMethod:", order.paymentMethod);
-    console.log("notes:", order.notes);
-    console.log("createdAt:", order.createdAt);
+    // MAPEAMENTO DOS CAMPOS DO FRONTEND PARA O BACKEND
+    const orderData = {
+      orderNumber: order.orderNumber || `PED-${order._id.toString().slice(-6).toUpperCase()}`,
+      customerName: order.customerName || 'Cliente',
+      customerEmail: order.customerEmail || '',
+      customerPhone: order.customerPhone || 'Não informado',
+      totalAmount: order.totalAmount || (order.items ? order.items.reduce((total, item) => total + (item.subtotal || 0), 0) : 0),
+      items: order.items || [],
+      shippingAddress: order.shippingAddress || 'Não informado',
+      paymentMethod: order.paymentMethod || 'Não informado',
+      notes: order.notes || 'Nenhuma',
+      createdAt: order.createdAt || new Date()
+    };
+
+    // DEBUG: Mostrar dados mapeados
+    console.log("=== DADOS MAPEADOS ===");
+    console.log("orderNumber:", orderData.orderNumber);
+    console.log("customerName:", orderData.customerName);
+    console.log("customerEmail:", orderData.customerEmail);
+    console.log("totalAmount:", orderData.totalAmount);
+    console.log("items count:", orderData.items.length);
     console.log("=== FIM DEBUG ===");
 
     // Verificar se tem e-mail do cliente
-    if (!order.customerEmail || order.customerEmail.trim() === '') {
+    if (!orderData.customerEmail || orderData.customerEmail.trim() === '') {
       console.error("❌ E-mail do cliente está vazio! Não posso enviar e-mail para cliente.");
       // Só envia para o dono
       await sendEmail(
         "wederfr@hotmail.com",
-        `NOVO PEDIDO - ${order.orderNumber || 'Gotas Douro'}`,
+        `NOVO PEDIDO - ${orderData.orderNumber}`,
         `
           <h1>Novo pedido recebido!</h1>
-          <p><strong>Cliente:</strong> ${order.customerName || 'Não informado'}</p>
-          <p><strong>E-mail:</strong> ${order.customerEmail || 'Não informado'}</p>
-          <p><strong>Telefone:</strong> ${order.customerPhone || 'Não informado'}</p>
-          <p><strong>Total:</strong> R$ ${(order.totalAmount || 0).toFixed(2)}</p>
-          <p><strong>Endereço:</strong> ${order.shippingAddress || 'Não informado'}</p>
+          <p><strong>Cliente:</strong> ${orderData.customerName}</p>
+          <p><strong>E-mail:</strong> ${orderData.customerEmail}</p>
+          <p><strong>Telefone:</strong> ${orderData.customerPhone}</p>
+          <p><strong>Total:</strong> R$ ${orderData.totalAmount.toFixed(2)}</p>
+          <p><strong>Endereço:</strong> ${orderData.shippingAddress}</p>
           <p><strong>Itens:</strong></p>
           <ul>
-            ${(order.items && order.items.length > 0) 
-              ? order.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.price || 0).toFixed(2)}</li>`).join('')
-              : '<li>Nenhum item encontrado</li>'
-            }
+            ${orderData.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.unitPrice || 0).toFixed(2)}</li>`).join('')}
           </ul>
         `
       );
@@ -49,19 +54,17 @@ export async function sendOrderEmails(orderDoc) {
     }
 
     // Formatação de itens para o e-mail
-    const itensHtml = order.items && order.items.length > 0 
-      ? order.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.price || 0).toFixed(2)}</li>`).join('')
-      : '<li>Nenhum item encontrado</li>';
+    const itensHtml = orderData.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.unitPrice || 0).toFixed(2)}</li>`).join('');
 
     // 1. E-MAIL PARA O CLIENTE
     await sendEmail(
-      order.customerEmail,
-      `Pedido Confirmado - ${order.orderNumber || 'Gotas Douro'}`,
+      orderData.customerEmail,
+      `Pedido Confirmado - ${orderData.orderNumber}`,
       `
-        <h1>Olá, ${order.customerName || 'Cliente'}!</h1>
+        <h1>Olá, ${orderData.customerName}!</h1>
         <p>Seu pedido foi recebido com sucesso.</p>
-        <p><strong>Número:</strong> ${order.orderNumber || 'N/A'}</p>
-        <p><strong>Total:</strong> R$ ${(order.totalAmount || 0).toFixed(2)}</p>
+        <p><strong>Número:</strong> ${orderData.orderNumber}</p>
+        <p><strong>Total:</strong> R$ ${orderData.totalAmount.toFixed(2)}</p>
         <p><strong>Itens:</strong></p>
         <ul>${itensHtml}</ul>
       `
@@ -70,14 +73,14 @@ export async function sendOrderEmails(orderDoc) {
     // 2. E-MAIL PARA O DONO (VOCÊ)
     await sendEmail(
       "wederfr@hotmail.com",
-      `NOVO PEDIDO - ${order.orderNumber || 'Gotas Douro'}`,
+      `NOVO PEDIDO - ${orderData.orderNumber}`,
       `
         <h1>Novo pedido recebido!</h1>
-        <p><strong>Cliente:</strong> ${order.customerName || 'Não informado'}</p>
-        <p><strong>E-mail:</strong> ${order.customerEmail || 'Não informado'}</p>
-        <p><strong>Telefone:</strong> ${order.customerPhone || 'Não informado'}</p>
-        <p><strong>Total:</strong> R$ ${(order.totalAmount || 0).toFixed(2)}</p>
-        <p><strong>Endereço:</strong> ${order.shippingAddress || 'Não informado'}</p>
+        <p><strong>Cliente:</strong> ${orderData.customerName}</p>
+        <p><strong>E-mail:</strong> ${orderData.customerEmail}</p>
+        <p><strong>Telefone:</strong> ${orderData.customerPhone}</p>
+        <p><strong>Total:</strong> R$ ${orderData.totalAmount.toFixed(2)}</p>
+        <p><strong>Endereço:</strong> ${orderData.shippingAddress}</p>
         <p><strong>Itens:</strong></p>
         <ul>${itensHtml}</ul>
       `
