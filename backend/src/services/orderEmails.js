@@ -1,59 +1,50 @@
-import { sendEmail } from "../../server.js"; // Era "../server.js" - agora correto
+import { sendEmail } from "../../server.js";
 
-export async function sendOrderEmails(order) {
+export async function sendOrderEmails(orderDoc) {
   try {
-    console.log(`📧 Enviando e-mails para pedido ${order._id}`);
+    // Converter o documento do Mongoose para um objeto comum
+    const order = orderDoc.toObject ? orderDoc.toObject() : orderDoc;
 
-    // E-mail para o cliente
-    const clientEmailSent = await sendEmail(
+    console.log(`📧 Processando e-mails para pedido: ${order.orderNumber || order._id}`);
+
+    // Formatação de itens para o e-mail
+    const itensHtml = order.items && order.items.length > 0 
+      ? order.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.price || 0).toFixed(2)}</li>`).join('')
+      : '<li>Nenhum item encontrado</li>';
+
+    // 1. E-MAIL PARA O CLIENTE
+    await sendEmail(
       order.customerEmail,
-      `Pedido Confirmado - ${order.orderNumber}`,
+      `Pedido Confirmado - ${order.orderNumber || 'Gotas Douro'}`,
       `
-        <h1>Seu pedido foi confirmado!</h1>
-        <p><strong>Número do pedido:</strong> ${order.orderNumber}</p>
-        <p><strong>Data:</strong> ${new Date(order.createdAt).toLocaleDateString('pt-BR')}</p>
+        <h1>Olá, ${order.customerName || 'Cliente'}!</h1>
+        <p>Seu pedido foi recebido com sucesso.</p>
+        <p><strong>Número:</strong> ${order.orderNumber || 'N/A'}</p>
         <p><strong>Total:</strong> R$ ${(order.totalAmount || 0).toFixed(2)}</p>
-        <p><strong>Forma de pagamento:</strong> ${order.paymentMethod}</p>
         <p><strong>Itens:</strong></p>
-        <ul>
-          ${order.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.price || 0).toFixed(2)}</li>`).join('')}
-        </ul>
-        <p>Acompanhe seu pedido pelo WhatsApp: (11) 99999-9999</p>
-        <p>Atenciosamente,<br>Equipe Gotas Douro</p>
-      `,
-      `Seu pedido ${order.orderNumber} foi confirmado. Total: R$ ${(order.totalAmount || 0).toFixed(2)}. Itens: ${order.items.map(item => `${item.quantity}x ${item.name}`).join(', ')}.`
+        <ul>${itensHtml}</ul>
+      `
     );
 
-    // E-mail para o dono (você)
-    const ownerEmailSent = await sendEmail(
-      "wederfr@hotmail.com", // Seu e-mail
-      `Novo Pedido - ${order.orderNumber}`,
+    // 2. E-MAIL PARA O DONO (VOCÊ)
+    await sendEmail(
+      "wederfr@hotmail.com",
+      `NOVO PEDIDO - ${order.orderNumber || 'Gotas Douro'}`,
       `
         <h1>Novo pedido recebido!</h1>
-        <p><strong>Número:</strong> ${order.orderNumber}</p>
-        <p><strong>Cliente:</strong> ${order.customerName}</p>
-        <p><strong>E-mail:</strong> ${order.customerEmail}</p>
-        <p><strong>Telefone:</strong> ${order.customerPhone}</p>
+        <p><strong>Cliente:</strong> ${order.customerName || 'Não informado'}</p>
+        <p><strong>E-mail:</strong> ${order.customerEmail || 'Não informado'}</p>
+        <p><strong>Telefone:</strong> ${order.customerPhone || 'Não informado'}</p>
         <p><strong>Total:</strong> R$ ${(order.totalAmount || 0).toFixed(2)}</p>
+        <p><strong>Endereço:</strong> ${order.shippingAddress || 'Não informado'}</p>
         <p><strong>Itens:</strong></p>
-        <ul>
-          ${order.items.map(item => `<li>${item.quantity}x ${item.name} - R$ ${(item.price || 0).toFixed(2)}</li>`).join('')}
-        </ul>
-        <p><strong>Endereço:</strong> ${order.shippingAddress}</p>
-        <p><strong>Observações:</strong> ${order.notes || 'Nenhuma'}</p>
-      `,
-      `Novo pedido ${order.orderNumber} de ${order.customerName}. Total: R$ ${(order.totalAmount || 0).toFixed(2)}.`
+        <ul>${itensHtml}</ul>
+      `
     );
 
-    if (clientEmailSent && ownerEmailSent) {
-      console.log(`✅ E-mails enviados para pedido ${order._id}`);
-      return true;
-    } else {
-      console.error(`❌ Falha parcial no envio de e-mails para pedido ${order._id}`);
-      return false;
-    }
+    return true;
   } catch (error) {
-    console.error(`❌ Erro ao enviar e-mails para pedido ${order._id}:`, error.message);
+    console.error("Erro ao processar e-mails:", error);
     return false;
   }
 }
