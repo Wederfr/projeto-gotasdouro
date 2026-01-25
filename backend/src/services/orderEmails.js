@@ -47,6 +47,9 @@ export async function sendOrderEmails(orderDoc) {
       <p>Atenciosamente,<br>Equipe Gotas Douro</p>
     `;
 
+    // Texto simples para o cliente
+    const clientText = `Olá ${orderData.customerName}! Seu pedido ${orderData.orderNumber} foi recebido. Total: R$ ${orderData.totalAmount.toFixed(2)}. Forma de pagamento: ${orderData.paymentMethod}. Itens: ${orderData.items.map(item => `${item.quantity}x ${item.name}`).join(', ')}`;
+
     // E-mail para VOCÊ (DONO)
     let ownerHtml = `
       <h1>Novo pedido recebido!</h1>
@@ -72,17 +75,22 @@ export async function sendOrderEmails(orderDoc) {
       </ul>
     `;
 
-    // Enviar e-mails
+    // Texto simples para você
+    const ownerText = `Novo pedido de ${orderData.customerName} (${orderData.customerEmail}). Total: R$ ${orderData.totalAmount.toFixed(2)}. Pagamento: ${orderData.paymentMethod}. Itens: ${orderData.items.map(item => `${item.quantity}x ${item.name}`).join(', ')}`;
+
+    // Enviar e-mails COM TEXTO SIMPLES
     const clientSent = await sendEmail(
       orderData.customerEmail,
       `Pedido Confirmado - ${orderData.orderNumber}`,
-      clientHtml
+      clientHtml,
+      clientText // ADICIONADO
     );
 
     const ownerSent = await sendEmail(
       "wederfr@hotmail.com",
       `NOVO PEDIDO - ${orderData.orderNumber}`,
-      ownerHtml
+      ownerHtml,
+      ownerText // ADICIONADO
     );
 
     return clientSent && ownerSent;
