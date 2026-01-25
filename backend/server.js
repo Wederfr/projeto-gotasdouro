@@ -2,15 +2,15 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import nodemailer from "nodemailer"; // VOLTAR AO NODEMAILER
+import nodemailer from "nodemailer";
 import { ordersRouter } from "./src/routes/orders.js";
 
 const app = express();
 
-// CONFIGURAÇÃO DO BREVO
+// CONFIGURAÇÃO DO BREVO COM PORTA 2525
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
-  port: 587,
+  port: 2525, // MUDEI PARA 2525
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
