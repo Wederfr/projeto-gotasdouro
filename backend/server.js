@@ -1,9 +1,22 @@
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+import mongoose from "mongoose";
+import fetch from "node-fetch";
+import { ordersRouter } from "./src/routes/orders.js";
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/orders", ordersRouter);
+
 // Função para enviar e-mail via API BREVO
 export async function sendEmail(to, subject, html, text = "") {
   try {
     console.log("📨 DEBUG - Enviando e-mail para:", to);
     console.log("📨 DEBUG - text recebido:", text);
-    console.log("📨 DEBUG - text é string?", typeof text);
     
     const payload = {
       sender: {
@@ -13,10 +26,8 @@ export async function sendEmail(to, subject, html, text = "") {
       to: [{ email: to }],
       subject: subject,
       htmlContent: html,
-      textContent: text || " " // Garantir que não seja undefined
+      textContent: text || " "
     };
-
-    console.log("📨 DEBUG - Payload completo:", JSON.stringify(payload));
 
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
@@ -35,7 +46,6 @@ export async function sendEmail(to, subject, html, text = "") {
       return true;
     } else {
       console.error("❌ Erro Brevo API:", data.message);
-      console.error("❌ Resposta completa:", data);
       return false;
     }
   } catch (err) {
@@ -43,3 +53,26 @@ export async function sendEmail(to, subject, html, text = "") {
     return false;
   }
 }
+
+app.get("/health", async (req, res) => {
+  const mongoState = mongoose.connection.readyState;
+  res.json({ ok: true, mongo: mongoState === 1 ? "connected" : "error" });
+});
+
+const PORT = process.env.PORT || 3001;
+
+async function start() {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("✅ Conectado ao MongoDB");
+    
+    app.listen(PORT, () => {
+      console.log(`✅ API rodando na porta ${PORT}`);
+    });
+  } catch (err) {
+    console.error("❌ Erro ao iniciar:", err);
+    process.exit(1);
+  }
+}
+
+start();
