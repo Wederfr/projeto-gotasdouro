@@ -2,41 +2,48 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import nodemailer from "nodemailer";
 import { ordersRouter } from "./src/routes/orders.js";
 
 const app = express();
-
-// CONFIGURAÇÃO DO BREVO COM PORTA 2525
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 2525, // MUDEI PARA 2525
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
-});
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/orders", ordersRouter);
 
-// Função para enviar e-mail com BREVO
+// Função para enviar e-mail via API BREVO (não SMTP)
 export async function sendEmail(to, subject, html, text = "") {
   try {
-    const info = await transporter.sendMail({
-      from: '"Gotas Douro" <wederfr@hotmail.com>',
-      to: to,
-      subject: subject,
-      html: html,
-      text: text
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "accept": "application/json",
+        "api-key": process.env.BREVO_API_KEY, // Vamos usar API key
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        sender: {
+          name: "Gotas Douro",
+          email: "wederfr@hotmail.com"
+        },
+        to: [{ email: to }],
+        subject: subject,
+        htmlContent: html,
+        textContent: text
+      })
     });
+
+    const data = await response.json();
     
-    console.log("✅ E-mail enviado via Brevo:", info.messageId);
-    return true;
+    if (response.ok) {
+      console.log("✅ E-mail enviado via Brevo API:", data.messageId);
+      return true;
+    } else {
+      console.error("❌ Erro Brevo API:", data.message);
+      return false;
+    }
   } catch (err) {
-    console.error("❌ Erro Brevo:", err.message);
+    console.error("❌ Erro ao enviar e-mail:", err.message);
     return false;
   }
 }
