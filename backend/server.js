@@ -1,16 +1,3 @@
-import express from "express";
-import cors from "cors";
-import "dotenv/config";
-import mongoose from "mongoose";
-import { ordersRouter } from "./src/routes/orders.js";
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.use("/api/orders", ordersRouter);
-
 // Função para enviar e-mail via API BREVO (não SMTP)
 export async function sendEmail(to, subject, html, text = "") {
   try {
@@ -18,7 +5,7 @@ export async function sendEmail(to, subject, html, text = "") {
       method: "POST",
       headers: {
         "accept": "application/json",
-        "api-key": process.env.BREVO_API_KEY, // Vamos usar API key
+        "api-key": process.env.BREVO_API_KEY,
         "content-type": "application/json"
       },
       body: JSON.stringify({
@@ -29,7 +16,7 @@ export async function sendEmail(to, subject, html, text = "") {
         to: [{ email: to }],
         subject: subject,
         htmlContent: html,
-        textContent: text
+        textContent: text || " " // CORREÇÃO: texto vazio se não tiver
       })
     });
 
@@ -47,17 +34,3 @@ export async function sendEmail(to, subject, html, text = "") {
     return false;
   }
 }
-
-app.get("/health", async (req, res) => {
-  const mongoState = mongoose.connection.readyState;
-  res.json({ ok: true, mongo: mongoState === 1 ? "connected" : "error" });
-});
-
-const PORT = process.env.PORT || 3001;
-
-async function start() {
-  await mongoose.connect(process.env.MONGODB_URI);
-  app.listen(PORT, () => console.log(`API rodando na porta ${PORT}`));
-}
-
-start().catch(err => console.error(err));
