@@ -7,7 +7,7 @@ export const ordersRouter = express.Router();
 // GET /api/orders - Listar todos os pedidos
 ordersRouter.get("/", async (req, res) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 }); // mais recentes primeiro
+    const orders = await Order.find().sort({ createdAt: -1 }); 
     res.json({
       ok: true,
       data: orders,

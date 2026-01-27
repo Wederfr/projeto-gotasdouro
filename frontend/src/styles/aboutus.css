@@ -1,11 +1,8 @@
-/* frontend/src/styles/aboutus.css */
-
-/* 1. Importação da Fonte Histórica */
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
-/* A linha de importação foi alterada para Dancing Script */
+
 
 body {
-  background-color: #ebeeb4; /* exemplo */
+    background-color: #ebeeb4;
 }
 
 .about-us-container {
@@ -20,21 +17,21 @@ body {
     z-index: 0;
 }
 
-/* Pseudo-elemento para a Marca D'água apenas nesta página */
+
 .about-us-container::before {
-    content: ''; /* Conteúdo vazio */
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/images/brasaoLogo.png'); /* Caminho da sua logo */
+    background-image: url('/images/brasaoLogo.png');
     background-repeat: no-repeat;
-    background-position: center center; /* Centraliza DENTRO do about-us-container */
-    background-size: contain; /* Ajuste o tamanho da logo aqui (experimente 40%, 50%, 70%) */
-    opacity: 0.1; /* AJUSTE AQUI PARA A TRANSPARÊNCIA DESEJADA (0.0 a 1.0). 0.1 é bem sutil. */
-    z-index: -1; /* Coloca a marca d'água ATRÁS do conteúdo */
-    pointer-events: none; /* Impede que a marca d'água interfira com cliques */
+    background-position: center center;
+    background-size: contain;
+    opacity: 0.1;
+    z-index: -1;
+    pointer-events: none;
 }
 
 
@@ -43,21 +40,21 @@ body {
     text-align: center;
     margin-bottom: 30px;
     font-size: 2.5em;
-    position: relative; /* Garante que o H1 e outros conteúdos fiquem acima do pseudo-elemento */
+    position: relative;
     z-index: 1;
 }
 
 .about-section {
     margin-bottom: 30px;
     line-height: 1.6;
-    padding: 15px; /* Espaçamento interno para o background */
-    border-radius: 5px; /* Cantos arredondados para as seções de texto */
-    position: relative; /* Garante que as seções de texto fiquem acima do pseudo-elemento */
+    padding: 15px;
+    border-radius: 5px;
+    position: relative;
     z-index: 1;
 }
 
 .about-section h2 {
-    font-family: 'Dancing Script', cursive; /* ALTERAÇÃO AQUI: Aplicação da fonte aos títulos h2 */
+    font-family: 'Dancing Script', cursive;
     color: #e9a913;
     font-size: 4em;
     margin-bottom: 15px;
@@ -70,12 +67,12 @@ body {
     margin-bottom: 10px;
 }
 
-/* Aplicação da Fonte Histórica aos Parágrafos com a classe específica */
+
 .historical-text {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.4em; /* Sugestão: Aumentado para melhor legibilidade com fontes script */
-    line-height: 1.8; /* Aumenta o espaçamento entre linhas para melhor leitura */
-    color: #2c3e50; /* Uma cor mais escura para melhor contraste */
+    font-size: 1.4em;
+    line-height: 1.8;
+    color: #2c3e50;
 }
 
 .about-section ul {
@@ -89,26 +86,33 @@ body {
     font-size: 1.1em;
 }
 
-/* Responsividade básica para mobile */
+/* Responsividade para mobile */
+
 @media (max-width: 768px) {
     .about-us-container {
         padding: 15px;
         margin-left: 10px;
         margin-right: 10px;
     }
+
     .about-us-container::before {
-        background-size: 80% auto; /* Aumenta o tamanho da marca d'água em mobile, se necessário */
+        background-size: 80% auto;
     }
+
     .about-us-container h1 {
         font-size: 2em;
     }
+
     .about-section h2 {
-        font-size: 1.5em; /* Ajustado para mobile */
+        font-size: 1.5em;
     }
-    .about-section p, .about-section ul li {
+
+    .about-section p,
+    .about-section ul li {
         font-size: 1em;
     }
+
     .historical-text {
-        font-size: 1.2em; /* Ajustado para mobile, mantendo proporção com o desktop */
+        font-size: 1.2em;
     }
 }

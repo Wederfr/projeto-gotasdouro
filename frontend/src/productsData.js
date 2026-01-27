@@ -1,5 +1,3 @@
-// frontend/src/productsData.js
-
 const products = [
   {
     id: 'prod001',
@@ -30,15 +28,9 @@ const products = [
     price: 15.00,
     imageUrl: '/images/copo-chuvisco.jpeg',
   },
-  // Adicione mais produtos aqui, seguindo o mesmo formato
-  // Exemplo:
-  // {
-  //   id: 'prod004',
-  //   name: 'Mini Chuviscos Sabores',
-  //   description: 'Uma seleção de mini chuviscos com sabores variados.',
-  //   price: 25.00,
-  //   imageUrl: '/images/chuvisco-sabores.jpeg',
-  // },
+  
+  // Adicionar mais produtos aqui, seguindo o mesmo formato
+  
 ];
 
 export default products;

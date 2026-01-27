@@ -1,8 +1,6 @@
-/* frontend/src/styles/header_footer.css */
-
-/* --- Solução para o overflow-x da página --- */
-html, body {
-    overflow-x: hidden; /* Esconde qualquer conteúdo que transborde horizontalmente */
+html,
+body {
+    overflow-x: hidden;
 }
 
 * {
@@ -12,28 +10,30 @@ html, body {
 }
 
 main {
-  padding-bottom: 0;
-  margin-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* --- Base Header --- */
+
 header {
     background-color: #e9a913;
-    color: #74A9DB; 
+    color: #74A9DB;
     border-bottom: 12px solid;
     border-image: linear-gradient(to right, #ffffff, #e9a913) 1;
-    width: 100%; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    z-index: 1000; 
-    padding: 20px 0; /* Padding vertical padrão para o header */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 20px 0;
     font-family: "Inter", sans-serif;
 }
 
 /* --- Desktop Header Container --- */
+
 .header-container-desktop {
-    display: flex; /* Visível por padrão no desktop */
+    display: flex;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
@@ -42,9 +42,9 @@ header {
     padding: 0 20px;
 }
 
-.logo-header img { /* Logo para Desktop */
-    max-width: 120px;  
-    height: auto;   
+.logo-header img {
+    max-width: 120px;
+    height: auto;
     display: block;
 }
 
@@ -56,115 +56,124 @@ header {
     display: flex;
     gap: 20px;
 }
+
 .menu-header ul li a {
-    color:  #ebeeb4;
+    color: #ebeeb4;
     text-decoration: none;
-    font-size: 25px;       
-    white-space: nowrap;   
+    font-size: 25px;
+    white-space: nowrap;
     transition: color 0.3s ease;
 }
+
 .menu-header ul li a:hover {
-    color: #74A9DB; 
+    color: #74A9DB;
 }
 
 /* --- Widget do Carrinho (Desktop) --- */
 .cart-widget-right-desktop {
     display: flex;
     align-items: center;
-    position: relative; 
-    margin-left: 30px; 
+    position: relative;
+    margin-left: 30px;
 }
+
 .cart-widget-right-desktop .cart-icon-link {
     text-decoration: none;
     color: #ebeeb4;
-    font-size: 30px; 
-    padding: 5px; 
+    font-size: 30px;
+    padding: 5px;
     transition: color 0.3s ease;
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .cart-widget-right-desktop .cart-icon-link:hover {
-    color: #74A9DB; 
+    color: #74A9DB;
 }
+
 .cart-widget-right-desktop .cart-count-badge {
-    background-color: #e4f527c9; 
-    color: white; 
-    font-size: 0.65em; 
+    background-color: #e4f527c9;
+    color: white;
+    font-size: 0.65em;
     font-weight: bold;
-    border-radius: 4px; 
-    padding: 2px 6px; 
+    border-radius: 4px;
+    padding: 2px 6px;
     position: absolute;
-    top: -5px; 
-    right: -10px; 
-    line-height: 1; 
-    min-width: 18px; 
-    height: 18px; 
+    top: -5px;
+    right: -10px;
+    line-height: 1;
+    min-width: 18px;
+    height: 18px;
     text-align: center;
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: none; 
+    box-shadow: none;
 }
 
 /* --- Mobile Header Container (Escondido por padrão) --- */
+
 .header-container-mobile {
-    display: none; /* Escondido por padrão */
+    display: none;
     width: 100%;
     margin: 0 auto;
-    padding: 0 15px; /* Padding lateral */
-    justify-content: space-between; /* Espaço entre logo, carrinho e hambúrguer */
+    padding: 0 15px;
+    justify-content: space-between;
     align-items: center;
 }
 
-/* --- Logo para Mobile Header --- */
+
 .logo-header-mobile img {
     max-width: 90px;
     height: auto;
     display: block;
 }
 
-/* --- Cart Widget (Mobile Header) --- */
-.cart-widget-mobile { 
-    display: none; 
-    align-items: center; 
-    position: relative; 
+
+.cart-widget-mobile {
+    display: none;
+    align-items: center;
+    position: relative;
 }
+
 .cart-widget-mobile .cart-icon-link {
     text-decoration: none;
     color: #ebeeb4;
-    font-size: 24px; 
-    padding: 5px; 
-    display: flex; 
+    font-size: 24px;
+    padding: 5px;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .cart-widget-mobile .cart-count-badge {
-    background-color: #e4f527c9; 
-    color: white; 
-    font-size: 0.6em; 
+    background-color: #e4f527c9;
+    color: white;
+    font-size: 0.6em;
     font-weight: bold;
-    border-radius: 4px; 
-    padding: 2px 6px; 
+    border-radius: 4px;
+    padding: 2px 6px;
     position: absolute;
-    top: -3px; 
-    right: -8px; 
-    line-height: 1; 
-    min-width: 16px; 
-    height: 16px; 
+    top: -3px;
+    right: -8px;
+    line-height: 1;
+    min-width: 16px;
+    height: 16px;
     text-align: center;
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: none; 
+    box-shadow: none;
 }
 
 /* --- Estilos do Ícone de Hambúrguer do Header --- */
+
 .hamburger-menu {
-    display: none; /* Escondido por padrão no desktop */
+    display: none;
     cursor: pointer;
-    z-index: 1001; /* Garante que o ícone esteja acima do menu overlay */
-    padding: 5px; /* Área clicável */
+    z-index: 1001;
+    padding: 5px;
 }
 
 .hamburger-menu .bar {
@@ -175,39 +184,42 @@ header {
     transition: 0.4s;
     border-radius: 2px;
 }
+
 .hamburger-menu.open .bar:nth-child(1) {
     transform: rotate(-45deg) translate(-5px, 5px);
 }
+
 .hamburger-menu.open .bar:nth-child(2) {
     opacity: 0;
 }
+
 .hamburger-menu.open .bar:nth-child(3) {
     transform: rotate(45deg) translate(-5px, -5px);
 }
 
-/* --- Estilos do Overlay do Menu Mobile do Header (COM ALTURA E LARGURA MENOR) --- */
+
 .menu-header-mobile-overlay {
-    display: flex; 
+    display: flex;
     flex-direction: column;
     position: fixed;
-    top: 0; 
-    left: 0; 
-    height: auto; 
-    max-height: 100vh; 
-    width: 220px; 
+    top: 0;
+    left: 0;
+    height: auto;
+    max-height: 100vh;
+    width: 220px;
     max-width: 220px;
     background-color: #e9a913;
     z-index: 998;
-    padding-top: 0; 
-    padding-bottom: 0; 
-    box-shadow: 2px 0 5px rgba(0,0,0,0.5); 
+    padding-top: 0;
+    padding-bottom: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease-in-out;
-    transform: translateX(-100%); 
+    transform: translateX(-100%);
     overflow-y: auto;
 }
 
 .menu-header-mobile-overlay.open {
-    transform: translateX(0); 
+    transform: translateX(0);
 }
 
 .menu-header-mobile-overlay ul {
@@ -219,10 +231,12 @@ header {
     align-items: center;
     width: 100%;
 }
+
 .menu-header-mobile-overlay ul li {
     width: 100%;
     text-align: center;
 }
+
 .menu-header-mobile-overlay ul li a {
     color: white;
     text-decoration: none;
@@ -230,17 +244,19 @@ header {
     padding: 15px 0;
     display: block;
     transition: background-color 0.3s ease;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .menu-header-mobile-overlay ul li:last-child a {
     border-bottom: none;
 }
+
 .menu-header-mobile-overlay ul li a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     color: #74A9DB;
 }
 
-/* --- Estilo de Botão (fazerpedidos - generalizado) --- */
+
 .fazerpedidos {
     text-decoration: none;
     border-radius: 8px;
@@ -254,212 +270,235 @@ header {
     background-color: #74A9DB;
     color: white;
 }
-.fazerpedidos-mobile { 
+
+.fazerpedidos-mobile {
     background-color: #74A9DB;
     color: white;
     text-decoration: none;
     border-radius: 8px;
     padding: 10px 20px;
     font-weight: 600;
-    display: inline-block; 
-    margin-top: 15px; 
-    font-size: 18px; 
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 18px;
 }
 
 
 /* ---------------------------------------------------FOOTER-------------------------------------------------------------*/
 
 footer {
-    background-color: #e9a913; 
-    width: 100%; 
-    padding: 20px 0; 
-    border-top: 12px solid; 
-    border-image: linear-gradient(to right, #ffffff, #e9a913) 1; 
-    font-family: "Inter", sans-serif; 
+    background-color: #e9a913;
+    width: 100%;
+    padding: 20px 0;
+    border-top: 12px solid;
+    border-image: linear-gradient(to right, #ffffff, #e9a913) 1;
+    font-family: "Inter", sans-serif;
     margin-bottom: 0;
 }
 
 /* Desktop Footer Container */
-.footer-container-desktop { 
+
+.footer-container-desktop {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px; 
-    padding-top: 0; 
-    margin-top: 0;  
+    gap: 10px;
+    padding-top: 0;
+    margin-top: 0;
     padding-bottom: 0;
-    border-top: none; 
+    border-top: none;
     border-image: none;
 }
-/* Estilos para elementos internos do footer desktop (mantidos) */
+
 .logo-footer {
-    padding-top: 0; 
+    padding-top: 0;
     padding-right: 40px;
 }
-.logo-footer img{
-    max-width: 100px;  
-    height: auto;   
+
+.logo-footer img {
+    max-width: 100px;
+    height: auto;
     display: block;
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
+
 .menufooter {
-    margin-top: 50px; 
+    margin-top: 50px;
 }
-.menufooter ul { 
-    list-style: none; 
+
+.menufooter ul {
+    list-style: none;
     margin: 0;
     padding: 0;
-    display: flex; 
-    gap: 20px; 
+    display: flex;
+    gap: 20px;
 }
+
 .menufooter ul li {
     display: inline;
 }
+
 .menufooter ul li a {
     color: #ebeeb4;
     text-decoration: none;
 }
+
 .menufooter ul li a:hover {
-    color: #74A9DB; 
+    color: #74A9DB;
 }
+
 .social-icons {
-    margin-top:40px; 
+    margin-top: 40px;
     display: flex;
     margin-left: 15px;
 }
+
 .social-icons a {
     margin-left: 10px;
 }
-.social-icons img{
-    width: 50px;  
-    height: 50px; 
+
+.social-icons img {
+    width: 50px;
+    height: 50px;
 }
 
-/* ✅ Sticky footer simples (sem conflito com header fixo) */
+
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 #root {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .App {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.App > main {
-  flex: 1;
+.App>main {
+    flex: 1;
 }
 
-/* Mobile Footer Container (escondido por padrão, visível no mobile) */
+
 .footer-container-mobile {
-    display: none; /* Escondido por padrão, mostrado no media query */
+    display: none;
     width: 100%;
 }
 
-/* Logo para Mobile Footer */
+
 .logo-footer-mobile img {
-    max-width: 80px; /* Ajusta o tamanho para mobile */
+    max-width: 80px;
     height: auto;
     display: block;
 }
 
-/* --- ESTILOS DO ÍCONE DE HAMBÚRGUER DO FOOTER (BASE, fora da media query) --- */
-.footer-menu-toggle { 
-    display: none; /* Escondido por padrão, mas será 'display: block' no mobile */
+
+.footer-menu-toggle {
+    display: none;
     cursor: pointer;
-    position: relative; /* Adicionado para que z-index funcione */
-    z-index: 1001; /* <-- ALTERADO AQUI: Maior que o menu overlay (998) */
+    position: relative;
+    z-index: 1001;
     padding: 5px;
 }
-.footer-menu-toggle .bar { 
-    width: 20px; 
+
+.footer-menu-toggle .bar {
+    width: 20px;
     height: 2px;
     background-color: #ebeeb4;
     margin: 4px 0;
     transition: 0.4s;
     border-radius: 1px;
 }
+
 .footer-menu-toggle.open .bar:nth-child(1) {
     transform: rotate(-45deg) translate(-4px, 4px);
 }
+
 .footer-menu-toggle.open .bar:nth-child(2) {
     opacity: 0;
 }
+
 .footer-menu-toggle.open .bar:nth-child(3) {
     transform: rotate(45deg) translate(-4px, -4px);
 }
+
 /* --- FIM DOS ESTILOS DO ÍCONE DE HAMBÚRGUER DO FOOTER (BASE) --- */
 
 
 /* Estilos para os Ícones Sociais do Footer Mobile */
+
 .social-icons-mobile {
-    display: none; /* Escondido por padrão, mostrado no media query */
+    display: none;
     gap: 8px;
     align-items: center;
 }
+
 .social-icons-mobile img {
-    width: 30px; /* Ícones sociais menores para mobile */
+    width: 30px;
     height: 30px;
 }
 
-/* Menu de links do Footer Mobile (overlay deslizante da esquerda, ancorado no bottom) */
+
 .menufooter-mobile-links {
-    display: flex; 
+    display: flex;
     flex-direction: column;
-    position: fixed; 
-    bottom: 0; 
-    left: 0; 
-    height: auto; 
-    max-height: 200px; 
-    width: 220px; 
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    max-height: 200px;
+    width: 220px;
     background-color: #e9a913;
-    z-index: 998; /* <-- ALTERADO AQUI: Diminuído para ser menor que o hambúrguer */
-    padding-top: 10px; 
-    padding-bottom: 10px; 
-    box-shadow: 2px 0 5px rgba(0,0,0,0.5); 
+    z-index: 998;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease-in-out;
-    transform: translateX(-100%); 
-    overflow-y: auto; 
+    transform: translateX(-100%);
+    overflow-y: auto;
 }
 
 .menufooter-mobile-links.open {
-    transform: translateX(0); 
+    transform: translateX(0);
 }
+
 .menufooter-mobile-links ul {
     list-style: none;
-    padding: 0; 
+    padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
+
 .menufooter-mobile-links ul li {
     width: 100%;
     text-align: center;
 }
+
 .menufooter-mobile-links ul li a {
     color: white;
     text-decoration: none;
-    font-size: 16px; 
-    padding: 8px 15px; 
+    font-size: 16px;
+    padding: 8px 15px;
     display: block;
     transition: background-color 0.3s ease;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .menufooter-mobile-links ul li:last-child a {
     border-bottom: none;
 }
+
 .menufooter-mobile-links ul li a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     color: #74A9DB;
 }
 
@@ -467,48 +506,58 @@ body {
 .creditos {
     text-align: center;
     font-size: 14px;
-    width: 100%; 
-    padding-top: 10px; 
-    padding-bottom: 0; 
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 0;
 }
 
 /* -------------------------------------RESPONSIVO (CELULAR/TABLET)------------------------------------- */
 @media screen and (max-width:780px) {
+
     /* --- HEADER RESPONSIVO --- */
+
     :root {
-        --header-mobile-height-calc: 65px; 
+        --header-mobile-height-calc: 65px;
     }
 
     header {
-        padding: 8px 0; 
+        padding: 8px 0;
     }
+
     .header-container-desktop {
-        display: none; 
+        display: none;
     }
+
     .header-container-mobile {
-        display: flex; 
-        height: 100%; 
+        display: flex;
+        height: 100%;
     }
+
     .hamburger-menu {
-        display: block; 
-        order: 1; 
+        display: block;
+        order: 1;
     }
+
     .logo-header-mobile {
-        order: 2; 
-        flex-grow: 1; 
-        text-align: center; 
+        order: 2;
+        flex-grow: 1;
+        text-align: center;
     }
+
     .logo-header-mobile img {
-        max-width: 80px; 
-        margin: 0 auto; 
+        max-width: 80px;
+        margin: 0 auto;
     }
-    .cart-widget-mobile { 
-        display: flex; 
-        order: 3; 
+
+    .cart-widget-mobile {
+        display: flex;
+        order: 3;
     }
+
     .cart-widget-mobile .cart-icon-link {
-        font-size: 20px; 
+        font-size: 20px;
     }
+
     .cart-widget-mobile .cart-count-badge {
         font-size: 0.55em;
         top: -2px;
@@ -516,82 +565,89 @@ body {
         min-width: 14px;
         height: 14px;
     }
-    .fazerpedidos { 
-        display: none; 
+
+    .fazerpedidos {
+        display: none;
     }
-    /* Menu do header com altura e largura limitadas, e posicionamento ajustado */
+
     .menu-header-mobile-overlay {
-        display: flex; 
-        top: 0; 
-        bottom: auto; 
-        height: auto; 
-        max-height: 200px; 
-        width: 220px; 
-        padding-top: 10px; 
+        display: flex;
+        top: 0;
+        bottom: auto;
+        height: auto;
+        max-height: 200px;
+        width: 220px;
+        padding-top: 10px;
         padding-bottom: 10px;
     }
+
     .menu-header-mobile-overlay ul li a {
-        font-size: 16px; 
-        padding: 8px 15px; 
+        font-size: 16px;
+        padding: 8px 15px;
     }
 
     /* --- FOOTER RESPONSIVO --- */
+
     footer {
-        padding: 10px 0; 
-    }
-    .footer-container-desktop {
-        display: none; 
-    }
-    .footer-container-mobile {
-        display: grid; 
-        grid-template-columns: auto 1fr auto; 
-        align-items: center;
-        padding: 0 15px; 
+        padding: 10px 0;
     }
 
-    /* --- VISIBILIDADE DO ÍCONE DE HAMBÚRGUER DO FOOTER NO MOBILE --- */
-    .footer-menu-toggle { 
-        display: block; /* Torna o botão do hambúrguer do footer visível no mobile */
-        grid-column: 1 / 2; 
+    .footer-container-desktop {
+        display: none;
+    }
+
+    .footer-container-mobile {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+
+    .footer-menu-toggle {
+        display: block;
+        grid-column: 1 / 2;
     }
 
     .logo-footer-mobile {
-        grid-column: 2 / 3; 
-        text-align: center; 
+        grid-column: 2 / 3;
+        text-align: center;
     }
+
     .logo-footer-mobile img {
-        max-width: 70px; 
-        margin: 0 auto; 
+        max-width: 70px;
+        margin: 0 auto;
     }
+
     .social-icons-mobile {
-        display: flex; 
-        grid-column: 3 / 4; 
-        justify-self: end; 
+        display: flex;
+        grid-column: 3 / 4;
+        justify-self: end;
     }
-    
+
     .menufooter-mobile-links {
-        display: flex; 
+        display: flex;
     }
 
     .creditos {
-        font-size: 12px; 
-        padding-top: 10px; 
-        margin: 0; 
+        font-size: 12px;
+        padding-top: 10px;
+        margin: 0;
     }
 }
 
-/* Força o overlay e os elementos mobile a serem escondidos em telas maiores que o breakpoint */
+
 @media screen and (min-width: 781px) {
+
     .menu-header-mobile-overlay,
     .hamburger-menu,
     .header-container-mobile,
     .cart-widget-mobile,
-    /* Esconde elementos do footer mobile no desktop */
     .footer-container-mobile,
-    .footer-menu-toggle, 
+    .footer-menu-toggle,
     .logo-footer-mobile,
     .social-icons-mobile,
     .menufooter-mobile-links {
-        display: none !important; 
+        display: none !important;
     }
 }

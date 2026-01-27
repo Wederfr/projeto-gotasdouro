@@ -1,4 +1,3 @@
-// src/models/Order.js
 import mongoose from "mongoose";
 
 const orderItemSchema = new mongoose.Schema(
@@ -46,9 +45,9 @@ const orderSchema = new mongoose.Schema(
         default: "pending", 
         enum: ["pending", "paid", "failed"] 
       },
-      amountPaid: { type: Number }, // para dinheiro - valor que o cliente pagou
-      change: { type: Number }, // para dinheiro - troco necessário
-      installments: { type: Number, default: 1 }, // para cartão (opcional)
+      amountPaid: { type: Number }, 
+      change: { type: Number }, 
+      installments: { type: Number, default: 1 }, 
     },
 
     status: { 

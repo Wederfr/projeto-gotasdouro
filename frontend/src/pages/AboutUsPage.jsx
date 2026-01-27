@@ -1,11 +1,10 @@
-// frontend/src/pages/AboutUsPage.jsx
 import React from 'react';
 import '../styles/aboutus.css';
 
 function AboutUsPage() {
   return (
     <div className="about-us-container">
-      
+
 
       <section className="about-section history">
         <h2>Nossa História</h2>
@@ -28,8 +27,9 @@ function AboutUsPage() {
       </section>
 
       <section className="about-section differentials">
+
         <h2>Por que Gotas D'ouro?</h2>
-        {/* ALTERAÇÃO AQUI: Convertido de <ul><li> para um único <p> com a classe historical-text */}
+
         <p className="historical-text">
           Escolha Gotas D'ouro por nossos Ingredientes Frescos e Selecionados, Receitas Artesanais e Tradicionais, Produção Feita com Carinho e nosso inabalável Compromisso com a Qualidade.
         </p>

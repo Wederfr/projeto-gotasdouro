@@ -1,25 +1,27 @@
 /*----------------------------------------------------------BODY----------------------------------------------------------*/
 
-/* Regras globais para layout de altura total */
-html, body, #root {
-    height: 100%; /* Garante que HTML, body e a div raiz do React ocupem 100% da altura da viewport */
+/* Regras globais */
+html,
+body,
+#root {
+    height: 100%;
     margin: 0;
     padding: 0;
 }
 
 body {
-    padding-top: 205px; /* Padrão para desktop */
-    display: flex; /* Usamos flexbox para o body */
-    flex-direction: column; /* Para empilhar o conteúdo verticalmente */
-    /* background-color: #ebeeb4; -- Removido para não afetar todas as páginas */
+    padding-top: 205px;
+    display: flex;
+    flex-direction: column;
+
 }
 
-/* Nova regra para aplicar o background-color apenas à página inicial */
+
 .home-page-container {
     background-color: #ebeeb4;
-    flex: 1; /* FAZ COM QUE ESTE CONTÊINER OCUPE TODO O ESPAÇO RESTANTE VERTICALMENTE */
-    display: flex; /* Se o conteúdo dentro dele também precisar de flexbox */
-    flex-direction: column; /* Para empilhar as sections */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 h3 {
@@ -30,6 +32,7 @@ h3 {
     max-width: 100%;
     overflow: hidden;
 }
+
 .banner1-contenedor img {
     width: 100%;
     height: auto;
@@ -40,7 +43,7 @@ h3 {
     text-decoration: none;
     color: #fff;
     background-color: #74A9DB;
-    padding: 10px 18px; 
+    padding: 10px 18px;
     border-radius: 5px;
     font-weight: bold;
     display: inline-block;
@@ -87,8 +90,8 @@ h3 {
 }
 
 .historiaportugal img {
-    width: 100px;  
-    height: 100px; 
+    width: 100px;
+    height: 100px;
 }
 
 .destaquescontainer {
@@ -101,7 +104,7 @@ h3 {
     justify-content: center;
 }
 
-.opcao_1 img, 
+.opcao_1 img,
 .opcao_2 img {
     width: 100%;
     height: 400px;
@@ -109,6 +112,7 @@ h3 {
     object-fit: cover;
     border-radius: 25px;
 }
+
 .subtitulodestaque {
     font-family: "Inter";
     font-size: 30px;
@@ -118,6 +122,7 @@ h3 {
     text-align: center;
     margin-top: 10px;
 }
+
 .descripciondestaque {
     width: auto;
     font-family: "Inter";
@@ -127,6 +132,7 @@ h3 {
     color: #3f3f3f;
     text-align: center;
 }
+
 .conferircontainer {
     flex-wrap: wrap;
     text-align: center;
@@ -134,6 +140,7 @@ h3 {
     justify-content: center;
     margin: 30px;
 }
+
 .conferircardapio {
     text-decoration: none;
     border-radius: 8px;
@@ -146,16 +153,18 @@ h3 {
     background-color: #e9a913;
     text-align: center;
 }
+
 /* ---------------------Mobile Body------------------ */
-@media screen and (max-width :780px){ 
+@media screen and (max-width :780px) {
     body {
-        padding-top: 130px; /* Ajustado para a altura exata do seu header mobile */
+        padding-top: 130px;
     }
 
     .banner1-contenedor {
         height: 190px;
-        overflow: visible; 
+        overflow: visible;
     }
+
     .banner1-contenedor img {
         height: 190px;
         width: auto;
@@ -164,30 +173,36 @@ h3 {
         left: 50%;
         transform: translateX(-50%);
     }
+
     .comidas-container {
         width: 100%;
-        flex-direction:row;        
+        flex-direction: row;
     }
+
     .comidas-container div:hover {
         transform: scale(1.1);
         transition: 1s;
-    }   
-    .historiaportugal{
+    }
+
+    .historiaportugal {
         font-size: 25px;
         padding: 0;
         margin: -40px;
         transform: scale(0.4);
     }
+
     .destaquescontainer {
         grid-template-columns: 90%;
         max-width: 100%;
         justify-content: center;
     }
+
     .titulohome {
         margin: 10px;
         font-size: 30px;
     }
-    .opcao_1 img, 
+
+    .opcao_1 img,
     .opcao_2 img {
         width: 100%;
         height: auto;

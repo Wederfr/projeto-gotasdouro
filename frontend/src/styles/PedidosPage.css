@@ -1,26 +1,21 @@
-/* frontend/src/styles/PedidosPage.css */
-
-/* NOVA REGRA: Aplica a imagem de fundo ao BODY apenas quando a classe 'pedidos-background' estiver presente */
 body.pedidos-background {
-    background-image: url('/images/fundo saco.jpg'); /* Caminho da sua imagem */
-    background-size: cover; /* Faz a imagem cobrir toda a área da viewport */
-    background-repeat: no-repeat; /* Impede a repetição da imagem */
-    background-attachment: fixed; /* Mantém a imagem fixa enquanto a página rola */
-    background-position: center center; /* Centraliza a imagem no meio */
+    background-image: url('/images/fundo saco.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
 }
 
 .pedidos-page-container {
     max-width: 1000px;
-    margin: 120px auto 50px auto; /* Margem superior para evitar o header fixo */
+    margin: 120px auto 50px auto;
     padding: 20px;
-    /* ALTERADO: Adicione um fundo semi-transparente para o container para melhorar a legibilidade do texto */
-    /* Isso fará com que o container "flutue" sobre a imagem de fundo do body */
-    background-color: rgba(245, 244, 207, 0.9); /* Branco com 90% de opacidade */
+    background-color: rgba(245, 244, 207, 0.9);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding-bottom: 50px;
-    
-    
+
+
 }
 
 .pedidos-page-container h1 {
@@ -42,7 +37,7 @@ body.pedidos-background {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #e9a913; /* Sua cor amarela */
+    background-color: #e9a913;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -51,18 +46,18 @@ body.pedidos-background {
 }
 
 .back-to-products-button:hover {
-    background-color: #d1950d; /* Um tone mais escuro do amarelo */
+    background-color: #d1950d;
 }
 
 .cart-content {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     gap: 30px;
 }
 
 .cart-items-list {
-    flex: 2; 
-    min-width: 300px; 
+    flex: 2;
+    min-width: 300px;
 }
 
 .cart-item {
@@ -72,8 +67,8 @@ body.pedidos-background {
     padding: 15px;
     border: 1px solid #eeeeee;
     border-radius: 8px;
-    background-color:#ffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background-color: #ffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .cart-item-image {
@@ -107,7 +102,7 @@ body.pedidos-background {
 }
 
 .quantity-controls button {
-    background-color: #74A9DB; 
+    background-color: #74A9DB;
     color: #e9ef92;
     border: none;
     padding: 5px 10px;
@@ -119,7 +114,7 @@ body.pedidos-background {
 }
 
 .quantity-controls button:hover:not(:disabled) {
-    background-color: #5a8ec9; 
+    background-color: #5a8ec9;
 }
 
 .quantity-controls button:disabled {
@@ -135,7 +130,7 @@ body.pedidos-background {
 }
 
 .remove-item-button {
-    background-color: #dc3545; 
+    background-color: #dc3545;
     color: #fff;
     border: none;
     padding: 8px 15px;
@@ -151,13 +146,13 @@ body.pedidos-background {
 }
 
 .cart-summary {
-    flex: 1; 
+    flex: 1;
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 8px;
-    background-color: #ffff; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    align-self: flex-start; 
+    background-color: #ffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    align-self: flex-start;
 }
 
 .cart-summary h2 {
@@ -176,7 +171,7 @@ body.pedidos-background {
 .cart-total {
     font-size: 1.5em;
     font-weight: bold;
-    color: #e9a913; 
+    color: #e9a913;
     margin-top: 20px;
     margin-bottom: 25px;
 }
@@ -184,7 +179,7 @@ body.pedidos-background {
 .checkout-button {
     width: 100%;
     padding: 12px;
-    background-color: #e9a913; 
+    background-color: #e9a913;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -201,240 +196,248 @@ body.pedidos-background {
 /* Responsividade */
 @media (max-width: 768px) {
     .pedidos-page-container {
-        margin-top: 150px; 
+        margin-top: 150px;
         padding: 15px;
     }
+
     .cart-content {
-        flex-direction: column; 
+        flex-direction: column;
     }
+
     .cart-items-list,
     .cart-summary {
-        min-width: unset; 
-        width: 100%; 
+        min-width: unset;
+        width: 100%;
     }
+
     .cart-item {
-        flex-direction: column; 
+        flex-direction: column;
         text-align: center;
     }
+
     .cart-item-image {
-        margin: 0 auto 15px auto; 
+        margin: 0 auto 15px auto;
     }
+
     .quantity-controls {
-        justify-content: center; 
+        justify-content: center;
     }
 }
 
 /* --- ESTILOS DO MODAL DE ENTREGA --- */
 
 .modal-overlay {
-  position: fixed; /* Fixa o modal na tela */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Garante que o modal esteja acima de outros elementos */
-
-  /* ✅ ALTERAÇÃO: evita colar nas bordas (principalmente no mobile) */
-  padding: 16px;
-  box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 90%;
-  max-width: 500px; /* Largura máxima para o conteúdo do modal */
-  position: relative;
-  animation: fadeIn 0.3s ease-out; /* Animação simples de entrada */
-
-  /* ✅ ALTERAÇÃO: limita altura e cria scroll interno (para caber os novos campos) */
-  max-height: 85vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    max-height: 85vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .modal-content h2 {
-  font-size: 2em;
-  color: #333;
-  margin-bottom: 25px;
-  text-align: center;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
 }
 
 .modal-close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 2em;
-  color: #aaa;
-  cursor: pointer;
-  transition: color 0.2s ease;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 .modal-close-button:hover {
-  color: #555;
+    color: #555;
 }
 
 .registration-form .form-group {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .registration-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #555;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
 }
 
 .registration-form input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1em;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
 }
 
 .registration-form input:focus {
-  border-color: #e9a913; /* Borda amarela no foco */
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(233, 169, 19, 0.2); /* Sombra suave no foco */
+    border-color: #e9a913;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(233, 169, 19, 0.2);
 }
 
 .registration-form small {
-  color: #888;
-  font-size: 0.85em;
-  margin-top: 5px;
-  display: block;
+    color: #888;
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: block;
 }
 
 .modal-submit-button {
-  width: 100%;
-  padding: 15px;
-  background-color: #e9a913; /* Cor do botão de compra */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1em;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px; /* Espaçamento acima do botão */
+    width: 100%;
+    padding: 15px;
+    background-color: #e9a913;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
 }
 
 .modal-submit-button:hover {
-  background-color: #d19a12; /* Um tom mais escuro no hover */
+    background-color: #d19a12;
 }
 
-/* Animação para o modal */
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsividade básica para o modal */
+
 @media (max-width: 600px) {
-  .modal-content {
-    margin: 0 15px; /* Margem nas laterais para telas pequenas */
-    padding: 20px;
-    max-height: 88vh; /* ✅ ALTERAÇÃO: um pouco mais alto no mobile */
-  }
-  .modal-content h2 {
-    font-size: 1.8em;
-  }
-  .modal-submit-button {
-    padding: 12px;
-    font-size: 1em;
-  }
+    .modal-content {
+        margin: 0 15px;
+        padding: 20px;
+        max-height: 88vh;
+    }
+
+    .modal-content h2 {
+        font-size: 1.8em;
+    }
+
+    .modal-submit-button {
+        padding: 12px;
+        font-size: 1em;
+    }
 }
 
 /* --- ESTILOS PARA O MODAL DE PAGAMENTO --- */
 
 .modal-content.payment-modal-content {
-  max-width: 600px; /* Um pouco maior para acomodar formulário de cartão */
-
-  /* ✅ ALTERAÇÃO: limita altura e cria scroll interno */
-  max-height: 85vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
-/* (restante do seu CSS de pagamento permanece igual) */
-
 .payment-options-selection {
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* Espaçamento entre os botões de seleção */
-  margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
 }
 
 .payment-option-button {
-  width: 100%;
-  padding: 15px;
-  border-radius: 8px;
-  font-size: 1.1em;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px; /* Espaçamento entre texto e ícone, se houver */
-  transition: all 0.3s ease;
-  border: 1px solid #ddd;
-  color: #333;
-  background-color: #f9f9f9;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
 .payment-option-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos específicos para cada método de pagamento */
+
 .pix-button {
-  background-color: #2da44e; /* Verde Pix */
-  color: white;
-  border-color: #2da44e;
+    background-color: #2da44e;
+    color: white;
+    border-color: #2da44e;
 }
 
 .pix-button:hover {
-  background-color: #248b41;
-  border-color: #248b41;
+    background-color: #248b41;
+    border-color: #248b41;
 }
 
 .mercadopago-button {
-  background-color: #009ee3; /* Azul Mercado Pago */
-  color: white;
-  border-color: #009ee3;
+    background-color: #009ee3;
+    color: white;
+    border-color: #009ee3;
 }
 
 .mercadopago-button:hover {
-  background-color: #0087c5;
-  border-color: #0087c5;
+    background-color: #0087c5;
+    border-color: #0087c5;
 }
 
 .creditcard-button {
-  background-color: #e9a913; /* Seu amarelo principal */
-  color: white;
-  border-color: #e9a913;
+    background-color: #e9a913;
+    color: white;
+    border-color: #e9a913;
 }
 
 .creditcard-button:hover {
-  background-color: #d19a12;
-  border-color: #d19a12;
+    background-color: #d19a12;
+    border-color: #d19a12;
 }
 
 .payment-icon {
-    height: 28px; /* Tamanho dos ícones, ajuste conforme necessário */
+    height: 28px;
     width: auto;
     object-fit: contain;
 }
@@ -467,7 +470,7 @@ body.pedidos-background {
     font-size: 1.2em;
 }
 
-/* Pix specific styles */
+
 .pix-qr-code-placeholder {
     margin: 20px auto;
     width: 200px;
@@ -521,9 +524,9 @@ body.pedidos-background {
     background-color: #555;
 }
 
-/* Mercado Pago specific styles */
+
 .mercadopago-redirect-button {
-    background-color: #009ee3; /* Azul Mercado Pago */
+    background-color: #009ee3;
     color: white;
 }
 
@@ -531,9 +534,9 @@ body.pedidos-background {
     background-color: #0087c5;
 }
 
-/* Credit Card specific styles */
+
 .credit-card-form {
-    text-align: left; /* Alinhar o texto do formulário à esquerda */
+    text-align: left;
     max-width: 400px;
     margin: 0 auto;
     padding-top: 10px;
@@ -571,7 +574,7 @@ body.pedidos-background {
     box-shadow: 0 0 0 3px rgba(233, 169, 19, 0.2);
 }
 
-/* Common buttons for payment actions */
+
 .process-payment-button {
     width: 100%;
     padding: 15px;
@@ -661,7 +664,7 @@ body.pedidos-background {
     margin-top: -1px;
 }
 
-/* Ajustes nos estilos já existentes para se encaixarem melhor */
+
 .payment-method-details {
     margin-top: 0;
     border: none;
@@ -670,21 +673,20 @@ body.pedidos-background {
 }
 
 /* Responsividade para o modal de pagamento */
-@media (max-width: 600px) {
-  .modal-content.payment-modal-content {
-    max-width: 90%;
-    max-height: 88vh; /* ✅ mantém também no mobile */
-  }
-  .credit-card-form .form-row {
-    flex-direction: column;
-    gap: 0;
-  }
-  
-.pedidos-page-container {
-    
-    padding-bottom: 30px;    /* mobile menor (ajuste se quiser: 20–32px) */
-  }
-}
 
-/* ✅ SOLUÇÃO: Container com altura baseada no conteúdo */
-/* O footer vai ficar logo abaixo naturalmente */
+@media (max-width: 600px) {
+    .modal-content.payment-modal-content {
+        max-width: 90%;
+        max-height: 88vh;
+    }
+
+    .credit-card-form .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .pedidos-page-container {
+
+        padding-bottom: 30px;
+    }
+}

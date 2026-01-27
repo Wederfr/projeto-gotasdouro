@@ -1,25 +1,21 @@
-// frontend/src/CartContext.jsx
-
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// 1. Criação do Contexto
-// cart é o array de itens no carrinho
-// addItem, removeItem, updateItemQuantity, clearCart são as funções para manipular o carrinho
-// totalItems e totalPrice são valores derivados (número de itens e preço total)
+// Criação do Contexto
+
 const CartContext = createContext({
   cart: [],
-  addItem: () => {},
-  removeItem: () => {},
-  updateItemQuantity: () => {},
-  clearCart: () => {},
+  addItem: () => { },
+  removeItem: () => { },
+  updateItemQuantity: () => { },
+  clearCart: () => { },
   totalItems: 0,
   totalPrice: 0,
 });
 
-// 2. Componente Provedor do Contexto
-// Este componente vai envolver sua aplicação e gerenciar o estado do carrinho
+// Componente Provedor do Contexto
+
 export const CartProvider = ({ children }) => {
-  // Inicializa o estado do carrinho, tentando carregar do localStorage
+
   const [cart, setCart] = useState(() => {
     try {
       const localCart = localStorage.getItem('cart');
@@ -30,7 +26,7 @@ export const CartProvider = ({ children }) => {
     }
   });
 
-  // Salva o carrinho no localStorage sempre que ele muda
+
   useEffect(() => {
     try {
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -101,8 +97,8 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-// 3. Hook Personalizado para Consumir o Contexto
-// Facilita o uso do contexto em qualquer componente funcional
+// Hook Personalizado para Consumir o Contexto
+
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {

@@ -1,11 +1,9 @@
-// frontend/src/pages/PedidosPage.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../CartContext';
 import { Link } from 'react-router-dom';
 import '../styles/PedidosPage.css';
 import { IMaskInput } from 'react-imask';
-import API_BASE_URL from '../config/api'; // ✅ ADICIONE AQUI
+import API_BASE_URL from '../config/api';
 
 function PedidosPage() {
   const {
@@ -18,12 +16,11 @@ function PedidosPage() {
   } = useCart();
 
   // Estados para o formulário de cadastro dentro do modal de ENTREGA
+
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
-
-  // ✅ NOVO: endereço estruturado (compatível com o backend)
   const [rua, setRua] = useState('');
   const [numero, setNumero] = useState('');
   const [bairro, setBairro] = useState('');
@@ -31,13 +28,10 @@ function PedidosPage() {
   const [complemento, setComplemento] = useState('');
 
   // Estados para o modal de PAGAMENTO
+
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('dinheiro');
-
-  // ✅ NOVO: estado para valor em dinheiro pago
   const [dinheiroPago, setDinheiroPago] = useState('');
-
-  // ✅ NOVO: estado para tipo de cartão (débito/crédito)
   const [tipoCartao, setTipoCartao] = useState('credito');
 
   useEffect(() => {
@@ -47,7 +41,7 @@ function PedidosPage() {
     };
   }, []);
 
-  
+
   const createOrderOnBackend = async (payment) => {
     if (!cart || cart.length === 0) {
       throw new Error('Carrinho vazio.');
@@ -155,7 +149,7 @@ function PedidosPage() {
       return;
     }
 
-    // ✅ valida endereço mínimo exigido pelo backend
+
     if (!rua || !bairro || !cidade) {
       alert('Por favor, preencha Rua, Bairro e Cidade.');
       return;
@@ -322,7 +316,7 @@ function PedidosPage() {
                   <small>Formato: (DD) XXXXX-XXXX</small>
                 </div>
 
-                {/* ✅ endereço estruturado */}
+                {/* endereço estruturado */}
                 <div className="form-group">
                   <label htmlFor="modal-rua">Rua:</label>
                   <input
@@ -494,7 +488,7 @@ function PedidosPage() {
                         </label>
                       </div>
                     </div>
-                    
+
                     <button className="process-payment-button" onClick={processCartaoPayment}>
                       Confirmar Pagamento com Cartão
                     </button>

@@ -1,12 +1,9 @@
-/* frontend/src/styles/products.css */
-
-/* NOVA REGRA: Aplica a imagem de fundo ao BODY apenas quando a classe 'products-background' estiver presente */
 body.products-background {
-    background-image: url('/images/fundo saco.jpg'); /* Caminho da sua imagem */
-    background-size: cover; /* Faz a imagem cobrir toda a área da viewport */
-    background-repeat: no-repeat; /* Impede a repetição da imagem */
-    background-attachment: fixed; /* Mantém a imagem fixa enquanto a página rola */
-    background-position: center center; /* Centraliza a imagem no meio */
+    background-image: url('/images/fundo saco.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
 }
 
 .products-page-container {
@@ -16,18 +13,15 @@ body.products-background {
     font-family: Arial, sans-serif;
     color: #333;
     text-align: center;
-
-    /* Adicione um fundo semi-transparente para o container para melhorar a legibilidade do texto */
-    /* Isso fará com que o container "flutue" sobre a imagem de fundo do body */
-    background-color: rgba(245, 244, 207, 0.9); /* Branco com 90% de opacidade */; /* Branco com 90% de opacidade */
-
-    border-radius: 8px; /* Mantém os cantos arredondados do container */
-    overflow: hidden; /* Garante que o conteúdo não vaze dos cantos arredondados */
+    background-color: rgba(245, 244, 207, 0.9);
+    ;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .products-page-container h1 {
     font-size: 2.5em;
-    color: #e9a913; /* Cor primária do seu site */
+    color: #e9a913;
     margin-bottom: 20px;
 }
 
@@ -39,13 +33,13 @@ body.products-background {
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout responsivo de cards */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 40px;
 }
 
 .product-card {
-    background-color: #fff; /* O fundo branco do card ajuda na legibilidade sobre a imagem */
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
@@ -58,17 +52,17 @@ body.products-background {
     transform: translateY(-5px);
 }
 
-/* frontend/src/styles/products.css */
+
 
 .product-card img {
-    width: 325px;   /* Nova largura padrão, baseada no seu primeiro produto (arredondado) */
-    height: 243px;  /* Nova altura padrão, baseada no seu primeiro produto (arredondado) */
-    object-fit: cover; /* ESSENCIAL: Garante que a imagem preencha essa área, cortando se necessário para manter as proporções */
+    width: 325px;
+    height: 243px;
+    object-fit: cover;
     border-radius: 4px;
     margin-bottom: 15px;
-    display: block; /* Essencial para que margin: auto funcione */
-    margin-left: auto; /* Centraliza a imagem horizontalmente dentro do card */
-    margin-right: auto; /* Centraliza a imagem horizontalmente dentro do card */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -82,7 +76,7 @@ body.products-background {
     font-size: 0.95em;
     color: #666;
     margin-bottom: 15px;
-    min-height: 45px; /* Para manter a altura consistente mesmo com descrições curtas */
+    min-height: 45px;
 }
 
 .product-card .price {
