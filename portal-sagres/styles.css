@@ -1,0 +1,301 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Carrossel de background */
+.background-carousel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Fica atrás de tudo */
+    background: linear-gradient(135deg, #2a2a2a, #1a1a1a); /* FALLBACK: Fundo escuro para evitar cinza */
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+   
+}
+
+
+
+/* Container principal */
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    padding-top: 10vh;
+}
+
+/* Overlay para legibilidade */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+    z-index: -1;
+}
+
+/* LAYOUT DESKTOP */
+.desktop-layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4rem;
+    width: 100%;
+    max-width: 1400px; /* Aumentado para cards mais largos */
+    padding: 0 2rem;
+    margin-top: 5vh;
+}
+
+/* Logo central - DESKTOP */
+.logo-section {
+    text-align: center;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: -100px;
+}
+
+.logo {
+    width: 500px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-family: 'Georgia', serif; /* Fonte elegante e clássica */
+    font-size: 1.8rem; /* Um pouco maior */
+    font-weight: 400; /* Peso normal, não muito fino */
+    font-style: italic; /* Itálico para elegância */
+    color: #f8f8f8; /* Branco mais suave */
+    margin-bottom: 0;
+    letter-spacing: 0.5px; /* Espaçamento entre letras sutil */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil para destaque */
+}
+
+/* Cards - DESKTOP - MAIS QUADRADOS */
+.cards-section {
+    display: flex;
+    gap: 3rem; /* Mais espaço entre cards */
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* Estilo dos cards - MAIS QUADRADOS */
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2.5rem; /* Padding maior */
+    text-align: center;
+    width: 380px; /* MAIS LARGO: era 320px, agora 380px */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 420px; /* MENOS ALTO: era 450px, agora 420px (mais quadrado) */
+    margin-top: 300px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ IMAGEM DO CARD - MAIOR (aproveita largura extra) */
+.card-image {
+    width: 100%;
+    height: 220px; /* MAIOR: era 170px, agora 220px */
+    object-fit: cover; /* Mantém preenchido e corta o excesso */
+    object-position: center; /* Foco central */
+    border-radius: 12px;
+    margin-bottom: 1.2rem;
+    display: block;
+}
+
+/* Efeito hover na imagem */
+.card:hover .card-image {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+.card h2 {
+    font-size: 2rem; /* Fonte maior */
+    margin-bottom: 0.5rem;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card p {
+    font-size: 1.1rem; /* Fonte maior */
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-button {
+    background: #d4af37; /* Dourado */
+    color: black;
+    border: none;
+    padding: 0.9rem 2.5rem; /* Botão maior */
+    border-radius: 25px;
+    font-size: 1.1rem; /* Fonte maior */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: auto;
+    height: 48px; /* Altura do botão */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-button:hover:not(.disabled) {
+    background: #b8860b; /* Dourado mais escuro */
+}
+
+.cta-button.disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+/* LAYOUT MOBILE */
+.mobile-layout {
+    display: none; /* Escondido no desktop */
+}
+
+/* Responsividade para mobile */
+@media (max-width: 1024px) {
+    .desktop-layout {
+        display: none;
+    }
+
+    .mobile-layout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 1rem;
+        padding-top: 5vh;
+    }
+
+    .mobile-logo-section {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .mobile-logo {
+        width: 180px;
+        height: auto;
+        margin-bottom: 0.5rem;
+        margin-top: -100px; /* Ajustado para melhor posicionamento */
+    }
+
+    .mobile-subtitle {
+        font-family: 'Georgia', serif; /* Fonte elegante e clássica */
+        font-size: 1rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra sutil para destaque */
+    }
+
+    .mobile-cards-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .mobile-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        width: 100%; /* Largura total */
+        text-decoration: none;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        min-height: 320px; /* Altura mínima */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* ✅ AJUSTE IMAGEM DO CARD (MOBILE) */
+    .mobile-card-image {
+        width: 100%;
+        height: 130px; /* Ajustada para caber melhor */
+        object-fit: cover; /* Mantém preenchido */
+        object-position: center; /* Foco central */
+        border-radius: 12px;
+        margin-bottom: 0.7rem;
+        display: block;
+    }
+
+    .mobile-card h2 {
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+        min-height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-card p {
+        font-size: 0.88rem;
+        opacity: 0.9;
+        margin-bottom: 0.8rem;
+        min-height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-card .cta-button {
+        padding: 0.55rem 1.2rem;
+        font-size: 0.9rem;
+        height: 38px;
+    }
+}

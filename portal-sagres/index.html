@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagres Doces Artesanais</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Carrossel de background -->
+    <div class="background-carousel">
+        <!-- Imagens do carrossel (suas imagens) -->
+        <div class="carousel-slide active" style="background-image: url('images/calda cx1.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/susp decor passáro.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/crist2.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/susp canela2.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/crist1.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/susp padrão conjunto.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/caldacom.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/susp decor borboleta.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/crist nozes3.jpeg');"></div>
+        <div class="carousel-slide" style="background-image: url('images/susp trufado conjunto.jpeg');"></div>
+    </div>
+    
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <!-- LAYOUT DESKTOP: Logo entre os cards -->
+        <div class="desktop-layout">
+            <!-- Card Chuvisco (esquerda) -->
+            <a href="https://projeto-gotas-frontend.onrender.com" class="card">
+                <img src="images/prod simp.jfif" alt="Chuviscos" class="card-image">
+                <h2>Chuviscos</h2>
+                <p>Doces tradicionais em calda</p>
+                <button class="cta-button">Visite</button>
+            </a>
+            
+            <!-- Logo central -->
+            <div class="logo-section">
+                <img src="images/brasaoLogo.png" alt="Sagres Doces Artesanais" class="logo">
+                <h1 class="subtitle">Escolha sua experiência</h1>
+            </div>
+            
+            <!-- Card Suspiro (direita) - ALTERADO: Agora <a> preparado para link -->
+            <a href="#" class="card coming-soon">
+                <img src="images/susp color4.png" alt="Suspiros" class="card-image">
+                <h2>Suspiros</h2>
+                <p>Doces leves e aerados</p>
+                <button class="cta-button disabled" disabled>Em Breve</button>
+            </a>
+        </div>
+        
+        <!-- LAYOUT MOBILE: Coluna -->
+        <div class="mobile-layout">
+            <!-- Logo no topo -->
+            <div class="mobile-logo-section">
+                <img src="images/brasaoLogo.png" alt="Sagres Doces Artesanais" class="mobile-logo">
+                <h1 class="mobile-subtitle">Escolha sua experiência</h1>
+            </div>
+            
+            <!-- Cards em coluna -->
+            <div class="mobile-cards-section">
+                <!-- Card Chuvisco -->
+                <a href="https://frontend-gotas.onrender.com" class="mobile-card">
+                    <img src="images/prod simp.jfif" alt="Chuviscos" class="mobile-card-image">
+                    <h2>Chuviscos</h2>
+                    <p>Doces tradicionais em calda</p>
+                    <button class="cta-button">Visitar</button>
+                </a>
+                
+                <!-- Card Suspiro -->
+                <a href="#" class="mobile-card coming-soon">
+                    <img src="images/susp color4.png" alt="Suspiros" class="mobile-card-image">
+                    <h2>Suspiros</h2>
+                    <p>Doces leves e aerados</p>
+                    <button class="cta-button disabled" disabled>Em Breve</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript para o carrossel -->
+    <script src="carousel.js"></script>
+</body>
+</html>
