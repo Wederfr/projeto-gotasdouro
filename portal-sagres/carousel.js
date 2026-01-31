@@ -1,55 +1,56 @@
 document.addEventListener('DOMContentLoaded', function () {
     const slides = Array.from(document.querySelectorAll('.carousel-slide'));
-    if (slides.length === 0) return;
+    if (!slides.length) return;
 
-    const DISPLAY_TIME = 5000;     // tempo que cada imagem fica "no ar"
-    const FADE_TIME = 1500;        // precisa bater com CSS: transition 1.5s
+    const DISPLAY_TIME = 5000; // 5 segundos por imagem
+    const FADE_TIME = 1500;    // 1.5 segundos de transição (igual CSS)
 
     let current = 0;
-    let intervalId = null;
+    let timerId = null;
+    let isTransitioning = false;
 
-    // Estado inicial: primeira visível e no topo
+    // Estado inicial: primeira imagem visível
     slides.forEach((slide, i) => {
         slide.style.opacity = (i === 0) ? '1' : '0';
         slide.style.zIndex = (i === 0) ? '2' : '1';
-        slide.classList.remove('active'); // não usamos mais a classe active
+        slide.classList.remove('active');
     });
 
-    function nextSlide() {
-        const next = (current + 1) % slides.length;
+    // Agenda próxima troca
+    function scheduleNext(delayMs) {
+        clearTimeout(timerId);
+        timerId = setTimeout(tick, delayMs);
+    }
 
+    // Troca de imagem
+    function tick() {
+        if (isTransitioning) return; // Evita sobreposição
+
+        isTransitioning = true;
+
+        const next = (current + 1) % slides.length;
         const currentSlide = slides[current];
         const nextSlide = slides[next];
 
-        // Coloca a próxima por cima e começa a aparecer
+        // Próxima imagem aparece por cima
         nextSlide.style.zIndex = '3';
         nextSlide.style.opacity = '1';
 
-        // Depois do fade, esconde a atual e normaliza z-index
+        // Após o fade, esconde a atual e normaliza camadas
         setTimeout(() => {
             currentSlide.style.opacity = '0';
             currentSlide.style.zIndex = '1';
 
             nextSlide.style.zIndex = '2';
             current = next;
+
+            isTransitioning = false;
+
+            // Agenda próxima troca
+            scheduleNext(DISPLAY_TIME);
         }, FADE_TIME);
     }
 
-    function start() {
-        if (intervalId) return;
-        intervalId = setInterval(nextSlide, DISPLAY_TIME);
-    }
-
-    function stop() {
-        clearInterval(intervalId);
-        intervalId = null;
-    }
-
-    start();
-
-    const container = document.querySelector('.container');
-    if (container) {
-        container.addEventListener('mouseenter', stop);
-        container.addEventListener('mouseleave', start);
-    }
+    // Inicia o carrossel (sem pause no hover)
+    scheduleNext(DISPLAY_TIME);
 });
