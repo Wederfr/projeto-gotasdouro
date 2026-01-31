@@ -128,7 +128,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 420px; /* MENOS ALTO: era 450px, agora 420px (mais quadrado) */
-    margin-top: 300px;
+    margin-top: 250px;
 }
 
 .card:hover {
