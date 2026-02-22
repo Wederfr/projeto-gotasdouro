@@ -1,4 +1,5 @@
 const products = [
+
   {
     id: 'prod001',
     name: 'Chuvisco cristalizado',
@@ -6,15 +7,13 @@ const products = [
     price: 13.00,
     imageUrl: '/images/crist2.jpeg',
   },
-
-   {
+  {
     id: 'prod002',
     name: 'Chuvisco cristalizado com nozes',
     description: 'O chuvisco crocante com cobertura de açúcar cristalizado com nozes.',
     price: 13.00,
     imageUrl: '/images/prod cris.jfif',
   },
-  
   {
     id: 'prod003',
     name: 'Chuvisco em calda',
@@ -22,7 +21,6 @@ const products = [
     price: 38.00,
     imageUrl: '/images/calda emb.jpeg',
   },
-
   {
     id: 'prod004',
     name: 'Chuvisco em calda',
@@ -30,8 +28,6 @@ const products = [
     price: 28.00,
     imageUrl: '/images/calda pote.jpeg',
   },
-  
-
   {
     id: 'prod005',
     name: 'Copinho de Chuvisco em calda 120g ',
@@ -39,7 +35,6 @@ const products = [
     price: 7.50,
     imageUrl: '/images/copo-chuvisco.jpeg',
   },
-
   {
     id: 'prod006',
     name: 'Chuvisco em calda para presente',
@@ -47,35 +42,23 @@ const products = [
     price: 60.00,
     imageUrl: '/images/calda cx2.jpeg',
   },
-
-   {
-    id: 'prod007',
-    name: 'Conjunto com caneca para presente',
-    description: 'Delicioso chuvisco em Calda com uma linda caneca personalizada. Ideal para presentear.',
-    price: 70.00,
-    imageUrl: '/images/prod pres.jfif',
-  },
-
+  
   {
-    id: 'prod008',
+    id: 'prod007',
     name: 'Chuviscos para festas formato original',
     description: 'Chuviscos banhados em chocolate, formato original decorados para festa. Mínimo 50 unidades',
-    price: 15.00,
+    price: null, 
     imageUrl: '/images/crist nozes1.jpeg',
+    isCustomOrder: true, 
   },
-
   {
-    id: 'prod009',
+    id: 'prod008',
     name: 'Chuviscos para festas formato docinhos finos',
     description: 'Chuviscos banhados em chocolate, formato docinhos finos para festa. Mínimo 50 unidades',
-    price: 15.00,
+    price: null, 
     imageUrl: '/images/crist nozes3.jpeg',
+    isCustomOrder: true, 
   },
-
-  
-  
-  // Adicionar mais produtos aqui, seguindo o mesmo formato
-  
 ];
 
 export default products;

@@ -32,7 +32,7 @@ function Footer() {
           <a href="https://www.instagram.com/sagres.gotasdouro/" rel="noopener noreferrer">
             <img src="/images/instagram-original-colorido.png" alt="Instagram" />
           </a>
-          <a href="https://wa.me/5522988043323" rel="noopener noreferrer">
+          <a href="https://wa.me/5522999330966" rel="noopener noreferrer">
             <img src="/images/whatsapp-original.png" alt="Watsapp" />
           </a>
         </div>
@@ -59,7 +59,7 @@ function Footer() {
           <a href="https://www.instagram.com/sagres.gotasdouro/" rel="noopener noreferrer">
             <img src="/images/instagram-original-colorido.png" alt="Instagram" />
           </a>
-          <a href="https://wa.me/5522988043323" rel="noopener noreferrer">
+          <a href="https://wa.me/5522999330966" rel="noopener noreferrer">
             <img src="/images/whatsapp-original.png" alt="Watsapp" />
           </a>
         </div>

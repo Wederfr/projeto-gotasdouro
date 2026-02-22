@@ -53,7 +53,6 @@ body.products-background {
 }
 
 
-
 .product-card img {
     width: 325px;
     height: 243px;
@@ -87,7 +86,8 @@ body.products-background {
     margin-bottom: 15px;
 }
 
-.product-card button {
+.product-card button,
+.btn-encomenda {
     background-color: #e9a913;
     color: white;
     border: none;
@@ -101,3 +101,17 @@ body.products-background {
 .product-card button:hover {
     background-color: #d19a10;
 }
+
+
+.btn-encomenda:hover {
+  background-color: #d19a10;
+}
+
+
+.btn-encomenda img {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
